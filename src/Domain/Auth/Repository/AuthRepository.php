@@ -20,7 +20,9 @@ class AuthRepository
 
     public function findByAuthToken($authToken)
     {
-        $sql = "SELECT BIN_TO_UUID(auth_token) AS auth_token_str, auth.* FROM auth WHERE auth_token=UUID_TO_BIN(?)";
+        $sql = "SELECT BIN_TO_UUID(auth_token) AS auth_token_str, api_auth.* 
+                FROM api_auth 
+                WHERE auth_token=UUID_TO_BIN(?)";
         $stmt = $this->db->query($sql, [$authToken]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -31,13 +33,20 @@ class AuthRepository
 
     public function findByUserId($userId)
     {
-        $sql = "SELECT * FROM auth WHERE userId=?";
+        $sql = "SELECT * FROM api_auth WHERE user_id=?";
         $stmt = $this->db->query($sql, [$userId]);
         $row = $stmt->fetch();
         if (!$row) {
             throw new AuthTokenInvalidException();
         }
         return Auth::withRow($row);
+    }
+
+    public function addTraffic($userId, $route)
+    {
+        $sql = "CALL usp_api_ins_traffic(?, ?)";
+        $stmt = $this->db->query($sql, [$userId, $route]);
+        return $stmt->fetch();
     }
 
 }
