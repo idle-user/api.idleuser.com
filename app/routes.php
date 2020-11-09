@@ -30,13 +30,34 @@ return function (App $app) {
     });
 
     // Matches
-    $app->group('/matches/match', function (Group $group) {
-        $group->get('/list', Matches\ListMatchesAction::class);
-        $group->get('/{id}', Matches\ViewMatchAction::class);
+    $app->group('/matches/brand', function (Group $group) {
+        $group->get('/list', Matches\ListBrandsAction::class);
+        $group->get('/{id}', Matches\ViewBrandAction::class);
     });
+    // $app->group('/matches/title', function (Group $group) {
+    //     $group->get('/list', Matches\ListTitlesAction::class);
+    //     $group->get('/{id}', Matches\ViewTitleAction::class);
+    // });
+    // $app->group('/matches/matchtype', function (Group $group) {
+    //     $group->get('/list', Matches\ListMatchTypesAction::class);
+    //     $group->get('/{id}', Matches\ViewMatchTypeAction::class);
+    // });
+    // $app->group('/matches/event', function (Group $group) {
+    //     $group->get('/list', Matches\ListEventsAction::class);
+    //     $group->get('/{id}', Matches\ViewEventAction::class);
+    //     $group->get('/search/{keyword}', Matches\SearchEventAction::class);
+    // });
     $app->group('/matches/superstar', function (Group $group) {
         $group->get('/list', Matches\ListSuperstarsAction::class);
         $group->get('/{id}', Matches\ViewSuperstarAction::class);
         $group->get('/search/{keyword}', Matches\SearchSuperstarAction::class);
     });
+    $app->group('/matches/match', function (Group $group) {
+        $group->get('/list', Matches\ListMatchesAction::class);
+        $group->get('/{id}', Matches\ViewMatchAction::class);
+    });
+    // $app->group('/matches/bet', function (Group $group) {
+    //     $group->get('/list', Matches\ListBetsAction::class);
+    //     $group->get('/{id}', Matches\ViewBetAction::class);
+    // });
 };

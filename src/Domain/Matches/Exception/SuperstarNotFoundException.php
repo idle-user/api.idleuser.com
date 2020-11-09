@@ -7,5 +7,5 @@ use App\Domain\DomainException\DomainRecordNotFoundException;
 
 class SuperstarNotFoundException extends DomainRecordNotFoundException
 {
-    protected $message = 'The superstar you requested does not exist.';
+    protected $message = 'The superstar requested does not exist.';
 }

@@ -13,5 +13,4 @@ final class ListSuperstarsService extends SuperstarService
 
         return $superstars;
     }
-
 }

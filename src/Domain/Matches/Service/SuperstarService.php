@@ -8,9 +8,6 @@ use Psr\Log\LoggerInterface;
 
 abstract class SuperstarService
 {
-    /**
-     * @var SuperstarRepository
-     */
     protected $superstarRepository;
 
     public function __construct(LoggerInterface $logger, SuperstarRepository $superstarRepository)

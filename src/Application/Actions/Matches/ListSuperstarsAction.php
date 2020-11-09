@@ -23,8 +23,8 @@ class ListSuperstarsAction extends Action
      */
     protected function action(): Response
     {
-        $matches = $this->listSuperstarsService->run();
+        $matchList = $this->listSuperstarsService->run();
 
-        return $this->respondWithData($matches);
+        return $this->respondWithData($matchList);
     }
 }

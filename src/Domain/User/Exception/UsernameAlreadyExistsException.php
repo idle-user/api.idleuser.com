@@ -7,5 +7,5 @@ use App\Domain\DomainException\DomainRecordConflictException;
 
 class UsernameAlreadyExistsException extends DomainRecordConflictException
 {
-    protected $message = 'The username you requested is already taken.';
+    protected $message = 'The username requested is already taken.';
 }

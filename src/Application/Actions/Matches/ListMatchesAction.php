@@ -23,8 +23,8 @@ class ListMatchesAction extends Action
      */
     protected function action(): Response
     {
-        $matches = $this->listMatchesService->run();
+        $matchList = $this->listMatchesService->run();
 
-        return $this->respondWithData($matches);
+        return $this->respondWithData($matchList);
     }
 }

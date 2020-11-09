@@ -13,5 +13,4 @@ final class ViewMatchService extends MatchService
 
         return $match;
     }
-
 }

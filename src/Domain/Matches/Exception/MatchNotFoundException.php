@@ -7,5 +7,5 @@ use App\Domain\DomainException\DomainRecordNotFoundException;
 
 class MatchNotFoundException extends DomainRecordNotFoundException
 {
-    protected $message = 'The match you requested does not exist.';
+    protected $message = 'The match requested does not exist.';
 }

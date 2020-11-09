@@ -7,5 +7,5 @@ use App\Domain\DomainException\DomainRecordNotFoundException;
 
 class UserNotFoundException extends DomainRecordNotFoundException
 {
-    protected $message = 'The user you requested does not exist.';
+    protected $message = 'The user requested does not exist.';
 }

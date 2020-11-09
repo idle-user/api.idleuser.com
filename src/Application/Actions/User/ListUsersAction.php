@@ -23,8 +23,8 @@ class ListUsersAction extends Action
      */
     protected function action(): Response
     {
-        $users = $this->listUserservice->run();
+        $userList = $this->listUserservice->run();
 
-        return $this->respondWithData($users);
+        return $this->respondWithData($userList);
     }
 }

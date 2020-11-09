@@ -13,5 +13,4 @@ final class SearchSuperstarService extends SuperstarService
 
         return $superstar;
     }
-
 }

@@ -13,5 +13,4 @@ final class ListMatchesService extends MatchService
 
         return $matches;
     }
-
 }
