@@ -34,14 +34,14 @@ return function (App $app) {
         $group->get('/list', Matches\ListBrandsAction::class);
         $group->get('/{id}', Matches\ViewBrandAction::class);
     });
-    // $app->group('/matches/title', function (Group $group) {
-    //     $group->get('/list', Matches\ListTitlesAction::class);
-    //     $group->get('/{id}', Matches\ViewTitleAction::class);
-    // });
-    // $app->group('/matches/matchtype', function (Group $group) {
-    //     $group->get('/list', Matches\ListMatchTypesAction::class);
-    //     $group->get('/{id}', Matches\ViewMatchTypeAction::class);
-    // });
+    $app->group('/matches/title', function (Group $group) {
+        $group->get('/list', Matches\ListTitlesAction::class);
+        $group->get('/{id}', Matches\ViewTitleAction::class);
+    });
+    $app->group('/matches/matchtype', function (Group $group) {
+        $group->get('/list', Matches\ListMatchTypesAction::class);
+        $group->get('/{id}', Matches\ViewMatchTypeAction::class);
+    });
     // $app->group('/matches/event', function (Group $group) {
     //     $group->get('/list', Matches\ListEventsAction::class);
     //     $group->get('/{id}', Matches\ViewEventAction::class);
