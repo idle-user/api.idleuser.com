@@ -8,9 +8,6 @@ use Psr\Log\LoggerInterface;
 
 abstract class UserService
 {
-    /**
-     * @var UserRepository
-     */
     protected $userRepository;
 
     public function __construct(LoggerInterface $logger, UserRepository $userRepository)

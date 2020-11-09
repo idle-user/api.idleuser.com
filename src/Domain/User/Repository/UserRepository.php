@@ -36,7 +36,7 @@ class UserRepository
         $sql = "SELECT * FROM user WHERE id=?";
         $stmt = $this->db->query($sql, [$id]);
         $row = $stmt->fetch();
-        if (!$row) {
+        if ($row) {
             throw new UserNotFoundException();
         }
         return User::withRow($row);

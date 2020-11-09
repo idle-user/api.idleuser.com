@@ -23,7 +23,7 @@ class ViewMatchTypeAction extends Action
      */
     protected function action(): Response
     {
-        $matchTypeId = (int) $this->resolveArg('id');
+        $matchTypeId = (int) $this->resolveArg('matchTypeId');
 
         $matchType = $this->viewMatchTypeService->run($matchTypeId);
 

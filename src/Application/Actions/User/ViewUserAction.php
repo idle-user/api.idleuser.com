@@ -23,7 +23,7 @@ class ViewUserAction extends Action
      */
     protected function action(): Response
     {
-        $userId = (int) $this->resolveArg('id');
+        $userId = (int) $this->resolveArg('userId');
 
         $user = $this->viewUserservice->run($userId);
 

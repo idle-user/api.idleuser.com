@@ -23,7 +23,7 @@ class ViewSuperstarAction extends Action
      */
     protected function action(): Response
     {
-        $superstarId = (int) $this->resolveArg('id');
+        $superstarId = (int) $this->resolveArg('superstarId');
 
         $superstar = $this->viewSuperstarService->run($superstarId);
 

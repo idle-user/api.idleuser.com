@@ -37,7 +37,7 @@ class AuthMiddleware implements Middleware
             throw new HttpNotFoundException($request);
         }
 
-        $publicRoutesArray = array('auth', 'login', 'register');
+        $publicRoutesArray = array('auth-view', 'auth-refresh', 'login', 'register');
 
         if (!in_array($routeName, $publicRoutesArray)) {
             $authInfo = $this->authService->run($request->getQueryParams());

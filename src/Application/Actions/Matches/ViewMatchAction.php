@@ -23,7 +23,7 @@ class ViewMatchAction extends Action
      */
     protected function action(): Response
     {
-        $matchId = (int) $this->resolveArg('id');
+        $matchId = (int) $this->resolveArg('matchId');
 
         $match = $this->viewMatchService->run($matchId);
 

@@ -23,7 +23,7 @@ class ViewSeasonAction extends Action
      */
     protected function action(): Response
     {
-        $seasonId = (int) $this->resolveArg('id');
+        $seasonId = (int) $this->resolveArg('seasonId');
 
         $season = $this->viewSeasonService->run($seasonId);
 

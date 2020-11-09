@@ -23,7 +23,7 @@ class ViewBrandAction extends Action
      */
     protected function action(): Response
     {
-        $brandId = (int) $this->resolveArg('id');
+        $brandId = (int) $this->resolveArg('brandId');
 
         $brand = $this->viewBrandService->run($brandId);
 

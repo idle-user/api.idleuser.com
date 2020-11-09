@@ -9,17 +9,10 @@ use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 
 
-class AuthAction extends Action
+class ViewAuthAction extends Action
 {
-    /**
-     * @var AuthService
-     */
     protected $authService;
 
-    /**
-     * @param LoggerInterface $logger
-     * @param AuthService  $authService
-     */
     public function __construct(LoggerInterface $logger, AuthService $authService)
     {
         parent::__construct($logger);
@@ -31,7 +24,7 @@ class AuthAction extends Action
      */
     protected function action(): Response
     {
-        $this->logger->info("Auth attempt.");
+        $this->logger->info("Auth view attempt.");
 
         $auth = $this->authService->run($this->request->getQueryParams());
 

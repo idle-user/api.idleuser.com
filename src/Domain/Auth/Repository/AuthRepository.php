@@ -49,4 +49,12 @@ class AuthRepository
         return $stmt->fetch();
     }
 
+    public function updateAuthToken($userId)
+    {
+        $sql = "CALL usp_api_ins_auth(?)";
+        $stmt = $this->db->query($sql, [$userId]);
+        $authToken = $stmt->fetchColumn();
+        return $authToken;
+    }
+
 }

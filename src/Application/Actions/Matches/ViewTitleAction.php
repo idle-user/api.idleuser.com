@@ -23,7 +23,7 @@ class ViewTitleAction extends Action
      */
     protected function action(): Response
     {
-        $titleId = (int) $this->resolveArg('id');
+        $titleId = (int) $this->resolveArg('titleId');
 
         $title = $this->viewTitleService->run($titleId);
 

@@ -17,51 +17,52 @@ return function (App $app) {
 
     // Auth
     $app->group('/', function (Group $group) {
-        $group->get('auth', Auth\AuthAction::class)->setName('auth');
-        $group->post('login', User\LoginUserAction::class)->setName('login');
-        $group->post('register', User\RegisterUserAction::class)->setName('register');
+        $group->get('auth', Auth\ViewAuthAction::class)->setName('auth-view');
+        $group->post('auth', Auth\UpdateAuthAction::class)->setName('auth-refresh');
     });
 
     // User
     $app->group('/user', function (Group $group) {
         $group->get('/list', User\ListUsersAction::class);
-        $group->get('/{id}', User\ViewUserAction::class);
+        $group->get('/{userId}', User\ViewUserAction::class);
         $group->get('/search/{keyword}', User\SearchUsernameAction::class);
+        $group->post('/login', User\LoginUserAction::class)->setName('login');
+        $group->post('/register', User\RegisterUserAction::class)->setName('register');
     });
 
     // Matches
     $app->group('/matches/brand', function (Group $group) {
         $group->get('/list', Matches\ListBrandsAction::class);
-        $group->get('/{id}', Matches\ViewBrandAction::class);
+        $group->get('/{brandId}', Matches\ViewBrandAction::class);
     });
     $app->group('/matches/title', function (Group $group) {
         $group->get('/list', Matches\ListTitlesAction::class);
-        $group->get('/{id}', Matches\ViewTitleAction::class);
+        $group->get('/{titleId}', Matches\ViewTitleAction::class);
     });
     $app->group('/matches/matchtype', function (Group $group) {
         $group->get('/list', Matches\ListMatchTypesAction::class);
-        $group->get('/{id}', Matches\ViewMatchTypeAction::class);
+        $group->get('/{matchTypeId}', Matches\ViewMatchTypeAction::class);
     });
     $app->group('/matches/event', function (Group $group) {
         $group->get('/list', Matches\ListEventsAction::class);
-        $group->get('/{id}', Matches\ViewEventAction::class);
+        $group->get('/{eventId}', Matches\ViewEventAction::class);
         $group->get('/search/{keyword}', Matches\SearchEventAction::class);
     });
     $app->group('/matches/superstar', function (Group $group) {
         $group->get('/list', Matches\ListSuperstarsAction::class);
-        $group->get('/{id}', Matches\ViewSuperstarAction::class);
+        $group->get('/{superstarId}', Matches\ViewSuperstarAction::class);
         $group->get('/search/{keyword}', Matches\SearchSuperstarAction::class);
     });
     $app->group('/matches/match', function (Group $group) {
         $group->get('/list', Matches\ListMatchesAction::class);
         $group->get('/betopen', Matches\ListBetOpenMatchesAction::class);
-        $group->get('/{id}', Matches\ViewMatchAction::class);
+        $group->get('/{matchId}', Matches\ViewMatchAction::class);
         $group->get('/{matchId}/bets', Matches\ListMatchBetsAction::class);
         $group->get('/{matchId}/ratings', Matches\ListMatchMatchRatingsAction::class);
     });
     $app->group('/matches/season', function (Group $group) {
         $group->get('/list', Matches\ListSeasonsAction::class);
-        $group->get('/{id}', Matches\ViewSeasonAction::class);
+        $group->get('/{seasonId}', Matches\ViewSeasonAction::class);
         $group->get('/{seasonId}/stats', Matches\ListSeasonStatsAction::class);
         $group->get('/match/{matchId}', Matches\ViewMatchSeasonAction::class);
     });

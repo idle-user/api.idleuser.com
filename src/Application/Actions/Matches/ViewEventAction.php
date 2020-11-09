@@ -23,7 +23,7 @@ class ViewEventAction extends Action
      */
     protected function action(): Response
     {
-        $eventId = (int) $this->resolveArg('id');
+        $eventId = (int) $this->resolveArg('eventId');
 
         $event = $this->viewEventService->run($eventId);
 
