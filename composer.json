@@ -1,0 +1,48 @@
+{
+    "name": "idleuser/api",
+    "description": "An API for idleuser.com built with Slim Framework",
+    "keywords": [
+        "microframework",
+        "rest",
+        "router",
+        "psr7",
+        "api"
+    ],
+    "homepage": "https://github.com/idle-user/website",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jesus Andrade",
+            "homepage": "http://idleuser.com/"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "monolog/monolog": "^2.0",
+        "php-di/php-di": "^6.1",
+        "slim/psr7": "^1.2",
+        "slim/slim": "^4.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    },
+    "config": {
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "start": "php -S 0.0.0.0:8080 -t public",
+        "test": "phpunit"
+    }
+}
