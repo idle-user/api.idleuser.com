@@ -61,8 +61,10 @@ return function (App $app) {
         $group->get('/{id}', Matches\ViewSeasonAction::class);
         $group->get('/match/{matchId}', Matches\ViewMatchSeasonAction::class);
     });
-    // $app->group('/matches/bet', function (Group $group) {
-    //     $group->get('/list', Matches\ListBetsAction::class);
-    //     $group->get('/{id}', Matches\ViewBetAction::class);
-    // });
+    $app->group('/matches/bet', function (Group $group) {
+        $group->get('/list', Matches\ListBetsAction::class);
+        $group->get('/user/{userId}', Matches\ListUserBetsAction::class);
+        $group->get('/match/{matchId}', Matches\ListMatchBetsAction::class);
+        $group->get('/{userId}/{matchId}', Matches\ViewBetAction::class);
+    });
 };
