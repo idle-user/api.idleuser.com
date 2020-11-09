@@ -44,7 +44,7 @@ class MatchRepository
 
     public function findAllBetOpen()
     {
-        $sql = "SELECT * FROM matches_match WHERE betOpen=1";
+        $sql = "SELECT * FROM matches_match WHERE bet_open=1";
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
