@@ -7,10 +7,10 @@ final class ListMatchesService extends MatchService
 {
     public function run()
     {
-        $matches = $this->matchRepository->findAll();
+        $matchList = $this->matchRepository->findAll();
 
         $this->logger->info("Match list was viewed.");
 
-        return $matches;
+        return $matchList;
     }
 }

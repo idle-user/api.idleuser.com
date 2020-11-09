@@ -7,10 +7,10 @@ final class ViewMatchRatingService extends MatchRatingService
 {
     public function run(int $userId, int $matchId)
     {
-        $title = $this->matchRatingRepository->findById($userId, $matchId);
+        $matchRating = $this->matchRatingRepository->findById($userId, $matchId);
 
         $this->logger->info("Match Rating user id `${userId}` match id `${matchId}` was viewed.");
 
-        return $title;
+        return $matchRating;
     }
 }
