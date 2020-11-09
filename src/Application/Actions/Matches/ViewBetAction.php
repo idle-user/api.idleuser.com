@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class ViewBetAction extends Action
 {
-    private $viewTitleService;
+    private $viewBetService;
 
     public function __construct(LoggerInterface $logger, ViewBetService $viewBetService)
     {
