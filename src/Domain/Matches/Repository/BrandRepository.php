@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Domain\Matches\Repository;
@@ -25,6 +24,9 @@ class BrandRepository
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = Brand::withRow($row);
+        }
+        if (empty($ret)) {
+            throw new BrandNotFoundException();
         }
         return $ret;
     }

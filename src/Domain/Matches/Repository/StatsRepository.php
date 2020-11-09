@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Domain\Matches\Repository;
@@ -26,6 +25,9 @@ class StatsRepository
         while ($row = $stmt->fetch()) {
             $ret[] = Stats::withRow($row);
         }
+        if (empty($ret)) {
+            throw new StatsNotFoundException();
+        }
         return $ret;
     }
 
@@ -48,7 +50,7 @@ class StatsRepository
         while ($row = $stmt->fetch()) {
             $ret[] = Stats::withRow($row);
         }
-        if(empty($ret)){
+        if (empty($ret)) {
             throw new StatsNotFoundException();
         }
         return $ret;
@@ -62,7 +64,7 @@ class StatsRepository
         while ($row = $stmt->fetch()) {
             $ret[] = Stats::withRow($row);
         }
-        if(empty($ret)){
+        if (empty($ret)) {
             throw new StatsNotFoundException();
         }
         return $ret;

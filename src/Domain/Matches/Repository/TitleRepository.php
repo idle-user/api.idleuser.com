@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Domain\Matches\Repository;
@@ -26,6 +25,9 @@ class TitleRepository
         while ($row = $stmt->fetch()) {
             $ret[] = Title::withRow($row);
         }
+        if (empty($ret)) {
+            throw new TitleNotFoundException();
+        }
         return $ret;
     }
 
@@ -39,5 +41,4 @@ class TitleRepository
         }
         return Title::withRow($row);
     }
-
 }

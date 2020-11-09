@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Domain\Matches\Repository;
@@ -26,6 +25,9 @@ class SuperstarRepository
         while ($row = $stmt->fetch()) {
             $ret[] = Superstar::withRow($row);
         }
+        if (empty($ret)) {
+            throw new SuperstarNotFoundException();
+        }
         return $ret;
     }
 
@@ -47,6 +49,9 @@ class SuperstarRepository
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = Superstar::withRow($row);
+        }
+        if (empty($ret)) {
+            throw new SuperstarNotFoundException();
         }
         return $ret;
     }

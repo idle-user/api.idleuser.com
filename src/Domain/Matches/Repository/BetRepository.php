@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Domain\Matches\Repository;
@@ -25,6 +24,9 @@ class BetRepository
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = Bet::withRow($row);
+        }
+        if (empty($ret)) {
+            throw new BetNotFoundException();
         }
         return $ret;
     }
@@ -62,7 +64,7 @@ class BetRepository
         while ($row = $stmt->fetch()) {
             $ret[] = Bet::withRow($row);
         }
-        if(empty($ret)){
+        if (empty($ret)) {
             throw new BetNotFoundException();
         }
         return $ret;
