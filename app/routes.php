@@ -54,6 +54,7 @@ return function (App $app) {
     });
     $app->group('/matches/match', function (Group $group) {
         $group->get('/list', Matches\ListMatchesAction::class);
+        $group->get('/betopen', Matches\ListBetOpenMatchesAction::class);
         $group->get('/{id}', Matches\ViewMatchAction::class);
         $group->get('/{matchId}/bets', Matches\ListMatchBetsAction::class);
         $group->get('/{matchId}/ratings', Matches\ListMatchMatchRatingsAction::class);

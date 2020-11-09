@@ -40,4 +40,18 @@ class MatchRepository
         return Match::withRow($row);
     }
 
+    public function findAllBetOpen()
+    {
+        $sql = "SELECT * FROM matches_match WHERE betOpen=1";
+        $stmt = $this->db->query($sql);
+        $ret = [];
+        while ($row = $stmt->fetch()) {
+            $ret[] = Match::withRow($row);
+        }
+        if(empty($ret)){
+            throw new MatchNotFoundException();
+        }
+        return $ret;
+    }
+
 }
