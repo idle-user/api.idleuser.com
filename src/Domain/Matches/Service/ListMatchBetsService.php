@@ -9,7 +9,7 @@ final class ListMatchBetsService extends BetService
     {
         $matchBetList = $this->betRepository->findByMatchId($matchId);
 
-        $this->logger->info("Match `${matchId}` bet list was viewed.");
+        $this->logger->info("Match `${matchId}` Bet list was viewed.");
 
         return $matchBetList;
     }
