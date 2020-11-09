@@ -42,11 +42,11 @@ return function (App $app) {
         $group->get('/list', Matches\ListMatchTypesAction::class);
         $group->get('/{id}', Matches\ViewMatchTypeAction::class);
     });
-    // $app->group('/matches/event', function (Group $group) {
-    //     $group->get('/list', Matches\ListEventsAction::class);
-    //     $group->get('/{id}', Matches\ViewEventAction::class);
-    //     $group->get('/search/{keyword}', Matches\SearchEventAction::class);
-    // });
+    $app->group('/matches/event', function (Group $group) {
+        $group->get('/list', Matches\ListEventsAction::class);
+        $group->get('/{id}', Matches\ViewEventAction::class);
+        $group->get('/search/{keyword}', Matches\SearchEventAction::class);
+    });
     $app->group('/matches/superstar', function (Group $group) {
         $group->get('/list', Matches\ListSuperstarsAction::class);
         $group->get('/{id}', Matches\ViewSuperstarAction::class);
