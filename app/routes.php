@@ -27,7 +27,7 @@ return function (App $app) {
         $group->get('/{userId:[0-9]+}', User\ViewUserAction::class);
         $group->get('/search/{keyword}', User\SearchUsernameAction::class);
         $group->post('/login', User\LoginUserAction::class)->setName('login');
-        $group->post('/register', User\RegisterUserAction::class)->setName('register');
+        // $group->post('/register', User\RegisterUserAction::class)->setName('register');
     });
 
     // Matches
