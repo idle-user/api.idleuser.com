@@ -29,7 +29,7 @@ final class AuthService
 
         $auth = $this->authRepository->findByAuthToken($data['auth_token']);
 
-        if($auth->isAuthExpired()){
+        if ($auth->isAuthExpired()) {
             throw new AuthTokenExpiredException();
         }
 
@@ -40,13 +40,7 @@ final class AuthService
 
     private function validate(array $data)
     {
-        $errors = [];
-
-        if (empty($data['auth_token'])) {
-            $errors['auth_token'] = 'Input required';
-        }
-
-        if ($errors) {
+        if (!isset($data['auth_token'])) {
             throw new AuthTokenNotFoundException();
         }
     }
