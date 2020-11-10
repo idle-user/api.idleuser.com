@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Actions;
 
+use App\Domain\DomainException\DomainForbiddenException;
 use App\Domain\DomainException\DomainRecordNotFoundException;
 use App\Domain\DomainException\DomainRecordConflictException;
 use App\Domain\DomainException\DomainUnauthorizedException;
@@ -11,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpException;
-use Slim\Exception\HttpMethodNotAllowedException;
+use Slim\Exception\HttpForbiddenException;
 use Slim\Exception\HttpNotFoundException;
 use Slim\Exception\HttpUnauthorizedException;
 
@@ -65,6 +66,8 @@ abstract class Action
             throw new HttpNotFoundException($this->request, $e->getMessage());
         } catch (DomainUnauthorizedException $e) {
             throw new HttpUnauthorizedException($this->request, $e->getMessage());
+        } catch (DomainForbiddenException $e) {
+            throw new HttpForbiddenException($this->request, $e->getMessage());
         } catch (DomainRecordConflictException $e) {
             throw new HttpException($this->request, $e->getMessage(), $e->getCode());
         }
