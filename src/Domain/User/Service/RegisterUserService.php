@@ -11,7 +11,9 @@ final class RegisterUserService extends UserService
     {
         $this->validate($data);
 
-        $user = $this->userRepository->register($data);
+        $userId = $this->userRepository->register($data);
+
+        $user = $this->userRepository->findById($userId);
 
         $this->logger->info(sprintf('User registered successfully: %s', $user->getUsername()));
 

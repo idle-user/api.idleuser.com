@@ -28,6 +28,9 @@ class UserRepository
         while ($row = $stmt->fetch()) {
             $ret[] = User::withRow($row);
         }
+        if (empty($ret)) {
+            throw new UserNotFoundException();
+        }
         return $ret;
     }
 
@@ -36,7 +39,7 @@ class UserRepository
         $sql = "SELECT * FROM user WHERE id=?";
         $stmt = $this->db->query($sql, [$id]);
         $row = $stmt->fetch();
-        if ($row) {
+        if (!$row) {
             throw new UserNotFoundException();
         }
         return User::withRow($row);
@@ -61,6 +64,9 @@ class UserRepository
         while ($row = $stmt->fetch()) {
             $ret[] = User::withRow($row);
         }
+        if (empty($ret)) {
+            throw new UserNotFoundException();
+        }
         return $ret;
     }
 
@@ -84,21 +90,16 @@ class UserRepository
 
         $userId = $this->db->lastInsertId();
 
-        return $this->findById($userId);
+        return $userId;
     }
 
-    public function login(array $data)
+    public function login($username, $secret)
     {
-        $args = [
-            'username' => $data['username'],
-            'secret' =>  $data['secret']
-        ];
-
         try {
-            if (password_verify($args['secret'], $this->findSecretByUsername($args['username']))) {
+            if (password_verify($secret, $this->findSecretByUsername($username))) {
                 $sql = "UPDATE user SET last_login=NOW() WHERE username=?";
-                $this->db->query($sql, [$args['username']]);
-                return $this->findByUsername($args['username']);
+                $this->db->query($sql, [$username]);
+                return $this->findByUsername($username);
             } else {
                 throw new UserLoginFailedException();
             }
