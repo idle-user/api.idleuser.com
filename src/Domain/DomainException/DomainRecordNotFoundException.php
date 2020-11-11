@@ -5,4 +5,5 @@ namespace App\Domain\DomainException;
 
 class DomainRecordNotFoundException extends DomainException
 {
+    protected $code = 404;
 }

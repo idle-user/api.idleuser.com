@@ -5,6 +5,10 @@ namespace App\Application\Handlers;
 
 use App\Application\Actions\ActionError;
 use App\Application\Actions\ActionPayload;
+use App\Domain\DomainException\DomainException;
+use App\Domain\DomainException\DomainRecordConflictException;
+use App\Domain\DomainException\DomainRecordNotFoundException;
+use App\Domain\DomainException\DomainUnauthorizedException;
 use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpBadRequestException;
@@ -31,6 +35,7 @@ class HttpErrorHandler extends SlimErrorHandler
             'An internal error has occurred while processing your request.'
         );
 
+        // HTTP exceptions
         if ($exception instanceof HttpException) {
             $statusCode = $exception->getCode();
             $error->setDescription($exception->getMessage());
@@ -49,8 +54,30 @@ class HttpErrorHandler extends SlimErrorHandler
                 $error->setType(ActionError::NOT_IMPLEMENTED);
             } elseif ($statusCode == 409) {
                 $error->setType(ActionError::CONFLICT_ERROR);
-            }
+            } 
+        } 
+        
+        // Domain exceptions
+        elseif ($exception instanceof DomainException) {
+            $statusCode = $exception->getCode();
+            $error->setDescription($exception->getMessage());
+            
+            if ($exception instanceof DomainRecordNotFoundException) {
+                $error->setType(ActionError::RESOURCE_NOT_FOUND);
+            } elseif ($exception instanceof DomainUnauthorizedException) {
+                $error->setType(ActionError::UNAUTHENTICATED);
+            } elseif ($exception instanceof HttpForbiddenException) {
+                $error->setType(ActionError::INSUFFICIENT_PRIVILEGES);
+            } elseif ($exception instanceof HttpBadRequestException) {
+                $error->setType(ActionError::BAD_REQUEST);
+            } elseif ($exception instanceof HttpNotImplementedException) {
+                $error->setType(ActionError::NOT_IMPLEMENTED);
+            } elseif ($exception instanceof DomainRecordConflictException) {
+                $error->setType(ActionError::CONFLICT_ERROR);
+            } 
         }
+
+
 
         if (
             !($exception instanceof HttpException)

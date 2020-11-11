@@ -5,4 +5,5 @@ namespace App\Domain\DomainException;
 
 class DomainUnauthorizedException extends DomainException
 {
+    protected $code = 401;
 }
