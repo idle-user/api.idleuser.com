@@ -5,4 +5,5 @@ namespace App\Domain\DomainException;
 
 class DomainForbiddenException extends DomainException
 {
+    protected $code = 403;
 }
