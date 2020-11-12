@@ -54,14 +54,14 @@ class HttpErrorHandler extends SlimErrorHandler
                 $error->setType(ActionError::NOT_IMPLEMENTED);
             } elseif ($statusCode == 409) {
                 $error->setType(ActionError::CONFLICT_ERROR);
-            } 
-        } 
-        
+            }
+        }
+
         // Domain exceptions
         elseif ($exception instanceof DomainException) {
             $statusCode = $exception->getCode();
             $error->setDescription($exception->getMessage());
-            
+
             if ($exception instanceof DomainRecordNotFoundException) {
                 $error->setType(ActionError::RESOURCE_NOT_FOUND);
             } elseif ($exception instanceof DomainUnauthorizedException) {
@@ -74,10 +74,8 @@ class HttpErrorHandler extends SlimErrorHandler
                 $error->setType(ActionError::NOT_IMPLEMENTED);
             } elseif ($exception instanceof DomainRecordConflictException) {
                 $error->setType(ActionError::CONFLICT_ERROR);
-            } 
+            }
         }
-
-
 
         if (
             !($exception instanceof HttpException)
