@@ -9,7 +9,6 @@ use App\Domain\Matches\Exception\StatsNotFoundException;
 
 class StatsRepository
 {
-
     private $db;
 
     public function __construct(Database $db)
@@ -19,7 +18,7 @@ class StatsRepository
 
     public function findAll()
     {
-        $sql = "SELECT * FROM matches_stats";
+        $sql = 'SELECT * FROM matches_stats';
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -33,7 +32,7 @@ class StatsRepository
 
     public function findById($userId, $seasonId)
     {
-        $sql = "SELECT * FROM matches_stats WHERE user_id=? AND season=?";
+        $sql = 'SELECT * FROM matches_stats WHERE user_id=? AND season=?';
         $stmt = $this->db->query($sql, [$userId, $seasonId]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -44,7 +43,7 @@ class StatsRepository
 
     public function findByUserId($userId)
     {
-        $sql = "SELECT * FROM matches_stats WHERE user_id=?";
+        $sql = 'SELECT * FROM matches_stats WHERE user_id=?';
         $stmt = $this->db->query($sql, [$userId]);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -58,7 +57,7 @@ class StatsRepository
 
     public function findBySeasonId($seasonId)
     {
-        $sql = "SELECT * FROM matches_stats WHERE season=?";
+        $sql = 'SELECT * FROM matches_stats WHERE season=?';
         $stmt = $this->db->query($sql, [$seasonId]);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -69,5 +68,4 @@ class StatsRepository
         }
         return $ret;
     }
-
 }

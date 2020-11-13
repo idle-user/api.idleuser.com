@@ -9,7 +9,6 @@ use App\Domain\Matches\Exception\SeasonNotFoundException;
 
 class SeasonRepository
 {
-
     private $db;
 
     public function __construct(Database $db)
@@ -19,7 +18,7 @@ class SeasonRepository
 
     public function findAll()
     {
-        $sql = "SELECT * FROM matches_season";
+        $sql = 'SELECT * FROM matches_season';
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -33,7 +32,7 @@ class SeasonRepository
 
     public function findById($id)
     {
-        $sql = "SELECT * FROM matches_season WHERE season=?";
+        $sql = 'SELECT * FROM matches_season WHERE season=?';
         $stmt = $this->db->query($sql, [$id]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -44,7 +43,7 @@ class SeasonRepository
 
     public function findByMatchId($matchId)
     {
-        $sql = "SELECT * FROM matches_season WHERE ? BETWEEN start_matchid AND IFNULL(end_matchid, ?)";
+        $sql = 'SELECT * FROM matches_season WHERE ? BETWEEN start_matchid AND IFNULL(end_matchid, ?)';
         $stmt = $this->db->query($sql, [$matchId, $matchId]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -52,5 +51,4 @@ class SeasonRepository
         }
         return Season::withRow($row);
     }
-
 }

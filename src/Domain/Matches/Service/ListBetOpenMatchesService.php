@@ -9,7 +9,7 @@ final class ListBetOpenMatchesService extends MatchService
     {
         $matchList = $this->matchRepository->findAllBetOpen();
 
-        $this->logger->info("Open Bet Match list was viewed.");
+        $this->logger->info('Open Bet Match list was viewed.');
 
         return $matchList;
     }

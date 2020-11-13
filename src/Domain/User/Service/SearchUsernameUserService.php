@@ -13,5 +13,4 @@ final class SearchUsernameUserService extends UserService
 
         return $users;
     }
-
 }

@@ -24,7 +24,7 @@ class ListUserBetsAction extends Action
     protected function action(): Response
     {
         $userId = (int) $this->resolveArg('userId');
-        
+
         $userBetList = $this->listUserBetsService->run($userId);
 
         return $this->respondWithData($userBetList);

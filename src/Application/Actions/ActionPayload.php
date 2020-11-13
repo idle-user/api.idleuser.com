@@ -27,11 +27,8 @@ class ActionPayload implements JsonSerializable
      * @param array|object|null     $data
      * @param ActionError|null      $error
      */
-    public function __construct(
-        int $statusCode = 200,
-        $data = null,
-        ?ActionError $error = null
-    ) {
+    public function __construct(int $statusCode = 200, $data = null, ?ActionError $error = null)
+    {
         $this->statusCode = $statusCode;
         $this->data = $data;
         $this->error = $error;

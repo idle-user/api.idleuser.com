@@ -9,7 +9,6 @@ use App\Domain\Matches\Exception\MatchRatingNotFoundException;
 
 class MatchRatingRepository
 {
-
     private $db;
 
     public function __construct(Database $db)
@@ -19,7 +18,7 @@ class MatchRatingRepository
 
     public function findAll()
     {
-        $sql = "SELECT * FROM matches_match_rating";
+        $sql = 'SELECT * FROM matches_match_rating';
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -33,7 +32,7 @@ class MatchRatingRepository
 
     public function findById($userId, $matchId)
     {
-        $sql = "SELECT * FROM matches_match_rating WHERE user_id=? AND match_id=?";
+        $sql = 'SELECT * FROM matches_match_rating WHERE user_id=? AND match_id=?';
         $stmt = $this->db->query($sql, [$userId, $matchId]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -44,13 +43,13 @@ class MatchRatingRepository
 
     public function findByUserId($userId)
     {
-        $sql = "SELECT * FROM matches_match_rating WHERE user_id=?";
+        $sql = 'SELECT * FROM matches_match_rating WHERE user_id=?';
         $stmt = $this->db->query($sql, [$userId]);
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = MatchRating::withRow($row);
         }
-        if(empty($ret)){
+        if (empty($ret)) {
             throw new MatchRatingNotFoundException();
         }
         return $ret;
@@ -58,16 +57,15 @@ class MatchRatingRepository
 
     public function findByMatchId($matchId)
     {
-        $sql = "SELECT * FROM matches_match_rating WHERE match_id=?";
+        $sql = 'SELECT * FROM matches_match_rating WHERE match_id=?';
         $stmt = $this->db->query($sql, [$matchId]);
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = MatchRating::withRow($row);
         }
-        if(empty($ret)){
+        if (empty($ret)) {
             throw new MatchRatingNotFoundException();
         }
         return $ret;
     }
-
 }

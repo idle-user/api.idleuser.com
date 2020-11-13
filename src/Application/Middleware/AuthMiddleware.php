@@ -14,7 +14,6 @@ use Slim\Routing\RouteContext;
 
 class AuthMiddleware implements Middleware
 {
-
     private $authService;
     private $logAuthService;
 
@@ -37,7 +36,7 @@ class AuthMiddleware implements Middleware
             throw new HttpNotFoundException($request);
         }
 
-        $publicRoutesArray = array('auth-view', 'auth-refresh', 'login', 'register');
+        $publicRoutesArray = ['auth-view', 'auth-refresh', 'login', 'register'];
 
         if (!in_array($routeName, $publicRoutesArray)) {
             $authInfo = $this->authService->run($request->getQueryParams());

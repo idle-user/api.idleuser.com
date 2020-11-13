@@ -24,7 +24,7 @@ class ListSeasonStatsAction extends Action
     protected function action(): Response
     {
         $seasonId = (int) $this->resolveArg('seasonId');
-        
+
         $seasonStatList = $this->listSeasonStatsService->run($seasonId);
 
         return $this->respondWithData($seasonStatList);

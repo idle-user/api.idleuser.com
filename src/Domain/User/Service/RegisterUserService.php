@@ -27,13 +27,13 @@ final class RegisterUserService extends UserService
         if (empty($data['username'])) {
             $errors['username'] = 'Input required';
         } elseif (!preg_match('/^[\w\-]+$/i', $data['username'])) {
-            $errors['username'] = "Invalid username.";
+            $errors['username'] = 'Invalid username.';
         }
 
         if (empty($data['secret'])) {
             $errors['secret'] = 'Input required';
-        } elseif (strlen($data["secret"]) < 6) {
-            $errors['secret']  = "Must contain at least 6 characters.";
+        } elseif (strlen($data['secret']) < 6) {
+            $errors['secret'] = 'Must contain at least 6 characters.';
         }
 
         if ($errors) {

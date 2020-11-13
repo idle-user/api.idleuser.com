@@ -8,7 +8,6 @@ use App\Domain\Auth\Service\AuthService;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 
-
 class ViewAuthAction extends Action
 {
     protected $authService;
@@ -24,7 +23,7 @@ class ViewAuthAction extends Action
      */
     protected function action(): Response
     {
-        $this->logger->info("Auth view attempt.");
+        $this->logger->info('Auth view attempt.');
 
         $auth = $this->authService->run($this->request->getQueryParams());
 

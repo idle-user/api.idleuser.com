@@ -9,7 +9,6 @@ use App\Domain\Matches\Exception\BetNotFoundException;
 
 class BetRepository
 {
-
     private $db;
 
     public function __construct(Database $db)
@@ -19,7 +18,7 @@ class BetRepository
 
     public function findAll()
     {
-        $sql = "SELECT * FROM matches_bet";
+        $sql = 'SELECT * FROM matches_bet';
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -33,7 +32,7 @@ class BetRepository
 
     public function findById($userId, $matchId)
     {
-        $sql = "SELECT * FROM matches_bet WHERE user_id=? AND match_id=?";
+        $sql = 'SELECT * FROM matches_bet WHERE user_id=? AND match_id=?';
         $stmt = $this->db->query($sql, [$userId, $matchId]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -44,22 +43,8 @@ class BetRepository
 
     public function findByUserId($userId)
     {
-        $sql = "SELECT * FROM matches_bet WHERE user_id=?";
+        $sql = 'SELECT * FROM matches_bet WHERE user_id=?';
         $stmt = $this->db->query($sql, [$userId]);
-        $ret = [];
-        while ($row = $stmt->fetch()) {
-            $ret[] = Bet::withRow($row);
-        }
-        if(empty($ret)){
-            throw new BetNotFoundException();
-        }
-        return $ret;
-    }
-
-    public function findByMatchId($matchId)
-    {
-        $sql = "SELECT * FROM matches_bet WHERE match_id=?";
-        $stmt = $this->db->query($sql, [$matchId]);
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = Bet::withRow($row);
@@ -70,4 +55,17 @@ class BetRepository
         return $ret;
     }
 
+    public function findByMatchId($matchId)
+    {
+        $sql = 'SELECT * FROM matches_bet WHERE match_id=?';
+        $stmt = $this->db->query($sql, [$matchId]);
+        $ret = [];
+        while ($row = $stmt->fetch()) {
+            $ret[] = Bet::withRow($row);
+        }
+        if (empty($ret)) {
+            throw new BetNotFoundException();
+        }
+        return $ret;
+    }
 }

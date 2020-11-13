@@ -9,7 +9,6 @@ use App\Domain\Matches\Exception\MatchNotFoundException;
 
 class MatchRepository
 {
-
     private $db;
 
     public function __construct(Database $db)
@@ -19,7 +18,7 @@ class MatchRepository
 
     public function findAll()
     {
-        $sql = "SELECT * FROM matches_match";
+        $sql = 'SELECT * FROM matches_match';
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -33,7 +32,7 @@ class MatchRepository
 
     public function findById($id)
     {
-        $sql = "SELECT * FROM matches_match WHERE id=?";
+        $sql = 'SELECT * FROM matches_match WHERE id=?';
         $stmt = $this->db->query($sql, [$id]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -44,16 +43,15 @@ class MatchRepository
 
     public function findAllBetOpen()
     {
-        $sql = "SELECT * FROM matches_match WHERE bet_open=1";
+        $sql = 'SELECT * FROM matches_match WHERE bet_open=1';
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = Match::withRow($row);
         }
-        if(empty($ret)){
+        if (empty($ret)) {
             throw new MatchNotFoundException();
         }
         return $ret;
     }
-
 }

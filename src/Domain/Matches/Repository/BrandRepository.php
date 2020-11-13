@@ -9,7 +9,6 @@ use App\Domain\Matches\Exception\BrandNotFoundException;
 
 class BrandRepository
 {
-
     private $db;
 
     public function __construct(Database $db)
@@ -19,7 +18,7 @@ class BrandRepository
 
     public function findAll()
     {
-        $sql = "SELECT * FROM matches_brand";
+        $sql = 'SELECT * FROM matches_brand';
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -33,7 +32,7 @@ class BrandRepository
 
     public function findById($id)
     {
-        $sql = "SELECT * FROM matches_brand WHERE id=?";
+        $sql = 'SELECT * FROM matches_brand WHERE id=?';
         $stmt = $this->db->query($sql, [$id]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -41,5 +40,4 @@ class BrandRepository
         }
         return Brand::withRow($row);
     }
-
 }

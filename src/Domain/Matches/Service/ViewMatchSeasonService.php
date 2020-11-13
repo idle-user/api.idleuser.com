@@ -9,12 +9,14 @@ use Psr\Log\LoggerInterface;
 
 final class ViewMatchSeasonService
 {
-
     protected $matchRepository;
     protected $seasonRepository;
 
-    public function __construct(LoggerInterface $logger, MatchRepository $matchRepository, SeasonRepository $seasonRepository)
-    {
+    public function __construct(
+        LoggerInterface $logger,
+        MatchRepository $matchRepository,
+        SeasonRepository $seasonRepository
+    ) {
         $this->logger = $logger;
         $this->matchRepository = $matchRepository;
         $this->seasonRepository = $seasonRepository;
@@ -22,7 +24,6 @@ final class ViewMatchSeasonService
 
     public function run(int $matchId)
     {
-
         $this->validate($matchId);
 
         $season = $this->seasonRepository->findByMatchId($matchId);

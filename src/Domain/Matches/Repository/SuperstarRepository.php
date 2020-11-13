@@ -9,7 +9,6 @@ use App\Domain\Matches\Exception\SuperstarNotFoundException;
 
 class SuperstarRepository
 {
-
     private $db;
 
     public function __construct(Database $db)
@@ -19,7 +18,7 @@ class SuperstarRepository
 
     public function findAll()
     {
-        $sql = "SELECT * FROM matches_superstar";
+        $sql = 'SELECT * FROM matches_superstar';
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -33,7 +32,7 @@ class SuperstarRepository
 
     public function findById($id)
     {
-        $sql = "SELECT * FROM matches_superstar WHERE id=?";
+        $sql = 'SELECT * FROM matches_superstar WHERE id=?';
         $stmt = $this->db->query($sql, [$id]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -44,7 +43,7 @@ class SuperstarRepository
 
     public function searchByName($keyword)
     {
-        $sql = "SELECT * FROM matches_superstar WHERE name LIKE ?";
+        $sql = 'SELECT * FROM matches_superstar WHERE name LIKE ?';
         $stmt = $this->db->query($sql, [$keyword]);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -55,5 +54,4 @@ class SuperstarRepository
         }
         return $ret;
     }
-
 }

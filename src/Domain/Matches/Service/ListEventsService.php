@@ -9,7 +9,7 @@ final class ListEventsService extends EventService
     {
         $eventList = $this->eventRepository->findAll();
 
-        $this->logger->info("Event list was viewed.");
+        $this->logger->info('Event list was viewed.');
 
         return $eventList;
     }

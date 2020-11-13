@@ -22,7 +22,7 @@ class UpdateDiscordUserAction extends Action
      * {@inheritdoc}
      */
     protected function action(): Response
-    { 
+    {
         // TODO
         $username = $this->resolvePost('username');
 
@@ -30,5 +30,4 @@ class UpdateDiscordUserAction extends Action
 
         return $this->respondWithData($user);
     }
-
 }

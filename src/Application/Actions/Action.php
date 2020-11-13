@@ -122,8 +122,6 @@ abstract class Action
         $json = json_encode($payload, JSON_PRETTY_PRINT);
         $this->response->getBody()->write($json);
 
-        return $this->response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus($payload->getStatusCode());
+        return $this->response->withHeader('Content-Type', 'application/json')->withStatus($payload->getStatusCode());
     }
 }
