@@ -10,7 +10,6 @@ use Psr\Log\LoggerInterface;
 
 final class LogAuthService
 {
-
     /**
      * @var AuthRepository
      */
@@ -32,8 +31,7 @@ final class LogAuthService
         $requestText = "${requestMethod} ${requestPath}";
 
         $ret = $this->authRepository->addTraffic($userId, $requestText);
-  
+
         return $ret;
     }
-
 }

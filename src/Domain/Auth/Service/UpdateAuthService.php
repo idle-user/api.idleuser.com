@@ -9,7 +9,6 @@ use App\Exception\ValidationException;
 use Psr\Log\LoggerInterface;
 use App\Domain\User\Data\User;
 
-
 final class UpdateAuthService
 {
     protected $authRepository;

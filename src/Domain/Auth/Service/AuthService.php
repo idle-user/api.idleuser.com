@@ -11,7 +11,6 @@ use Psr\Log\LoggerInterface;
 
 final class AuthService
 {
-
     /**
      * @var AuthRepository
      */
