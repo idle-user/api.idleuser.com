@@ -30,10 +30,10 @@ class ContestantRepository
         return $ret;
     }
 
-    public function findById($match_id, $superstar_id, $team)
+    public function findById($matchId, $superstarId, $team)
     {
         $sql = 'SELECT * FROM matches_contestant WHERE match_id=? AND superstar_id=? AND team=?';
-        $stmt = $this->db->query($sql, [$match_id, $superstar_id, $team]);
+        $stmt = $this->db->query($sql, [$matchId, $superstarId, $team]);
         $row = $stmt->fetch();
         if (!$row) {
             throw new ContestantNotFoundException();
@@ -41,10 +41,24 @@ class ContestantRepository
         return Contestant::withRow($row);
     }
 
-    public function findByMatchId($match_id)
+    public function findByMatchId($matchId)
     {
         $sql = 'SELECT * FROM matches_contestant WHERE match_id=?';
-        $stmt = $this->db->query($sql, [$match_id]);
+        $stmt = $this->db->query($sql, [$matchId]);
+        $ret = [];
+        while ($row = $stmt->fetch()) {
+            $ret[] = Contestant::withRow($row);
+        }
+        if (empty($ret)) {
+            throw new ContestantNotFoundException();
+        }
+        return $ret;
+    }
+
+    public function findByMatchIdAndTeam($matchId, $team)
+    {
+        $sql = 'SELECT * FROM matches_contestant WHERE match_id=? AND team=?';
+        $stmt = $this->db->query($sql, [$matchId, $team]);
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = Contestant::withRow($row);

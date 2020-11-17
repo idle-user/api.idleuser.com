@@ -7,5 +7,5 @@ use App\Domain\DomainException\DomainRecordConflictException;
 
 class BetAlreadyExistsException extends DomainRecordConflictException
 {
-    protected $message = 'A bet for the match is already exists.';
+    protected $message = 'A bet for the match already exists.';
 }

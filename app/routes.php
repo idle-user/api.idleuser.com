@@ -75,7 +75,7 @@ return function (App $app) {
         $group->get('/user/{userId:[0-9]+}', Matches\ListUserBetsAction::class);
         $group->get('/match/{matchId:[0-9]+}', Matches\ListMatchBetsAction::class);
         $group->get('/{userId:[0-9]+}/{matchId:[0-9]+}', Matches\ViewBetAction::class);
-        // $group->post('', Matches\AddBetAction::class);
+        $group->post('', Matches\AddBetAction::class);
     });
     $app->group('/matches/rating', function (Group $group) {
         $group->get('/list', Matches\ListMatchRatingsAction::class);
