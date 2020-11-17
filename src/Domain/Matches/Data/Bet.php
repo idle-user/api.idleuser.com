@@ -17,6 +17,12 @@ class Bet implements JsonSerializable
     {
     }
 
+    public static function create()
+    {
+        $instance = new self();
+        return $instance;
+    }
+
     public static function withRow(array $row)
     {
         $instance = new self();
@@ -32,6 +38,40 @@ class Bet implements JsonSerializable
     public function getMatchId(): ?int
     {
         return $this->match_id;
+    }
+
+    public function getTeam(): ?int
+    {
+        return $this->team;
+    }
+
+    public function getPoints(): ?int
+    {
+        return $this->points;
+    }
+
+    public function setUserId(int $userId)
+    {
+        $this->user_id = $userId;
+        return $this;
+    }
+
+    public function setMatchId(int $matchId)
+    {
+        $this->match_id = $matchId;
+        return $this;
+    }
+
+    public function setTeam(int $team)
+    {
+        $this->team = $team;
+        return $this;
+    }
+
+    public function setPoints(int $points)
+    {
+        $this->points = $points;
+        return $this;
     }
 
     public function jsonSerialize()

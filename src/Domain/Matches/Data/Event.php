@@ -28,6 +28,27 @@ class Event implements JsonSerializable
         return $this->id;
     }
 
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function getDateTime(): ?string
+    {
+        return $this->date_time;
+    }
+
+    public function getPPV(): ?int
+    {
+        return $this->ppv;
+    }
+
+    public function hasPassed()
+    {
+        $eventTimeStamp = strtotime($this->date_time);
+        return $eventTimeStamp < time('tomorrow');
+    }
+
     public function jsonSerialize()
     {
         return [

@@ -6,6 +6,9 @@ namespace App\Domain\Matches\Repository;
 use App\Domain\Database;
 use App\Domain\Matches\Data\Bet;
 use App\Domain\Matches\Exception\BetNotFoundException;
+use App\Domain\Matches\Exception\BetAlreadyExistsException;
+
+use PDOException;
 
 class BetRepository
 {
@@ -67,5 +70,20 @@ class BetRepository
             throw new BetNotFoundException();
         }
         return $ret;
+    }
+
+    public function add(Bet $bet)
+    {
+        $sql = 'INSERT INTO matches_bet (user_id, match_id, team, points, dt_placed) VALUES (?, ?, ?, ?, NOW())';
+        $args = [$bet->getUserId(), $bet->getMatchId(), $bet->getTeam(), $bet->getPoints()];
+        try {
+            $this->db->query($sql, $args);
+        } catch (PDOException $e) {
+            if ($e->getCode() == 23000) {
+                throw new BetAlreadyExistsException();
+            } else {
+                throw $e;
+            }
+        }
     }
 }
