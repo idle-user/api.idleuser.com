@@ -24,7 +24,7 @@ class ListUserStatsAction extends Action
     protected function action(): Response
     {
         $userId = (int) $this->resolveArg('userId');
-        
+
         $userStatList = $this->listUserStatsService->run($userId);
 
         return $this->respondWithData($userStatList);

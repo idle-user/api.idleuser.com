@@ -34,6 +34,26 @@ class Match implements JsonSerializable
         return $this->id;
     }
 
+    public function getEventId()
+    {
+        return $this->event_id;
+    }
+
+    public function getTitleId()
+    {
+        return $this->title_id;
+    }
+
+    public function getMatchTypeId()
+    {
+        return $this->match_type_id;
+    }
+
+    public function getBetOpen(): ?int
+    {
+        return $this->bet_open;
+    }
+
     public function jsonSerialize()
     {
         return [

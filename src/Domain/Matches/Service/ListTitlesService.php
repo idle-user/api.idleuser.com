@@ -9,7 +9,7 @@ final class ListTitlesService extends TitleService
     {
         $titleList = $this->titleRepository->findAll();
 
-        $this->logger->info("Title list was viewed.");
+        $this->logger->info('Title list was viewed.');
 
         return $titleList;
     }

@@ -9,7 +9,7 @@ final class ListStatsService extends StatsService
     {
         $statsList = $this->statsRepository->findAll();
 
-        $this->logger->info("Stats list was viewed.");
+        $this->logger->info('Stats list was viewed.');
 
         return $statsList;
     }

@@ -6,6 +6,8 @@ namespace App\Application\Handlers;
 use App\Application\Actions\ActionError;
 use App\Application\Actions\ActionPayload;
 use App\Domain\DomainException\DomainException;
+use App\Domain\DomainException\DomainForbiddenException;
+use App\Domain\DomainException\DomainInvalidArgumentException;
 use App\Domain\DomainException\DomainRecordConflictException;
 use App\Domain\DomainException\DomainRecordNotFoundException;
 use App\Domain\DomainException\DomainUnauthorizedException;
@@ -32,7 +34,7 @@ class HttpErrorHandler extends SlimErrorHandler
         $statusCode = 500;
         $error = new ActionError(
             ActionError::SERVER_ERROR,
-            'An internal error has occurred while processing your request.'
+            'An internal error has occurred while processing your request.',
         );
 
         // HTTP exceptions
@@ -52,37 +54,31 @@ class HttpErrorHandler extends SlimErrorHandler
                 $error->setType(ActionError::BAD_REQUEST);
             } elseif ($exception instanceof HttpNotImplementedException) {
                 $error->setType(ActionError::NOT_IMPLEMENTED);
-            } elseif ($statusCode == 409) {
-                $error->setType(ActionError::CONFLICT_ERROR);
-            } 
-        } 
-        
+            }
+        }
+
         // Domain exceptions
         elseif ($exception instanceof DomainException) {
             $statusCode = $exception->getCode();
             $error->setDescription($exception->getMessage());
-            
+
             if ($exception instanceof DomainRecordNotFoundException) {
                 $error->setType(ActionError::RESOURCE_NOT_FOUND);
             } elseif ($exception instanceof DomainUnauthorizedException) {
                 $error->setType(ActionError::UNAUTHENTICATED);
-            } elseif ($exception instanceof HttpForbiddenException) {
+            } elseif ($exception instanceof DomainForbiddenException) {
                 $error->setType(ActionError::INSUFFICIENT_PRIVILEGES);
-            } elseif ($exception instanceof HttpBadRequestException) {
-                $error->setType(ActionError::BAD_REQUEST);
-            } elseif ($exception instanceof HttpNotImplementedException) {
-                $error->setType(ActionError::NOT_IMPLEMENTED);
+            } elseif ($exception instanceof DomainInvalidArgumentException) {
+                $error->setType(ActionError::VALIDATION_ERROR);
             } elseif ($exception instanceof DomainRecordConflictException) {
                 $error->setType(ActionError::CONFLICT_ERROR);
-            } 
+            }
         }
 
-
-
         if (
-            !($exception instanceof HttpException)
-            && ($exception instanceof Exception || $exception instanceof Throwable)
-            && $this->displayErrorDetails
+            !($exception instanceof HttpException) &&
+            ($exception instanceof Exception || $exception instanceof Throwable) &&
+            $this->displayErrorDetails
         ) {
             $error->setDescription($exception->getMessage());
         }

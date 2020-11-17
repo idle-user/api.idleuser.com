@@ -9,7 +9,6 @@ use App\Domain\Matches\Exception\TitleNotFoundException;
 
 class TitleRepository
 {
-
     private $db;
 
     public function __construct(Database $db)
@@ -19,7 +18,7 @@ class TitleRepository
 
     public function findAll()
     {
-        $sql = "SELECT * FROM matches_title";
+        $sql = 'SELECT * FROM matches_title';
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -33,7 +32,7 @@ class TitleRepository
 
     public function findById($id)
     {
-        $sql = "SELECT * FROM matches_title WHERE id=?";
+        $sql = 'SELECT * FROM matches_title WHERE id=?';
         $stmt = $this->db->query($sql, [$id]);
         $row = $stmt->fetch();
         if (!$row) {

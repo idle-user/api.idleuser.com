@@ -30,5 +30,4 @@ final class ViewUserService extends UserService
             throw new ValidationException('Please check your input', $errors);
         }
     }
-
 }

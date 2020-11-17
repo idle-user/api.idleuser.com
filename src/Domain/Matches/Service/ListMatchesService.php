@@ -9,7 +9,7 @@ final class ListMatchesService extends MatchService
     {
         $matchList = $this->matchRepository->findAll();
 
-        $this->logger->info("Match list was viewed.");
+        $this->logger->info('Match list was viewed.');
 
         return $matchList;
     }

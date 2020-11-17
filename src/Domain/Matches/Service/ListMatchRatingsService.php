@@ -9,7 +9,7 @@ final class ListMatchRatingsService extends MatchRatingService
     {
         $matchRatingList = $this->matchRatingRepository->findAll();
 
-        $this->logger->info("Match Rating list was viewed.");
+        $this->logger->info('Match Rating list was viewed.');
 
         return $matchRatingList;
     }

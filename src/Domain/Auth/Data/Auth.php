@@ -34,7 +34,7 @@ class Auth implements JsonSerializable
     {
         return $this->auth_token;
     }
-    
+
     public function getAuthTokenExp(): string
     {
         return $this->auth_token_exp;

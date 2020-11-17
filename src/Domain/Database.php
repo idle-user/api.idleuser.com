@@ -7,31 +7,30 @@ use PDO;
 
 class Database
 {
+    protected $pdo;
 
-	protected $pdo;
+    public function __construct(PDO $pdo)
+    {
+        $this->pdo = $pdo;
+    }
 
-	public function __construct(PDO $pdo)
-	{
-		$this->pdo = $pdo;
-	}
+    public function uuid()
+    {
+        return $this->pdo->query('SELECT UUID()')->fetchColumn();
+    }
 
-	public function uuid()
-	{
-		return $this->pdo->query("SELECT UUID()")->fetchColumn();
-	}
+    public function lastInsertId()
+    {
+        return $this->pdo->lastInsertId();
+    }
 
-	public function lastInsertId()
-	{
-		return $this->pdo->lastInsertId();
-	}
-
-	public function query($sql, $args = NULL)
-	{
-		if (!$args) {
-			return $this->pdo->query($sql);
-		}
-		$stmt = $this->pdo->prepare($sql);
-		$stmt->execute($args);
-		return $stmt;
-	}
+    public function query($sql, $args = null)
+    {
+        if (!$args) {
+            return $this->pdo->query($sql);
+        }
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }
 }

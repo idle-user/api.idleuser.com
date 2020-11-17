@@ -22,7 +22,7 @@ class UserRepository
 
     public function findAll()
     {
-        $sql = "SELECT * FROM user";
+        $sql = 'SELECT * FROM user';
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -36,7 +36,7 @@ class UserRepository
 
     public function findById($id)
     {
-        $sql = "SELECT * FROM user WHERE id=?";
+        $sql = 'SELECT * FROM user WHERE id=?';
         $stmt = $this->db->query($sql, [$id]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -47,7 +47,7 @@ class UserRepository
 
     public function findByUsername($username)
     {
-        $sql = "SELECT * FROM user WHERE username=?";
+        $sql = 'SELECT * FROM user WHERE username=?';
         $stmt = $this->db->query($sql, [$username]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -58,7 +58,7 @@ class UserRepository
 
     public function searchByUsername($username)
     {
-        $sql = "SELECT * FROM user WHERE username LIKE ?";
+        $sql = 'SELECT * FROM user WHERE username LIKE ?';
         $stmt = $this->db->query($sql, [$username]);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -72,11 +72,8 @@ class UserRepository
 
     public function register(array $data)
     {
-        $sql = "INSERT INTO user (username, secret, date_created, last_login) VALUES (?, ?, NOW(), NOW())";
-        $args = [
-            $data['username'],
-            password_hash($data['secret'], PASSWORD_BCRYPT),
-        ];
+        $sql = 'INSERT INTO user (username, secret, date_created, last_login) VALUES (?, ?, NOW(), NOW())';
+        $args = [$data['username'], password_hash($data['secret'], PASSWORD_BCRYPT)];
 
         try {
             $this->db->query($sql, $args);
@@ -97,7 +94,7 @@ class UserRepository
     {
         try {
             if (password_verify($secret, $this->findSecretByUsername($username))) {
-                $sql = "UPDATE user SET last_login=NOW() WHERE username=?";
+                $sql = 'UPDATE user SET last_login=NOW() WHERE username=?';
                 $this->db->query($sql, [$username]);
                 return $this->findByUsername($username);
             } else {
@@ -108,10 +105,9 @@ class UserRepository
         }
     }
 
-
     private function findSecretByUsername($username)
     {
-        $sql = "SELECT secret FROM user WHERE username=?";
+        $sql = 'SELECT secret FROM user WHERE username=?';
         $stmt = $this->db->query($sql, [$username]);
         $result = $stmt->fetchColumn();
         if (!$result) {

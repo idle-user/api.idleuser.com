@@ -9,7 +9,7 @@ final class ListSeasonsService extends SeasonService
     {
         $seasonList = $this->seasonRepository->findAll();
 
-        $this->logger->info("Season list was viewed.");
+        $this->logger->info('Season list was viewed.');
 
         return $seasonList;
     }

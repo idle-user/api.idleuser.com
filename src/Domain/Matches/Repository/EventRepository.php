@@ -9,7 +9,6 @@ use App\Domain\Matches\Exception\EventNotFoundException;
 
 class EventRepository
 {
-
     private $db;
 
     public function __construct(Database $db)
@@ -19,7 +18,7 @@ class EventRepository
 
     public function findAll()
     {
-        $sql = "SELECT * FROM matches_event";
+        $sql = 'SELECT * FROM matches_event';
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -33,7 +32,7 @@ class EventRepository
 
     public function findById($id)
     {
-        $sql = "SELECT * FROM matches_event WHERE id=?";
+        $sql = 'SELECT * FROM matches_event WHERE id=?';
         $stmt = $this->db->query($sql, [$id]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -41,5 +40,4 @@ class EventRepository
         }
         return Event::withRow($row);
     }
-
 }

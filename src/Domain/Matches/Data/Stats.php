@@ -40,6 +40,11 @@ class Stats implements JsonSerializable
         return $this->season;
     }
 
+    public function getAvailablePoints(): ?int
+    {
+        return $this->available_points;
+    }
+
     public function jsonSerialize()
     {
         return [

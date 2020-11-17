@@ -4,19 +4,18 @@ declare(strict_types=1);
 namespace App\Application\Actions\Auth;
 
 use App\Application\Actions\Action;
-use App\Domain\Auth\Service\AuthService;
+use App\Domain\Auth\Service\ValidateAuthService;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 
-
 class ViewAuthAction extends Action
 {
-    protected $authService;
+    protected $validateAuthService;
 
-    public function __construct(LoggerInterface $logger, AuthService $authService)
+    public function __construct(LoggerInterface $logger, ValidateAuthService $validateAuthService)
     {
         parent::__construct($logger);
-        $this->authService = $authService;
+        $this->validateAuthService = $validateAuthService;
     }
 
     /**
@@ -24,9 +23,9 @@ class ViewAuthAction extends Action
      */
     protected function action(): Response
     {
-        $this->logger->info("Auth view attempt.");
+        $this->logger->info('Auth view attempt.');
 
-        $auth = $this->authService->run($this->request->getQueryParams());
+        $auth = $this->validateAuthService->run($this->request->getQueryParams());
 
         return $this->respondWithData($auth);
     }

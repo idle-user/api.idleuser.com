@@ -9,7 +9,7 @@ final class ListMatchTypesService extends MatchTypeService
     {
         $matchTypeList = $this->matchTypeRepository->findAll();
 
-        $this->logger->info("Match Type list was viewed.");
+        $this->logger->info('Match Type list was viewed.');
 
         return $matchTypeList;
     }

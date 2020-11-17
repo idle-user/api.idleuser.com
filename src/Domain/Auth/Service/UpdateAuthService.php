@@ -4,22 +4,12 @@ declare(strict_types=1);
 
 namespace App\Domain\Auth\Service;
 
-use App\Domain\Auth\Repository\AuthRepository;
+use App\Domain\Auth\Service\AuthService;
 use App\Exception\ValidationException;
-use Psr\Log\LoggerInterface;
 use App\Domain\User\Data\User;
 
-
-final class UpdateAuthService
+final class UpdateAuthService extends AuthService
 {
-    protected $authRepository;
-
-    public function __construct(LoggerInterface $logger, AuthRepository $authRepository)
-    {
-        $this->logger = $logger;
-        $this->authRepository = $authRepository;
-    }
-
     public function run(User $user)
     {
         $this->validate($user);

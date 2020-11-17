@@ -9,7 +9,7 @@ final class ListBrandsService extends BrandService
     {
         $brandList = $this->brandRepository->findAll();
 
-        $this->logger->info("Brand list was viewed.");
+        $this->logger->info('Brand list was viewed.');
 
         return $brandList;
     }

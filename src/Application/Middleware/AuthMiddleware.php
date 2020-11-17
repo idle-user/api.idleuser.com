@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Middleware;
 
-use App\Domain\Auth\Service\AuthService;
+use App\Domain\Auth\Service\ValidateAuthService;
 use App\Domain\Auth\Service\LogAuthService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -14,13 +14,12 @@ use Slim\Routing\RouteContext;
 
 class AuthMiddleware implements Middleware
 {
-
     private $authService;
     private $logAuthService;
 
-    public function __construct(AuthService $authService, LogAuthService $logAuthService)
+    public function __construct(ValidateAuthService $validateAuthService, LogAuthService $logAuthService)
     {
-        $this->authService = $authService;
+        $this->validateAuthService = $validateAuthService;
         $this->logAuthService = $logAuthService;
     }
 
@@ -37,10 +36,10 @@ class AuthMiddleware implements Middleware
             throw new HttpNotFoundException($request);
         }
 
-        $publicRoutesArray = array('auth-view', 'auth-refresh', 'login', 'register');
+        $publicRoutesArray = ['auth-view', 'auth-refresh', 'login', 'register'];
 
         if (!in_array($routeName, $publicRoutesArray)) {
-            $authInfo = $this->authService->run($request->getQueryParams());
+            $authInfo = $this->validateAuthService->run($request->getQueryParams());
             $this->logAuthService->run([$authInfo, $request]);
         }
 
