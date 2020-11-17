@@ -6,6 +6,8 @@ namespace App\Application\Handlers;
 use App\Application\Actions\ActionError;
 use App\Application\Actions\ActionPayload;
 use App\Domain\DomainException\DomainException;
+use App\Domain\DomainException\DomainForbiddenException;
+use App\Domain\DomainException\DomainInvalidArgumentException;
 use App\Domain\DomainException\DomainRecordConflictException;
 use App\Domain\DomainException\DomainRecordNotFoundException;
 use App\Domain\DomainException\DomainUnauthorizedException;
@@ -52,8 +54,6 @@ class HttpErrorHandler extends SlimErrorHandler
                 $error->setType(ActionError::BAD_REQUEST);
             } elseif ($exception instanceof HttpNotImplementedException) {
                 $error->setType(ActionError::NOT_IMPLEMENTED);
-            } elseif ($statusCode == 409) {
-                $error->setType(ActionError::CONFLICT_ERROR);
             }
         }
 
@@ -66,12 +66,10 @@ class HttpErrorHandler extends SlimErrorHandler
                 $error->setType(ActionError::RESOURCE_NOT_FOUND);
             } elseif ($exception instanceof DomainUnauthorizedException) {
                 $error->setType(ActionError::UNAUTHENTICATED);
-            } elseif ($exception instanceof HttpForbiddenException) {
+            } elseif ($exception instanceof DomainForbiddenException) {
                 $error->setType(ActionError::INSUFFICIENT_PRIVILEGES);
-            } elseif ($exception instanceof HttpBadRequestException) {
-                $error->setType(ActionError::BAD_REQUEST);
-            } elseif ($exception instanceof HttpNotImplementedException) {
-                $error->setType(ActionError::NOT_IMPLEMENTED);
+            } elseif ($exception instanceof DomainInvalidArgumentException) {
+                $error->setType(ActionError::VALIDATION_ERROR);
             } elseif ($exception instanceof DomainRecordConflictException) {
                 $error->setType(ActionError::CONFLICT_ERROR);
             }
