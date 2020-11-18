@@ -16,9 +16,9 @@ return function (App $app) {
     });
 
     // Auth
-    $app->group('/', function (Group $group) {
-        $group->get('auth', Auth\ViewAuthAction::class)->setName('auth-view');
-        $group->post('auth', Auth\UpdateAuthAction::class)->setName('auth-refresh');
+    $app->group('/auth', function (Group $group) {
+        $group->get('', Auth\ViewAuthAction::class)->setName('auth-view');
+        $group->post('', Auth\UpdateAuthAction::class)->setName('auth-refresh');
     });
 
     // User
@@ -26,6 +26,8 @@ return function (App $app) {
         $group->get('/list', User\ListUsersAction::class);
         $group->get('/{userId:[0-9]+}', User\ViewUserAction::class);
         $group->get('/search/{keyword}', User\SearchUsernameAction::class);
+        $group->get('/discord/{discordId}', User\ViewDiscordUserAction::class);
+        $group->get('/chatango/{chatangoId}', User\ViewChatangoUserAction::class);
         $group->post('/login', User\LoginUserAction::class)->setName('login');
         // $group->post('/register', User\RegisterUserAction::class)->setName('register');
     });
