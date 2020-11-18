@@ -49,6 +49,12 @@ class Event implements JsonSerializable
         return $eventTimeStamp < strtotime('tomorrow');
     }
 
+    public function isToday()
+    {
+        $eventTimeStamp = strtotime($this->date_time);
+        return strtotime('today') < $eventTimeStamp and $eventTimeStamp < strtotime('tomorrow');
+    }
+
     public function jsonSerialize()
     {
         return [

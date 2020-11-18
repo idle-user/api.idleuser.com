@@ -68,4 +68,13 @@ class MatchRatingRepository
         }
         return $ret;
     }
+
+    public function add(MatchRating $rating)
+    {
+        $sql = 'INSERT INTO matches_match_rating (user_id, match_id, rating, updated) VALUES (?, ?, ?, NOW())
+                ON DUPLICATE KEY UPDATE rating=?, updates=updates+1, updated=NOW();';
+        $args = [$rating->getUserId(), $rating->getMatchId(), $rating->getRating(), $rating->getRating()];
+
+        $this->db->query($sql, $args);
+    }
 }

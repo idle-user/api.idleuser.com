@@ -82,6 +82,7 @@ return function (App $app) {
         $group->get('/user/{userId:[0-9]+}', Matches\ListUserMatchRatingsAction::class);
         $group->get('/match/{matchId:[0-9]+}', Matches\ListMatchMatchRatingsAction::class);
         $group->get('/{userId:[0-9]+}/{matchId:[0-9]+}', Matches\ViewMatchRatingAction::class);
+        $group->post('', Matches\AddMatchRatingAction::class);
     });
     $app->group('/matches/stats', function (Group $group) {
         $group->get('/list', Matches\ListStatsAction::class);
