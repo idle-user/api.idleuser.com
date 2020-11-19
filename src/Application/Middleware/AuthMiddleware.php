@@ -10,11 +10,12 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Exception\HttpNotFoundException;
+use Slim\Exception\HttpForbiddenException;
 use Slim\Routing\RouteContext;
 
 class AuthMiddleware implements Middleware
 {
-    private $authService;
+    private $validateAuthService;
     private $logAuthService;
 
     public function __construct(ValidateAuthService $validateAuthService, LogAuthService $logAuthService)
@@ -38,9 +39,27 @@ class AuthMiddleware implements Middleware
 
         $publicRoutesArray = ['auth-view', 'auth-refresh', 'login', 'register'];
 
-        if (!in_array($routeName, $publicRoutesArray)) {
-            $authInfo = $this->validateAuthService->run($request->getQueryParams());
-            $this->logAuthService->run([$authInfo, $request]);
+        if (in_array($routeName, $publicRoutesArray)) {
+            return $handler->handle($request);
+        }
+
+        $authInfo = $this->validateAuthService->run($request->getQueryParams());
+        $this->logAuthService->run([$authInfo, $request]);
+
+        $modRoutesArray = ['chatroom-command-add'];
+
+        if (in_array($routeName, $modRoutesArray)) {
+            if (!$authInfo->isMod()) {
+                throw new HttpForbiddenException($request);
+            }
+        }
+
+        $adminRoutesArray = ['auth-override'];
+
+        if (in_array($routeName, $adminRoutesArray)) {
+            if (!$authInfo->isAdmin()) {
+                throw new HttpForbiddenException($request);
+            }
         }
 
         return $handler->handle($request);

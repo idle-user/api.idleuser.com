@@ -17,6 +17,12 @@ class MatchRating implements JsonSerializable
     {
     }
 
+    public static function create()
+    {
+        $instance = new self();
+        return $instance;
+    }
+
     public static function withRow(array $row)
     {
         $instance = new self();
@@ -32,6 +38,34 @@ class MatchRating implements JsonSerializable
     public function getMatchId(): ?int
     {
         return $this->match_id;
+    }
+
+    public function getRating(): ?float
+    {
+        return $this->rating;
+    }
+
+    public function getUpdates(): ?int
+    {
+        return $this->updates;
+    }
+
+    public function setUserId(int $userId)
+    {
+        $this->user_id = $userId;
+        return $this;
+    }
+
+    public function setMatchId(int $matchId)
+    {
+        $this->match_id = $matchId;
+        return $this;
+    }
+
+    public function setRating(float $rating)
+    {
+        $this->rating = $rating;
+        return $this;
     }
 
     public function jsonSerialize()

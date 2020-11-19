@@ -51,6 +51,16 @@ class Auth implements JsonSerializable
         return time() > $authExpTimestamp;
     }
 
+    public function isMod(): bool
+    {
+        return $this->access_level == 2 || $this->isAdmin();
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->access_level == 3;
+    }
+
     public function jsonSerialize()
     {
         return [

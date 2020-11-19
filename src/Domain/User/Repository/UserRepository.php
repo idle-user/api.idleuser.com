@@ -45,6 +45,28 @@ class UserRepository
         return User::withRow($row);
     }
 
+    public function findByDiscordId($discordId)
+    {
+        $sql = 'SELECT * FROM user WHERE discord_id=?';
+        $stmt = $this->db->query($sql, [$discordId]);
+        $row = $stmt->fetch();
+        if (!$row) {
+            throw new UserNotFoundException();
+        }
+        return User::withRow($row);
+    }
+
+    public function findByChatangoId($chatangoId)
+    {
+        $sql = 'SELECT * FROM user WHERE chatango_id=?';
+        $stmt = $this->db->query($sql, [$chatangoId]);
+        $row = $stmt->fetch();
+        if (!$row) {
+            throw new UserNotFoundException();
+        }
+        return User::withRow($row);
+    }
+
     public function findByUsername($username)
     {
         $sql = 'SELECT * FROM user WHERE username=?';
