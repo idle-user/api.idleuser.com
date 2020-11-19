@@ -10,12 +10,12 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class ListUsersAction extends Action
 {
-    private $listUserservice;
+    private $listUserService;
 
-    public function __construct(LoggerInterface $logger, ListUsersService $listUserservice)
+    public function __construct(LoggerInterface $logger, ListUsersService $listUserService)
     {
         parent::__construct($logger);
-        $this->listUserservice = $listUserservice;
+        $this->listUserService = $listUserService;
     }
 
     /**
@@ -23,7 +23,7 @@ class ListUsersAction extends Action
      */
     protected function action(): Response
     {
-        $userList = $this->listUserservice->run();
+        $userList = $this->listUserService->run();
 
         return $this->respondWithData($userList);
     }

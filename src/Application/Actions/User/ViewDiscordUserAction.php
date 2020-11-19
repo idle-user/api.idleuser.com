@@ -10,12 +10,12 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class ViewDiscordUserAction extends Action
 {
-    private $ViewDiscordUserservice;
+    private $viewDiscordUserService;
 
-    public function __construct(LoggerInterface $logger, ViewDiscordUserService $ViewDiscordUserservice)
+    public function __construct(LoggerInterface $logger, ViewDiscordUserService $viewDiscordUserService)
     {
         parent::__construct($logger);
-        $this->ViewDiscordUserservice = $ViewDiscordUserservice;
+        $this->viewDiscordUserService = $viewDiscordUserService;
     }
 
     /**
@@ -25,7 +25,7 @@ class ViewDiscordUserAction extends Action
     {
         $discordId = (string) $this->resolveArg('discordId');
 
-        $user = $this->ViewDiscordUserservice->run($discordId);
+        $user = $this->viewDiscordUserService->run($discordId);
 
         return $this->respondWithData($user);
     }

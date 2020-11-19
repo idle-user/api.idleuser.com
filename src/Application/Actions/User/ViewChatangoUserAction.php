@@ -10,12 +10,12 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class ViewChatangoUserAction extends Action
 {
-    private $ViewChatangoUserservice;
+    private $viewChatangoUserService;
 
-    public function __construct(LoggerInterface $logger, ViewChatangoUserService $ViewChatangoUserservice)
+    public function __construct(LoggerInterface $logger, ViewChatangoUserService $viewChatangoUserService)
     {
         parent::__construct($logger);
-        $this->ViewChatangoUserservice = $ViewChatangoUserservice;
+        $this->viewChatangoUserService = $viewChatangoUserService;
     }
 
     /**
@@ -25,7 +25,7 @@ class ViewChatangoUserAction extends Action
     {
         $chatangoId = (string) $this->resolveArg('chatangoId');
 
-        $user = $this->ViewChatangoUserservice->run($chatangoId);
+        $user = $this->viewChatangoUserService->run($chatangoId);
 
         return $this->respondWithData($user);
     }

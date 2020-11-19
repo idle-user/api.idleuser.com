@@ -10,12 +10,12 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class LoginUserAction extends Action
 {
-    private $loginUserservice;
+    private $loginUserService;
 
-    public function __construct(LoggerInterface $logger, LoginUserService $loginUserservice)
+    public function __construct(LoggerInterface $logger, LoginUserService $loginUserService)
     {
         parent::__construct($logger);
-        $this->loginUserservice = $loginUserservice;
+        $this->loginUserService = $loginUserService;
     }
 
     /**
@@ -27,7 +27,7 @@ class LoginUserAction extends Action
 
         $this->logger->info("User `${username}` login attempt.");
 
-        $user = $this->loginUserservice->run($this->request->getParsedBody());
+        $user = $this->loginUserService->run($this->request->getParsedBody());
 
         return $this->respondWithData($user);
     }

@@ -10,12 +10,12 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class ViewUserAction extends Action
 {
-    private $viewUserservice;
+    private $viewUserService;
 
-    public function __construct(LoggerInterface $logger, ViewUserService $viewUserservice)
+    public function __construct(LoggerInterface $logger, ViewUserService $viewUserService)
     {
         parent::__construct($logger);
-        $this->viewUserservice = $viewUserservice;
+        $this->viewUserService = $viewUserService;
     }
 
     /**
@@ -25,7 +25,7 @@ class ViewUserAction extends Action
     {
         $userId = (int) $this->resolveArg('userId');
 
-        $user = $this->viewUserservice->run($userId);
+        $user = $this->viewUserService->run($userId);
 
         return $this->respondWithData($user);
     }
