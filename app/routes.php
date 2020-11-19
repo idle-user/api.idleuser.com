@@ -102,7 +102,7 @@ return function (App $app) {
         $group->group('/command', function (Group $group) {
             $group->get('/list', Chatroom\ListCommandsAction::class);
             $group->get('/{command}', Chatroom\ViewCommandAction::class);
-            $group->post('', Chatroom\AddCommandAction::class);
+            $group->post('', Chatroom\AddCommandAction::class)->setName('chatroom-command-add');
         });
     });
 };

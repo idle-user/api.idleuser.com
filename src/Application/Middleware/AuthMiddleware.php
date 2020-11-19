@@ -46,9 +46,17 @@ class AuthMiddleware implements Middleware
         $authInfo = $this->validateAuthService->run($request->getQueryParams());
         $this->logAuthService->run([$authInfo, $request]);
 
-        $restrictedRoutesArray = ['auth-override'];
+        $modRoutesArray = ['chatroom-command-add'];
 
-        if (in_array($routeName, $restrictedRoutesArray)) {
+        if (in_array($routeName, $modRoutesArray)) {
+            if (!$authInfo->isMod()) {
+                throw new HttpForbiddenException($request);
+            }
+        }
+
+        $adminRoutesArray = ['auth-override'];
+
+        if (in_array($routeName, $adminRoutesArray)) {
             if (!$authInfo->isAdmin()) {
                 throw new HttpForbiddenException($request);
             }
