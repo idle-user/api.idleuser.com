@@ -2,10 +2,10 @@
 
 namespace App\Exception;
 
-use RuntimeException;
+use App\Domain\DomainException\DomainInvalidArgumentException;
 use Throwable;
 
-final class ValidationException extends RuntimeException
+final class ValidationException extends DomainInvalidArgumentException
 {
     private $errors;
 

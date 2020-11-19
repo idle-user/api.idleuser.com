@@ -4,6 +4,7 @@ declare(strict_types=1);
 use App\Application\Actions\Auth;
 use App\Application\Actions\User;
 use App\Application\Actions\Matches;
+use App\Application\Actions\Chatroom;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -93,6 +94,15 @@ return function (App $app) {
             $group->get('/user/{userId:[0-9]+}', Matches\ListUserStatsAction::class);
             $group->get('/season/{seasonId:[0-9]+}', Matches\ListSeasonStatsAction::class);
             $group->get('/{userId:[0-9]+}/{seasonId:[0-9]+}', Matches\ViewStatsAction::class);
+        });
+    });
+
+    // Chatroom
+    $app->group('/chatroom', function (Group $group) {
+        $group->group('/command', function (Group $group) {
+            $group->get('/list', Chatroom\ListCommandsAction::class);
+            $group->get('/{command}', Chatroom\ViewCommandAction::class);
+            $group->post('', Chatroom\AddCommandAction::class);
         });
     });
 };
