@@ -57,6 +57,8 @@ class User implements JsonSerializable
     public function jsonSerialize()
     {
         return [
+            'id' => $this->id,
+            'access' => $this->access,
             'username' => $this->username,
             'discord_id' => $this->discord_id,
             'chatango_id' => $this->chatango_id,
