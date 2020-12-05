@@ -53,6 +53,7 @@ return function (App $app) {
         });
         $group->group('/event', function (Group $group) {
             $group->get('/list', Matches\ListEventsAction::class);
+            $group->get('/future', Matches\ListFutureEventsAction::class);
             $group->get('/{eventId:[0-9]+}', Matches\ViewEventAction::class);
             $group->get('/search/{keyword}', Matches\SearchEventAction::class);
         });

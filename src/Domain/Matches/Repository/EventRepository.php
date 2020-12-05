@@ -30,6 +30,20 @@ class EventRepository
         return $ret;
     }
 
+    public function findFuture()
+    {
+        $sql = 'SELECT * FROM matches_event WHERE date_time > DATE(NOW())';
+        $stmt = $this->db->query($sql);
+        $ret = [];
+        while ($row = $stmt->fetch()) {
+            $ret[] = Event::withRow($row);
+        }
+        if (empty($ret)) {
+            throw new EventNotFoundException();
+        }
+        return $ret;
+    }
+
     public function findById($id)
     {
         $sql = 'SELECT * FROM matches_event WHERE id=?';
