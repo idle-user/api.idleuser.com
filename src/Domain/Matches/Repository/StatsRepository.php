@@ -5,6 +5,7 @@ namespace App\Domain\Matches\Repository;
 
 use App\Domain\Database;
 use App\Domain\Matches\Data\Stats;
+use App\Domain\Matches\Data\Leaderboard;
 use App\Domain\Matches\Exception\StatsNotFoundException;
 
 class StatsRepository
@@ -62,6 +63,20 @@ class StatsRepository
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = Stats::withRow($row);
+        }
+        if (empty($ret)) {
+            throw new StatsNotFoundException();
+        }
+        return $ret;
+    }
+
+    public function findLeaderboardBySeasonId($seasonId)
+    {
+        $sql = 'SELECT a.*, b.username FROM matches_stats a JOIN user b ON a.user_id=b.id WHERE season=? ORDER BY a.total_points DESC LIMIT 10';
+        $stmt = $this->db->query($sql, [$seasonId]);
+        $ret = [];
+        while ($row = $stmt->fetch()) {
+            $ret[] = Leaderboard::withRow($row);
         }
         if (empty($ret)) {
             throw new StatsNotFoundException();

@@ -77,6 +77,7 @@ return function (App $app) {
             $group->get('/list', Matches\ListSeasonsAction::class);
             $group->get('/{seasonId:[0-9]+}', Matches\ViewSeasonAction::class);
             $group->get('/{seasonId:[0-9]+}/stats', Matches\ListSeasonStatsAction::class);
+            $group->get('/{seasonId:[0-9]+}/leaderboard', Matches\ViewLeaderboardAction::class);
             $group->get('/match/{matchId:[0-9]+}', Matches\ViewMatchSeasonAction::class);
         });
         $group->group('/bet', function (Group $group) {
@@ -97,7 +98,11 @@ return function (App $app) {
             $group->get('/list', Matches\ListStatsAction::class);
             $group->get('/user/{userId:[0-9]+}', Matches\ListUserStatsAction::class);
             $group->get('/season/{seasonId:[0-9]+}', Matches\ListSeasonStatsAction::class);
+            $group->get('/season/{seasonId:[0-9]+}/leaderboard', Matches\ViewLeaderboardAction::class);
             $group->get('/{userId:[0-9]+}/{seasonId:[0-9]+}', Matches\ViewStatsAction::class);
+        });
+        $group->group('/leaderboard', function (Group $group) {
+            $group->get('/{seasonId:[0-9]+}', Matches\ViewLeaderboardAction::class);
         });
     });
 
