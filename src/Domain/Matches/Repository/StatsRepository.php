@@ -72,7 +72,7 @@ class StatsRepository
 
     public function findLeaderboardBySeasonId($seasonId)
     {
-        $sql = 'SELECT a.*, b.username FROM matches_stats a JOIN user b ON a.user_id=b.id WHERE season=? ORDER BY a.total_points DESC LIMIT 10';
+        $sql = 'SELECT a.*, b.username FROM matches_stats a JOIN user b ON a.user_id=b.id WHERE season=? ORDER BY a.total_points DESC';
         $stmt = $this->db->query($sql, [$seasonId]);
         $ret = [];
         while ($row = $stmt->fetch()) {
