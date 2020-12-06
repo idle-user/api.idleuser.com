@@ -64,14 +64,21 @@ return function (App $app) {
         });
         $group->group('/match', function (Group $group) {
             $group->get('/list', Matches\ListMatchesAction::class);
+            $group->get('/list/detail', Matches\ListMatchesDetailAction::class);
             $group->get('/betopen', Matches\ListBetOpenMatchesAction::class);
+            $group->get('/betopen/detail', Matches\ListBetOpenMatchesDetailAction::class);
             $group->get('/{matchId:[0-9]+}', Matches\ViewMatchAction::class);
+            $group->get('/{matchId:[0-9]+}/detail', Matches\ViewMatchDetailAction::class);
             $group->get('/{matchId:[0-9]+}/bets', Matches\ListMatchBetsAction::class);
             $group->get('/{matchId:[0-9]+}/ratings', Matches\ListMatchMatchRatingsAction::class);
             $group->get('/{matchId:[0-9]+}/calculation', Matches\ViewMatchCalculationAction::class);
             $group->get('/{matchId:[0-9]+}/contestants', Matches\ListMatchContestantsAction::class);
             $group->get('/calculation/{matchId:[0-9]+}', Matches\ViewMatchCalculationAction::class);
             $group->get('/calculation/list', Matches\ListMatchCalculationsAction::class);
+            $group->get('/detail/{matchId:[0-9]+}', Matches\ListMatchDetailAction::class);
+            $group->get('/detail/list', Matches\ListMatchesDetailAction::class);
+            $group->get('/detail/betopen', Matches\ListBetOpenMatchesDetailAction::class);
+
         });
         $group->group('/season', function (Group $group) {
             $group->get('/list', Matches\ListSeasonsAction::class);

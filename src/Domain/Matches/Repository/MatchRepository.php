@@ -5,6 +5,7 @@ namespace App\Domain\Matches\Repository;
 
 use App\Domain\Database;
 use App\Domain\Matches\Data\Match;
+use App\Domain\Matches\Data\MatchDetail;
 use App\Domain\Matches\Exception\MatchNotFoundException;
 
 class MatchRepository
@@ -48,6 +49,45 @@ class MatchRepository
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = Match::withRow($row);
+        }
+        if (empty($ret)) {
+            throw new MatchNotFoundException();
+        }
+        return $ret;
+    }
+
+    public function findAllWithDetail()
+    {
+        $sql = 'SELECT * FROM uv_matches_match_detail';
+        $stmt = $this->db->query($sql);
+        $ret = [];
+        while ($row = $stmt->fetch()) {
+            $ret[] = MatchDetail::withRow($row);
+        }
+        if (empty($ret)) {
+            throw new MatchNotFoundException();
+        }
+        return $ret;
+    }
+
+    public function findByIdWithDetail($id)
+    {
+        $sql = 'SELECT * FROM uv_matches_match_detail WHERE id=?';
+        $stmt = $this->db->query($sql, [$id]);
+        $row = $stmt->fetch();
+        if (!$row) {
+            throw new MatchNotFoundException();
+        }
+        return MatchDetail::withRow($row);
+    }
+
+    public function findAllBetOpenWithDetail()
+    {
+        $sql = 'SELECT * FROM uv_matches_match_detail WHERE bet_open=1';
+        $stmt = $this->db->query($sql);
+        $ret = [];
+        while ($row = $stmt->fetch()) {
+            $ret[] = MatchDetail::withRow($row);
         }
         if (empty($ret)) {
             throw new MatchNotFoundException();
