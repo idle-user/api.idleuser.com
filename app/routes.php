@@ -69,6 +69,8 @@ return function (App $app) {
             $group->get('/list/calculation', Matches\ListMatchCalculationsAction::class);
             $group->get('/list/betopen', Matches\ListBetOpenMatchesAction::class);
             $group->get('/list/betopen/detail', Matches\ListBetOpenMatchesDetailAction::class);
+            $group->get('/recent/detail', Matches\ViewRecentMatchDetailAction::class);
+            $group->get('/current/detail', Matches\ViewCurrentMatchDetailAction::class);
             $group->get('/{matchId:[0-9]+}', Matches\ViewMatchAction::class);
             $group->get('/{matchId:[0-9]+}/detail', Matches\ViewMatchDetailAction::class);
             $group->get('/{matchId:[0-9]+}/bets', Matches\ListMatchBetsAction::class);
