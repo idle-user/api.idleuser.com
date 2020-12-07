@@ -18,8 +18,8 @@ return function (App $app) {
 
     // Auth
     $app->group('/auth', function (Group $group) {
-        $group->get('', Auth\ViewAuthAction::class)->setName('auth-view');
-        $group->post('', Auth\UpdateAuthAction::class)->setName('auth-refresh');
+        $group->get('', Auth\ViewAuthAction::class);
+        $group->post('', Auth\UpdateAuthAction::class);
         $group->put('/override/{userId:[0-9]+}', Auth\OverrideAuthAction::class)->setName('auth-override');
     });
 
@@ -30,12 +30,14 @@ return function (App $app) {
         $group->get('/search/{keyword}', User\SearchUsernameAction::class);
         $group->get('/discord/{discordId}', User\ViewDiscordUserAction::class);
         $group->get('/chatango/{chatangoId}', User\ViewChatangoUserAction::class);
-        $group->post('/login', User\LoginUserAction::class)->setName('login');
+        $group->post('/login', User\LoginUserAction::class);
         // $group->post('/register', User\RegisterUserAction::class)->setName('register');
     });
 
     // Matches (WatchWrestling)
     $app->group('/watchwrestling', function (Group $group) {
+        $group->post('/rate', Matches\AddMatchRatingAction::class)->setName('match-rate-add');
+        $group->post('/bet', Matches\AddBetAction::class)->setName('match-bet-add');
         $group->group('/brands', function (Group $group) {
             $group->get('', Matches\ListBrandsAction::class);
             $group->get('/{brandId:[0-9]+}', Matches\ViewBrandAction::class);
@@ -77,8 +79,6 @@ return function (App $app) {
             $group->get('/{matchId:[0-9]+}/ratings', Matches\ListMatchMatchRatingsAction::class);
             $group->get('/{matchId:[0-9]+}/calculation', Matches\ViewMatchCalculationAction::class);
             $group->get('/{matchId:[0-9]+}/contestants', Matches\ListMatchContestantsAction::class);
-            $group->post('/{matchId:[0-9]+}/rate', Matches\AddMatchRatingAction::class);
-            $group->post('/{matchId:[0-9]+}/bet', Matches\AddBetAction::class);
         });
         $group->group('/seasons', function (Group $group) {
             $group->get('', Matches\ListSeasonsAction::class);
@@ -103,7 +103,7 @@ return function (App $app) {
             $group->get('', Matches\ListStatsAction::class);
             $group->get('/user/{userId:[0-9]+}', Matches\ListUserStatsAction::class);
             $group->get('/season/{seasonId:[0-9]+}', Matches\ListSeasonStatsAction::class);
-            $group->get('/{userId:[0-9]+}/season/{seasonId:[0-9]+}', Matches\ViewStatsAction::class);
+            $group->get('/user/{userId:[0-9]+}/season/{seasonId:[0-9]+}', Matches\ViewStatsAction::class);
             $group->get('/leaderboard/season/{seasonId:[0-9]+}', Matches\ViewLeaderboardAction::class);
         });
     });
@@ -113,7 +113,7 @@ return function (App $app) {
         $group->group('/commands', function (Group $group) {
             $group->get('', Chatroom\ListCommandsAction::class);
             $group->get('/{command}', Chatroom\ViewCommandAction::class);
-            $group->post('/{command}', Chatroom\AddCommandAction::class)->setName('chatroom-command-add');
+            $group->post('', Chatroom\AddCommandAction::class)->setName('chatroom-command-add');
         });
     });
 };

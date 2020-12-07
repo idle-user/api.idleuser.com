@@ -73,7 +73,7 @@ final class AddMatchRatingService
         $matchEvent = $this->eventRepository->findById($match->getEventId());
 
         if (!$matchEvent->isToday()) {
-            throw new InvalidMatchException();
+            throw new MatchRatingNotAvailableException();
         }
 
         $currentSeason = $this->seasonRepository->findCurrentSeason();

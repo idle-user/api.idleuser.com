@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Auth\Service\ValidateAuthService;
 use App\Domain\Matches\Service\AddBetService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
@@ -13,13 +12,9 @@ class AddBetAction extends Action
 {
     private $addBetService;
 
-    public function __construct(
-        LoggerInterface $logger,
-        ValidateAuthService $validateAuthService,
-        AddBetService $addBetService
-    ) {
+    public function __construct(LoggerInterface $logger, AddBetService $addBetService)
+    {
         parent::__construct($logger);
-        $this->validateAuthService = $validateAuthService;
         $this->addBetService = $addBetService;
     }
 
@@ -28,9 +23,7 @@ class AddBetAction extends Action
      */
     protected function action(): Response
     {
-        $authInfo = $this->validateAuthService->run($this->request->getQueryParams());
-
-        $userId = (int) $authInfo->getUserId();
+        $userId = (int) $this->resolvePost('userId');
         $matchId = (int) $this->resolvePost('matchId');
         $team = (int) $this->resolvePost('team');
         $points = (int) $this->resolvePost('points');
