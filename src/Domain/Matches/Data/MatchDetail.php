@@ -38,7 +38,7 @@ class MatchDetail implements JsonSerializable
     private $title;
     private $match_type;
     private $last_updated_by_username;
-    private $teams_json;
+    private $team_list;
 
     public function __construct()
     {
@@ -49,6 +49,16 @@ class MatchDetail implements JsonSerializable
         $instance = new self();
         $instance->fill($row);
         return $instance;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setTeams(array $row)
+    {
+        $this->team_list = $row;
     }
 
     public function jsonSerialize()
@@ -85,7 +95,7 @@ class MatchDetail implements JsonSerializable
             'title' => $this->title,
             'match_type' => $this->match_type,
             'last_updated_by_username' => $this->last_updated_by_username,
-            'teams_json' => $this->teams_json,
+            'team_list' => $this->team_list,
         ];
     }
 
@@ -122,6 +132,5 @@ class MatchDetail implements JsonSerializable
         $this->title = $row['title'];
         $this->match_type = $row['match_type'];
         $this->last_updated_by_username = $row['last_updated_by_username'];
-        $this->teams_json = $row['teams_json'];
     }
 }

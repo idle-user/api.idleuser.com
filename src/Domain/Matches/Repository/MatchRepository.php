@@ -94,4 +94,18 @@ class MatchRepository
         }
         return $ret;
     }
+
+    public function findTeamInfoById($id)
+    {
+        $sql = 'CALL usp_matches_sel_match_teams(?)';
+        $stmt = $this->db->query($sql, [$id]);
+        $ret = [];
+        while ($row = $stmt->fetch()) {
+            $ret[] = $row;
+        }
+        if (empty($ret)) {
+            throw new MatchNotFoundException();
+        }
+        return $ret;
+    }
 }
