@@ -38,6 +38,7 @@ class MatchDetail implements JsonSerializable
     private $title;
     private $match_type;
     private $last_updated_by_username;
+    private $teams_json;
 
     public function __construct()
     {
@@ -84,6 +85,7 @@ class MatchDetail implements JsonSerializable
             'title' => $this->title,
             'match_type' => $this->match_type,
             'last_updated_by_username' => $this->last_updated_by_username,
+            'teams_json' => $this->teams_json,
         ];
     }
 
@@ -120,5 +122,6 @@ class MatchDetail implements JsonSerializable
         $this->title = $row['title'];
         $this->match_type = $row['match_type'];
         $this->last_updated_by_username = $row['last_updated_by_username'];
+        $this->teams_json = $row['teams_json'];
     }
 }
