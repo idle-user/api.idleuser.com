@@ -50,10 +50,11 @@ return function (App $app) {
         });
         $group->group('/contestant', function (Group $group) {
             $group->get('/list', Matches\ListContestantsAction::class);
+            $group->get('/match/{matchId:[0-9]+}', Matches\ListMatchContestantsAction::class);
         });
         $group->group('/event', function (Group $group) {
             $group->get('/list', Matches\ListEventsAction::class);
-            $group->get('/future', Matches\ListFutureEventsAction::class);
+            $group->get('/list/future', Matches\ListFutureEventsAction::class);
             $group->get('/{eventId:[0-9]+}', Matches\ViewEventAction::class);
             $group->get('/search/{keyword}', Matches\SearchEventAction::class);
         });
@@ -65,20 +66,15 @@ return function (App $app) {
         $group->group('/match', function (Group $group) {
             $group->get('/list', Matches\ListMatchesAction::class);
             $group->get('/list/detail', Matches\ListMatchesDetailAction::class);
-            $group->get('/betopen', Matches\ListBetOpenMatchesAction::class);
-            $group->get('/betopen/detail', Matches\ListBetOpenMatchesDetailAction::class);
+            $group->get('/list/calculation', Matches\ListMatchCalculationsAction::class);
+            $group->get('/list/betopen', Matches\ListBetOpenMatchesAction::class);
+            $group->get('/list/betopen/detail', Matches\ListBetOpenMatchesDetailAction::class);
             $group->get('/{matchId:[0-9]+}', Matches\ViewMatchAction::class);
             $group->get('/{matchId:[0-9]+}/detail', Matches\ViewMatchDetailAction::class);
             $group->get('/{matchId:[0-9]+}/bets', Matches\ListMatchBetsAction::class);
             $group->get('/{matchId:[0-9]+}/ratings', Matches\ListMatchMatchRatingsAction::class);
             $group->get('/{matchId:[0-9]+}/calculation', Matches\ViewMatchCalculationAction::class);
             $group->get('/{matchId:[0-9]+}/contestants', Matches\ListMatchContestantsAction::class);
-            $group->get('/calculation/{matchId:[0-9]+}', Matches\ViewMatchCalculationAction::class);
-            $group->get('/calculation/list', Matches\ListMatchCalculationsAction::class);
-            $group->get('/detail/{matchId:[0-9]+}', Matches\ListMatchDetailAction::class);
-            $group->get('/detail/list', Matches\ListMatchesDetailAction::class);
-            $group->get('/detail/betopen', Matches\ListBetOpenMatchesDetailAction::class);
-
         });
         $group->group('/season', function (Group $group) {
             $group->get('/list', Matches\ListSeasonsAction::class);
@@ -103,13 +99,10 @@ return function (App $app) {
         });
         $group->group('/stats', function (Group $group) {
             $group->get('/list', Matches\ListStatsAction::class);
-            $group->get('/user/{userId:[0-9]+}', Matches\ListUserStatsAction::class);
-            $group->get('/season/{seasonId:[0-9]+}', Matches\ListSeasonStatsAction::class);
-            $group->get('/season/{seasonId:[0-9]+}/leaderboard', Matches\ViewLeaderboardAction::class);
-            $group->get('/{userId:[0-9]+}/{seasonId:[0-9]+}', Matches\ViewStatsAction::class);
-        });
-        $group->group('/leaderboard', function (Group $group) {
-            $group->get('/{seasonId:[0-9]+}', Matches\ViewLeaderboardAction::class);
+            $group->get('/list/season/{seasonId:[0-9]+}', Matches\ListSeasonStatsAction::class);
+            $group->get('/list/user/{userId:[0-9]+}', Matches\ListUserStatsAction::class);
+            $group->get('/user/{userId:[0-9]+}/season/{seasonId:[0-9]+}', Matches\ViewStatsAction::class);
+            $group->get('/leaderboard/season/{seasonId:[0-9]+}', Matches\ViewLeaderboardAction::class);
         });
     });
 
