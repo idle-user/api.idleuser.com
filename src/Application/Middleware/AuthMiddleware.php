@@ -52,7 +52,7 @@ class AuthMiddleware implements Middleware
         $this->logAuthService->run([$authInfo, $request]);
 
         if (in_array($routeName, $userPostRoutesArray)) {
-            if (!$authInfo->isAdmin() && $authInfo->getUserId() != $parsedBody['userId']) {
+            if (!$authInfo->isAdmin() && $authInfo->getUserId() != $parsedBody['user_id']) {
                 throw new HttpForbiddenException($request);
             }
         }

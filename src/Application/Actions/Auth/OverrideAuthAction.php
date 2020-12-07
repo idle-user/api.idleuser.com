@@ -31,7 +31,7 @@ class OverrideAuthAction extends Action
     {
         $this->logger->info('Override Auth attempt.');
 
-        $userId = (int) $this->resolveArg('userId');
+        $userId = (int) $this->resolveArg('user_id');
 
         $user = $this->viewUserService->run($userId);
 
