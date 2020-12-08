@@ -82,7 +82,7 @@ final class AddBetService
 
         $matchEvent = $this->eventRepository->findById($match->getEventId());
 
-        if ($matchEvent->hasPassed()) {
+        if ($matchEvent->hasPassed() && !$matchEvent->isToday()) {
             throw new InvalidMatchException();
         }
 

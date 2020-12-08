@@ -46,13 +46,13 @@ class Event implements JsonSerializable
     public function hasPassed()
     {
         $eventTimeStamp = strtotime($this->date_time);
-        return $eventTimeStamp > strtotime('tomorrow');
+        return $eventTimeStamp < strtotime('now');
     }
 
     public function isToday()
     {
         $eventTimeStamp = strtotime($this->date_time);
-        return strtotime('today') < $eventTimeStamp and $eventTimeStamp < strtotime('tomorrow');
+        return strtotime('today') < $eventTimeStamp && $eventTimeStamp < strtotime('tomorrow');
     }
 
     public function jsonSerialize()
