@@ -46,7 +46,7 @@ class Event implements JsonSerializable
     public function hasPassed()
     {
         $eventTimeStamp = strtotime($this->date_time);
-        return $eventTimeStamp < strtotime('tomorrow');
+        return $eventTimeStamp > strtotime('tomorrow');
     }
 
     public function isToday()
