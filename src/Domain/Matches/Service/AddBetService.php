@@ -6,6 +6,8 @@ namespace App\Domain\Matches\Service;
 use App\Domain\Matches\Data\Bet;
 use App\Domain\Matches\Exception\BetsClosedException;
 use App\Domain\Matches\Exception\InsufficientPointsAvailableException;
+use App\Domain\Matches\Exception\MatchEventPassedException;
+use App\Domain\Matches\Exception\MatchSeasonInvalidException;
 use App\Domain\Matches\Repository\BetRepository;
 use Psr\Log\LoggerInterface;
 use App\Domain\Matches\Exception\InvalidBetAmountException;
@@ -83,14 +85,14 @@ final class AddBetService
         $matchEvent = $this->eventRepository->findById($match->getEventId());
 
         if ($matchEvent->hasPassed() && !$matchEvent->isToday()) {
-            throw new InvalidMatchException();
+            throw new MatchEventPassedException();
         }
 
         $currentSeason = $this->seasonRepository->findCurrentSeason();
         $matchSeason = $this->seasonRepository->findByMatchId($match->getId());
 
         if ($currentSeason->getId() != $matchSeason->getId()) {
-            throw new InvalidMatchException();
+            throw new MatchSeasonInvalidException();
         }
 
         $seasonStats = $this->statsRepository->findById($bet->getUserId(), $currentSeason->getId());
