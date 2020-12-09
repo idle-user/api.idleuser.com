@@ -31,7 +31,8 @@ return function (App $app) {
         $group->get('/discord/{discordId}', User\ViewDiscordUserAction::class);
         $group->get('/chatango/{chatangoId}', User\ViewChatangoUserAction::class);
         $group->post('/login', User\LoginUserAction::class);
-        // $group->post('/register', User\RegisterUserAction::class)->setName('register');
+        $group->post('/login/token', User\UpdateLoginTokenUserAction::class)->setName('login-token-update');
+        $group->post('/register', User\RegisterUserAction::class)->setName('register');
     });
 
     // Matches (WatchWrestling)

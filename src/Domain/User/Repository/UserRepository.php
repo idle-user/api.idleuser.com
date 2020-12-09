@@ -94,7 +94,7 @@ class UserRepository
 
     public function register(array $data)
     {
-        $sql = 'INSERT INTO user (username, secret, date_created, last_login) VALUES (?, ?, NOW(), NOW())';
+        $sql = 'INSERT INTO user (username, secret, date_created) VALUES (?, ?, NOW())';
         $args = [$data['username'], password_hash($data['secret'], PASSWORD_BCRYPT)];
 
         try {
@@ -136,5 +136,12 @@ class UserRepository
             throw new UserNotFoundException();
         }
         return $result;
+    }
+
+    public function updateLoginTokenById($userId, $loginToken)
+    {
+        $sql = 'UPDATE user SET login_token=?, login_token_exp=DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE id=?';
+        $this->db->query($sql, [$loginToken, $userId]);
+        return $this->findById($userId);
     }
 }
