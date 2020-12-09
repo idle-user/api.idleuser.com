@@ -37,24 +37,30 @@ class AuthMiddleware implements Middleware
             throw new HttpNotFoundException($request);
         }
 
-        $publicRoutesArray = ['auth-view', 'auth-refresh', 'login', 'register'];
+        $adminRoutesArray = ['auth-override'];
+        $modRoutesArray = ['chatroom-command-add'];
+        $userPostRoutesArray = ['match-rate-add', 'match-bet-add'];
+        $authRequiredRouteArray = array_merge($adminRoutesArray, $modRoutesArray, $userPostRoutesArray);
 
-        if (in_array($routeName, $publicRoutesArray)) {
+        if (!in_array($routeName, $authRequiredRouteArray)) {
             return $handler->handle($request);
         }
 
-        $authInfo = $this->validateAuthService->run($request->getQueryParams());
+        $params = $request->getQueryParams();
+        $parsedBody = $request->getParsedBody();
+        $authInfo = $this->validateAuthService->run($params);
         $this->logAuthService->run([$authInfo, $request]);
 
-        $modRoutesArray = ['chatroom-command-add'];
-
+        if (in_array($routeName, $userPostRoutesArray)) {
+            if (!$authInfo->isAdmin() && $authInfo->getUserId() != $parsedBody['user_id']) {
+                throw new HttpForbiddenException($request);
+            }
+        }
         if (in_array($routeName, $modRoutesArray)) {
             if (!$authInfo->isMod()) {
                 throw new HttpForbiddenException($request);
             }
         }
-
-        $adminRoutesArray = ['auth-override'];
 
         if (in_array($routeName, $adminRoutesArray)) {
             if (!$authInfo->isAdmin()) {

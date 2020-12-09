@@ -18,89 +18,100 @@ return function (App $app) {
 
     // Auth
     $app->group('/auth', function (Group $group) {
-        $group->get('', Auth\ViewAuthAction::class)->setName('auth-view');
-        $group->post('', Auth\UpdateAuthAction::class)->setName('auth-refresh');
+        $group->get('', Auth\ViewAuthAction::class);
+        $group->post('', Auth\UpdateAuthAction::class);
         $group->put('/override/{userId:[0-9]+}', Auth\OverrideAuthAction::class)->setName('auth-override');
     });
 
     // User
-    $app->group('/user', function (Group $group) {
-        $group->get('/list', User\ListUsersAction::class);
+    $app->group('/users', function (Group $group) {
+        $group->get('', User\ListUsersAction::class);
         $group->get('/{userId:[0-9]+}', User\ViewUserAction::class);
         $group->get('/search/{keyword}', User\SearchUsernameAction::class);
         $group->get('/discord/{discordId}', User\ViewDiscordUserAction::class);
         $group->get('/chatango/{chatangoId}', User\ViewChatangoUserAction::class);
-        $group->post('/login', User\LoginUserAction::class)->setName('login');
+        $group->post('/login', User\LoginUserAction::class);
         // $group->post('/register', User\RegisterUserAction::class)->setName('register');
     });
 
-    // Matches
-    $app->group('/matches', function (Group $group) {
-        $group->group('/brand', function (Group $group) {
-            $group->get('/list', Matches\ListBrandsAction::class);
+    // Matches (WatchWrestling)
+    $app->group('/watchwrestling', function (Group $group) {
+        $group->post('/rate', Matches\AddMatchRatingAction::class)->setName('match-rate-add');
+        $group->post('/bet', Matches\AddBetAction::class)->setName('match-bet-add');
+        $group->group('/brands', function (Group $group) {
+            $group->get('', Matches\ListBrandsAction::class);
             $group->get('/{brandId:[0-9]+}', Matches\ViewBrandAction::class);
         });
-        $group->group('/title', function (Group $group) {
-            $group->get('/list', Matches\ListTitlesAction::class);
+        $group->group('/titles', function (Group $group) {
+            $group->get('', Matches\ListTitlesAction::class);
             $group->get('/{titleId:[0-9]+}', Matches\ViewTitleAction::class);
         });
-        $group->group('/matchtype', function (Group $group) {
-            $group->get('/list', Matches\ListMatchTypesAction::class);
+        $group->group('/matchtypes', function (Group $group) {
+            $group->get('', Matches\ListMatchTypesAction::class);
             $group->get('/{matchTypeId:[0-9]+}', Matches\ViewMatchTypeAction::class);
         });
-        $group->group('/contestant', function (Group $group) {
-            $group->get('/list', Matches\ListContestantsAction::class);
+        $group->group('/contestants', function (Group $group) {
+            $group->get('', Matches\ListContestantsAction::class);
+            $group->get('/match/{matchId:[0-9]+}', Matches\ListMatchContestantsAction::class);
         });
-        $group->group('/event', function (Group $group) {
-            $group->get('/list', Matches\ListEventsAction::class);
+        $group->group('/events', function (Group $group) {
+            $group->get('', Matches\ListEventsAction::class);
+            $group->get('/future', Matches\ListFutureEventsAction::class);
             $group->get('/{eventId:[0-9]+}', Matches\ViewEventAction::class);
             $group->get('/search/{keyword}', Matches\SearchEventAction::class);
         });
-        $group->group('/superstar', function (Group $group) {
-            $group->get('/list', Matches\ListSuperstarsAction::class);
+        $group->group('/superstars', function (Group $group) {
+            $group->get('', Matches\ListSuperstarsAction::class);
             $group->get('/{superstarId:[0-9]+}', Matches\ViewSuperstarAction::class);
             $group->get('/search/{keyword}', Matches\SearchSuperstarAction::class);
         });
-        $group->group('/match', function (Group $group) {
-            $group->get('/list', Matches\ListMatchesAction::class);
+        $group->group('/matches', function (Group $group) {
+            $group->get('', Matches\ListMatchesAction::class);
+            $group->get('/detail', Matches\ListMatchesDetailAction::class);
+            $group->get('/calculation', Matches\ListMatchCalculationsAction::class);
             $group->get('/betopen', Matches\ListBetOpenMatchesAction::class);
+            $group->get('/betopen/detail', Matches\ListBetOpenMatchesDetailAction::class);
+            $group->get('/recent/detail', Matches\ViewRecentMatchDetailAction::class);
+            $group->get('/current/detail', Matches\ViewCurrentMatchDetailAction::class);
             $group->get('/{matchId:[0-9]+}', Matches\ViewMatchAction::class);
             $group->get('/{matchId:[0-9]+}/bets', Matches\ListMatchBetsAction::class);
+            $group->get('/{matchId:[0-9]+}/detail', Matches\ViewMatchDetailAction::class);
             $group->get('/{matchId:[0-9]+}/ratings', Matches\ListMatchMatchRatingsAction::class);
+            $group->get('/{matchId:[0-9]+}/calculation', Matches\ViewMatchCalculationAction::class);
             $group->get('/{matchId:[0-9]+}/contestants', Matches\ListMatchContestantsAction::class);
         });
-        $group->group('/season', function (Group $group) {
-            $group->get('/list', Matches\ListSeasonsAction::class);
+        $group->group('/seasons', function (Group $group) {
+            $group->get('', Matches\ListSeasonsAction::class);
             $group->get('/{seasonId:[0-9]+}', Matches\ViewSeasonAction::class);
             $group->get('/{seasonId:[0-9]+}/stats', Matches\ListSeasonStatsAction::class);
+            $group->get('/{seasonId:[0-9]+}/leaderboard', Matches\ViewLeaderboardAction::class);
             $group->get('/match/{matchId:[0-9]+}', Matches\ViewMatchSeasonAction::class);
         });
-        $group->group('/bet', function (Group $group) {
-            $group->get('/list', Matches\ListBetsAction::class);
+        $group->group('/bets', function (Group $group) {
+            $group->get('', Matches\ListBetsAction::class);
             $group->get('/user/{userId:[0-9]+}', Matches\ListUserBetsAction::class);
             $group->get('/match/{matchId:[0-9]+}', Matches\ListMatchBetsAction::class);
-            $group->get('/{userId:[0-9]+}/{matchId:[0-9]+}', Matches\ViewBetAction::class);
-            $group->post('', Matches\AddBetAction::class);
+            $group->get('/match/{matchId:[0-9]+}/user/{userId:[0-9]+}', Matches\ViewBetAction::class);
         });
-        $group->group('/rating', function (Group $group) {
-            $group->get('/list', Matches\ListMatchRatingsAction::class);
+        $group->group('/ratings', function (Group $group) {
+            $group->get('', Matches\ListMatchRatingsAction::class);
             $group->get('/user/{userId:[0-9]+}', Matches\ListUserMatchRatingsAction::class);
             $group->get('/match/{matchId:[0-9]+}', Matches\ListMatchMatchRatingsAction::class);
-            $group->get('/{userId:[0-9]+}/{matchId:[0-9]+}', Matches\ViewMatchRatingAction::class);
-            $group->post('', Matches\AddMatchRatingAction::class);
+            $group->get('/match/{matchId:[0-9]+}/user/{userId:[0-9]+}', Matches\ViewMatchRatingAction::class);
         });
         $group->group('/stats', function (Group $group) {
-            $group->get('/list', Matches\ListStatsAction::class);
+            $group->get('', Matches\ListStatsAction::class);
             $group->get('/user/{userId:[0-9]+}', Matches\ListUserStatsAction::class);
             $group->get('/season/{seasonId:[0-9]+}', Matches\ListSeasonStatsAction::class);
-            $group->get('/{userId:[0-9]+}/{seasonId:[0-9]+}', Matches\ViewStatsAction::class);
+            $group->get('/user/{userId:[0-9]+}/season/{seasonId:[0-9]+}', Matches\ViewStatsAction::class);
+            $group->get('/leaderboard/season/{seasonId:[0-9]+}', Matches\ViewLeaderboardAction::class);
         });
     });
 
     // Chatroom
     $app->group('/chatroom', function (Group $group) {
-        $group->group('/command', function (Group $group) {
-            $group->get('/list', Chatroom\ListCommandsAction::class);
+        $group->group('/commands', function (Group $group) {
+            $group->get('', Chatroom\ListCommandsAction::class);
             $group->get('/{command}', Chatroom\ViewCommandAction::class);
             $group->post('', Chatroom\AddCommandAction::class)->setName('chatroom-command-add');
         });

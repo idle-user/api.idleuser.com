@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Auth\Service\ValidateAuthService;
 use App\Domain\Matches\Service\AddMatchRatingService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
@@ -13,13 +12,9 @@ class AddMatchRatingAction extends Action
 {
     private $addMatchRatingService;
 
-    public function __construct(
-        LoggerInterface $logger,
-        ValidateAuthService $validateAuthService,
-        AddMatchRatingService $addMatchRatingService
-    ) {
+    public function __construct(LoggerInterface $logger, AddMatchRatingService $addMatchRatingService)
+    {
         parent::__construct($logger);
-        $this->validateAuthService = $validateAuthService;
         $this->addMatchRatingService = $addMatchRatingService;
     }
 
@@ -28,10 +23,8 @@ class AddMatchRatingAction extends Action
      */
     protected function action(): Response
     {
-        $authInfo = $this->validateAuthService->run($this->request->getQueryParams());
-
-        $userId = (int) $authInfo->getUserId();
-        $matchId = (int) $this->resolvePost('matchId');
+        $userId = (int) $this->resolvePost('user_id');
+        $matchId = (int) $this->resolvePost('match_id');
         $rating = (float) $this->resolvePost('rating');
 
         $bet = $this->addMatchRatingService->run($userId, $matchId, $rating);
