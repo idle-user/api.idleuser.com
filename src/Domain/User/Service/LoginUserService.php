@@ -20,18 +20,12 @@ final class LoginUserService extends UserService
 
     private function validate(array $data)
     {
-        $errors = [];
-
         if (empty($data['username'])) {
-            $errors['username'] = 'Input required';
+            throw new ValidationException('Username is required');
         }
 
         if (empty($data['secret'])) {
-            $errors['secret'] = 'Input required';
-        }
-
-        if ($errors) {
-            throw new ValidationException('Please check your input', $errors);
+            throw new ValidationException('Secret is required.');
         }
     }
 }
