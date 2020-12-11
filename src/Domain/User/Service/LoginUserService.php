@@ -13,7 +13,7 @@ final class LoginUserService extends UserService
 
         $user = $this->userRepository->login($data['username'], $data['secret']);
 
-        $this->logger->info(sprintf('User logged-in successfully: %s', $user->getUsername()));
+        $this->logger->info(sprintf('User logged-in successfully: %s', $user->getId()));
 
         return $user;
     }

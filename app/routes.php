@@ -20,7 +20,7 @@ return function (App $app) {
     $app->group('/auth', function (Group $group) {
         $group->get('', Auth\ViewAuthAction::class);
         $group->post('', Auth\UpdateAuthAction::class);
-        $group->put('/override/{userId:[0-9]+}', Auth\OverrideAuthAction::class)->setName('auth-override');
+        $group->put('/override/user/{userId:[0-9]+}', Auth\OverrideAuthAction::class)->setName('auth-override');
     });
 
     // User
@@ -33,6 +33,7 @@ return function (App $app) {
         $group->post('/login', User\LoginUserAction::class);
         $group->post('/login/token', User\UpdateLoginTokenUserAction::class)->setName('login-token-update');
         $group->post('/register', User\RegisterUserAction::class)->setName('register');
+        $group->put('/{userId:[0-9]+}/update', User\UpdateUserAction::class)->setName('user-update');
     });
 
     // Matches (WatchWrestling)

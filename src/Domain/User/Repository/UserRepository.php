@@ -45,6 +45,28 @@ class UserRepository
         return User::withRow($row);
     }
 
+    public function findByUsername($username)
+    {
+        $sql = 'SELECT * FROM user WHERE username=?';
+        $stmt = $this->db->query($sql, [$username]);
+        $row = $stmt->fetch();
+        if (!$row) {
+            throw new UserNotFoundException();
+        }
+        return User::withRow($row);
+    }
+
+    public function findByEmail($email)
+    {
+        $sql = 'SELECT * FROM user WHERE email=?';
+        $stmt = $this->db->query($sql, [$email]);
+        $row = $stmt->fetch();
+        if (!$row) {
+            throw new UserNotFoundException();
+        }
+        return User::withRow($row);
+    }
+
     public function findByDiscordId($discordId)
     {
         $sql = 'SELECT * FROM user WHERE discord_id=?';
@@ -67,10 +89,10 @@ class UserRepository
         return User::withRow($row);
     }
 
-    public function findByUsername($username)
+    public function findByTwitterId($twitterId)
     {
-        $sql = 'SELECT * FROM user WHERE username=?';
-        $stmt = $this->db->query($sql, [$username]);
+        $sql = 'SELECT * FROM user WHERE twitter_id=?';
+        $stmt = $this->db->query($sql, [$twitterId]);
         $row = $stmt->fetch();
         if (!$row) {
             throw new UserNotFoundException();
@@ -147,6 +169,35 @@ class UserRepository
     {
         $sql = 'UPDATE user SET login_token=?, login_token_exp=DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE id=?';
         $this->db->query($sql, [$loginToken, $userId]);
-        return $this->findById($userId);
+    }
+
+    public function updateUsernameById($userId, $username)
+    {
+        $sql = 'UPDATE user SET username=?, username_last_updated=NOW() WHERE id=?';
+        $this->db->query($sql, [$username, $userId]);
+    }
+
+    public function updateEmailById($userId, $email)
+    {
+        $sql = 'UPDATE user SET email=?, email_last_updated=NOW() WHERE id=?';
+        $this->db->query($sql, [$email, $userId]);
+    }
+
+    public function updateDiscordIdById($userId, $discordId)
+    {
+        $sql = 'UPDATE user SET discord_id=?, discord_last_updated=NOW() WHERE id=?';
+        $this->db->query($sql, [$discordId, $userId]);
+    }
+
+    public function updateChatangoIdById($userId, $chatangodId)
+    {
+        $sql = 'UPDATE user SET chatango_id=?, chatango_last_updated=NOW() WHERE id=?';
+        $this->db->query($sql, [$chatangodId, $userId]);
+    }
+
+    public function updateTwitterIdById($userId, $twitterId)
+    {
+        $sql = 'UPDATE user SET twitter_id=?, twitter_last_updated=NOW() WHERE id=?';
+        $this->db->query($sql, [$twitterId, $userId]);
     }
 }

@@ -47,6 +47,26 @@ class User implements JsonSerializable
         return $this->username;
     }
 
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getDiscordId(): string
+    {
+        return $this->discord_id;
+    }
+
+    public function getChatangoId(): string
+    {
+        return $this->chatango_id;
+    }
+
+    public function getTwitterId(): string
+    {
+        return $this->twitter_id;
+    }
+
     public function getLoginToken(): string
     {
         return $this->login_token;
