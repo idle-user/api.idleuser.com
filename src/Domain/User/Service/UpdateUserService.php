@@ -56,20 +56,20 @@ final class UpdateUserService extends UserService
             throw new ValidationException('Username is required');
         }
 
-        if (empty($data['email']) && $data['discord_id'] != null) {
+        if (empty($data['email']) && $data['email'] != null) {
             throw new ValidationException('Email cannot be empty');
         }
 
         if (empty($data['discord_id']) && $data['discord_id'] != null) {
-            throw new ValidationException('Discord ID is required');
+            throw new ValidationException('Discord ID cannot be empty');
         }
 
-        if (empty($data['chatango_id']) && $data['discord_id'] != null) {
-            throw new ValidationException('Chatango ID is required');
+        if (empty($data['chatango_id']) && $data['chatango_id'] != null) {
+            throw new ValidationException('Chatango ID cannot be empty');
         }
 
-        if (empty($data['twitter_id']) && $data['discord_id'] != null) {
-            throw new ValidationException('Twitter ID is required');
+        if (empty($data['twitter_id']) && $data['twitter_id'] != null) {
+            throw new ValidationException('Twitter ID cannot be empty');
         }
 
         $currentUser = $this->userRepository->findById($userId);
