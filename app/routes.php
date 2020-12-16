@@ -33,7 +33,20 @@ return function (App $app) {
         $group->post('/login', User\LoginUserAction::class);
         $group->post('/login/token', User\UpdateLoginTokenUserAction::class)->setName('login-token-update');
         $group->post('/register', User\RegisterUserAction::class)->setName('register');
-        $group->put('/{userId:[0-9]+}/update', User\UpdateUserAction::class)->setName('user-update');
+        $group->put('/{userId:[0-9]+}', User\UpdateUserAction::class)->setName('user-update');
+        $group
+            ->patch('/{userId:[0-9]+}/username', User\UpdateUsernameUserAction::class)
+            ->setName('user-update-username');
+        $group->patch('/{userId:[0-9]+}/email', User\UpdateEmailUserAction::class)->setName('user-update-email');
+        $group
+            ->patch('/{userId:[0-9]+}/discord', User\UpdateDiscordIdUserAction::class)
+            ->setName('user-update-discord');
+        $group
+            ->patch('/{userId:[0-9]+}/chatango', User\UpdateChatangoIdUserAction::class)
+            ->setName('user-update-chatango');
+        $group
+            ->patch('/{userId:[0-9]+}/twitter', User\UpdateTwitterIdUserAction::class)
+            ->setName('user-update-twitter');
     });
 
     // Matches (WatchWrestling)

@@ -39,7 +39,17 @@ class AuthMiddleware implements Middleware
 
         $adminRoutesArray = ['auth-override', 'register'];
         $modRoutesArray = ['chatroom-command-add'];
-        $userPostRoutesArray = ['match-rate-add', 'match-bet-add', 'login-token-update', 'user-update'];
+        $userPostRoutesArray = [
+            'match-rate-add',
+            'match-bet-add',
+            'login-token-update',
+            'user-update',
+            'user-update-username',
+            'user-update-email',
+            'user-update-discord',
+            'user-update-chatango',
+            'user-update-twitter',
+        ];
         $authRequiredRouteArray = array_merge($adminRoutesArray, $modRoutesArray, $userPostRoutesArray);
 
         if (!in_array($routeName, $authRequiredRouteArray)) {
