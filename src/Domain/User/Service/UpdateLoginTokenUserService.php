@@ -7,7 +7,7 @@ final class UpdateLoginTokenUserService extends UserService
 {
     public function run(int $userId)
     {
-        $token = bin2hex(openssl_random_pseudo_bytes(8));
+        $token = bin2hex(random_bytes(8));
 
         $this->userRepository->updateLoginTokenById($userId, $token);
 
