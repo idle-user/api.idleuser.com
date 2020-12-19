@@ -25,8 +25,6 @@ class User implements JsonSerializable
     private $login_token_exp;
     private $temp_secret;
     private $temp_secret_exp;
-    private $api_token;
-    private $api_token_exp;
 
     public function __construct()
     {
@@ -49,9 +47,29 @@ class User implements JsonSerializable
         return $this->username;
     }
 
-    public function getApiToken(): string
+    public function getEmail(): string
     {
-        return $this->api_token;
+        return $this->email;
+    }
+
+    public function getDiscordId(): string
+    {
+        return $this->discord_id;
+    }
+
+    public function getChatangoId(): string
+    {
+        return $this->chatango_id;
+    }
+
+    public function getTwitterId(): string
+    {
+        return $this->twitter_id;
+    }
+
+    public function getLoginToken(): string
+    {
+        return $this->login_token;
     }
 
     public function jsonSerialize()

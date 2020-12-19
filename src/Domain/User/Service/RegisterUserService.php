@@ -3,41 +3,69 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Service;
 
+use App\Domain\User\Exception\ChatangoIdAlreadyExistsException;
+use App\Domain\User\Exception\DiscordIdAlreadyExistsException;
+use App\Domain\User\Exception\UsernameAlreadyExistsException;
+use App\Domain\User\Exception\UserNotFoundException;
 use App\Exception\ValidationException;
 
 final class RegisterUserService extends UserService
 {
     public function run(array $data)
     {
+        if (!array_key_exists('discord_id', $data)) {
+            $data['discord_id'] = null;
+        }
+
+        if (!array_key_exists('chatango_id', $data)) {
+            $data['chatango_id'] = null;
+        }
+
         $this->validate($data);
 
         $userId = $this->userRepository->register($data);
 
         $user = $this->userRepository->findById($userId);
 
-        $this->logger->info(sprintf('User registered successfully: %s', $user->getUsername()));
+        $this->logger->info(sprintf('User registered successfully: %s', $user->getId()));
 
         return $user;
     }
 
     private function validate(array $data)
     {
-        $errors = [];
-
         if (empty($data['username'])) {
-            $errors['username'] = 'Input required';
+            throw new ValidationException('Username is required');
         } elseif (!preg_match('/^[\w\-]+$/i', $data['username'])) {
-            $errors['username'] = 'Invalid username.';
+            throw new ValidationException('Username is invalid.');
+        }
+
+        try {
+            $this->userRepository->findByUsername($data['username']);
+            throw new UsernameAlreadyExistsException();
+        } catch (UserNotFoundException $e) {
         }
 
         if (empty($data['secret'])) {
-            $errors['secret'] = 'Input required';
+            throw new ValidationException('Secret is required.');
         } elseif (strlen($data['secret']) < 6) {
-            $errors['secret'] = 'Must contain at least 6 characters.';
+            throw new ValidationException('Secret must contain at least 6 characters');
         }
 
-        if ($errors) {
-            throw new ValidationException('Please check your input', $errors);
+        if ($data['discord_id'] != null) {
+            try {
+                $this->userRepository->findByDiscordId($data['discord_id']);
+                throw new DiscordIdAlreadyExistsException();
+            } catch (UserNotFoundException $e) {
+            }
+        }
+
+        if ($data['chatango_id'] != null) {
+            try {
+                $this->userRepository->findByChatangoId($data['chatango_id']);
+                throw new ChatangoIdAlreadyExistsException();
+            } catch (UserNotFoundException $e) {
+            }
         }
     }
 }

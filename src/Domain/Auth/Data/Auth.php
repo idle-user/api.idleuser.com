@@ -75,7 +75,7 @@ class Auth implements JsonSerializable
 
     protected function fill(array $row)
     {
-        $this->auth_token = $row['auth_token_str'];
+        $this->auth_token = bin2hex($row['auth_token']);
         $this->auth_token_exp = $row['auth_token_exp'];
         $this->access_level = $row['access_level'];
         $this->user_id = $row['user_id'];

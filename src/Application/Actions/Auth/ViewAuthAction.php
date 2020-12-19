@@ -25,7 +25,7 @@ class ViewAuthAction extends Action
     {
         $this->logger->info('Auth view attempt.');
 
-        $auth = $this->validateAuthService->run($this->request->getQueryParams());
+        $auth = $this->validateAuthService->run();
 
         return $this->respondWithData($auth);
     }

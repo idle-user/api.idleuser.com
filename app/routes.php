@@ -20,7 +20,7 @@ return function (App $app) {
     $app->group('/auth', function (Group $group) {
         $group->get('', Auth\ViewAuthAction::class);
         $group->post('', Auth\UpdateAuthAction::class);
-        $group->put('/override/{userId:[0-9]+}', Auth\OverrideAuthAction::class)->setName('auth-override');
+        $group->put('/override/user/{userId:[0-9]+}', Auth\OverrideAuthAction::class)->setName('auth-override');
     });
 
     // User
@@ -31,7 +31,22 @@ return function (App $app) {
         $group->get('/discord/{discordId}', User\ViewDiscordUserAction::class);
         $group->get('/chatango/{chatangoId}', User\ViewChatangoUserAction::class);
         $group->post('/login', User\LoginUserAction::class);
-        // $group->post('/register', User\RegisterUserAction::class)->setName('register');
+        $group->post('/login/token', User\UpdateLoginTokenUserAction::class)->setName('login-token-update');
+        $group->post('/register', User\RegisterUserAction::class)->setName('register');
+        $group->put('/{userId:[0-9]+}', User\UpdateUserAction::class)->setName('user-update');
+        $group
+            ->patch('/{userId:[0-9]+}/username', User\UpdateUsernameUserAction::class)
+            ->setName('user-update-username');
+        $group->patch('/{userId:[0-9]+}/email', User\UpdateEmailUserAction::class)->setName('user-update-email');
+        $group
+            ->patch('/{userId:[0-9]+}/discord', User\UpdateDiscordIdUserAction::class)
+            ->setName('user-update-discord');
+        $group
+            ->patch('/{userId:[0-9]+}/chatango', User\UpdateChatangoIdUserAction::class)
+            ->setName('user-update-chatango');
+        $group
+            ->patch('/{userId:[0-9]+}/twitter', User\UpdateTwitterIdUserAction::class)
+            ->setName('user-update-twitter');
     });
 
     // Matches (WatchWrestling)

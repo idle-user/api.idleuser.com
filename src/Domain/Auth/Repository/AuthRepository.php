@@ -19,10 +19,9 @@ class AuthRepository
 
     public function findByAuthToken($authToken)
     {
-        $sql = "SELECT BIN_TO_UUID(auth_token) AS auth_token_str, api_auth.*
-                FROM api_auth
-                WHERE auth_token=UUID_TO_BIN(?)";
-        $stmt = $this->db->query($sql, [$authToken]);
+        $token = hex2bin($authToken);
+        $sql = 'SELECT * FROM api_auth WHERE auth_token=?';
+        $stmt = $this->db->query($sql, [$token]);
         $row = $stmt->fetch();
         if (!$row) {
             throw new AuthTokenInvalidException();
@@ -50,9 +49,9 @@ class AuthRepository
 
     public function updateAuthToken($userId)
     {
-        $sql = 'CALL usp_api_ins_auth(?)';
-        $stmt = $this->db->query($sql, [$userId]);
-        $authToken = $stmt->fetchColumn();
-        return $authToken;
+        $token = random_bytes(32);
+        $sql = 'CALL usp_api_ins_auth(?, ?)';
+        $this->db->query($sql, [$userId, $token]);
+        return bin2hex($token);
     }
 }

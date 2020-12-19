@@ -37,18 +37,27 @@ class AuthMiddleware implements Middleware
             throw new HttpNotFoundException($request);
         }
 
-        $adminRoutesArray = ['auth-override'];
+        $adminRoutesArray = ['auth-override', 'register'];
         $modRoutesArray = ['chatroom-command-add'];
-        $userPostRoutesArray = ['match-rate-add', 'match-bet-add'];
+        $userPostRoutesArray = [
+            'match-rate-add',
+            'match-bet-add',
+            'login-token-update',
+            'user-update',
+            'user-update-username',
+            'user-update-email',
+            'user-update-discord',
+            'user-update-chatango',
+            'user-update-twitter',
+        ];
         $authRequiredRouteArray = array_merge($adminRoutesArray, $modRoutesArray, $userPostRoutesArray);
 
         if (!in_array($routeName, $authRequiredRouteArray)) {
             return $handler->handle($request);
         }
 
-        $params = $request->getQueryParams();
+        $authInfo = $this->validateAuthService->run();
         $parsedBody = $request->getParsedBody();
-        $authInfo = $this->validateAuthService->run($params);
         $this->logAuthService->run([$authInfo, $request]);
 
         if (in_array($routeName, $userPostRoutesArray)) {
@@ -56,6 +65,7 @@ class AuthMiddleware implements Middleware
                 throw new HttpForbiddenException($request);
             }
         }
+
         if (in_array($routeName, $modRoutesArray)) {
             if (!$authInfo->isMod()) {
                 throw new HttpForbiddenException($request);
