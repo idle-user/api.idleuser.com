@@ -56,9 +56,8 @@ class AuthMiddleware implements Middleware
             return $handler->handle($request);
         }
 
-        $params = $request->getQueryParams();
+        $authInfo = $this->validateAuthService->run();
         $parsedBody = $request->getParsedBody();
-        $authInfo = $this->validateAuthService->run($params);
         $this->logAuthService->run([$authInfo, $request]);
 
         if (in_array($routeName, $userPostRoutesArray)) {
