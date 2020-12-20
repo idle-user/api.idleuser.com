@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Application\Middleware;
 
 use App\Domain\Auth\Service\ValidateAuthService;
-use App\Domain\Auth\Service\LogAuthService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
@@ -16,12 +15,10 @@ use Slim\Routing\RouteContext;
 class AuthMiddleware implements Middleware
 {
     private $validateAuthService;
-    private $logAuthService;
 
-    public function __construct(ValidateAuthService $validateAuthService, LogAuthService $logAuthService)
+    public function __construct(ValidateAuthService $validateAuthService)
     {
         $this->validateAuthService = $validateAuthService;
-        $this->logAuthService = $logAuthService;
     }
 
     /**
@@ -58,7 +55,6 @@ class AuthMiddleware implements Middleware
 
         $authInfo = $this->validateAuthService->run();
         $parsedBody = $request->getParsedBody();
-        $this->logAuthService->run([$authInfo, $request]);
 
         if (in_array($routeName, $userPostRoutesArray)) {
             if (!$authInfo->isAdmin() && $authInfo->getUserId() != $parsedBody['user_id']) {

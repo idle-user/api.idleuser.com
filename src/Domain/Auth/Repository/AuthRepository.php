@@ -40,13 +40,6 @@ class AuthRepository
         return Auth::withRow($row);
     }
 
-    public function addTraffic($userId, $route)
-    {
-        $sql = 'CALL usp_api_ins_traffic(?, ?)';
-        $stmt = $this->db->query($sql, [$userId, $route]);
-        return $stmt->fetch();
-    }
-
     public function updateAuthToken($userId)
     {
         $token = random_bytes(32);
