@@ -73,6 +73,12 @@ class User implements JsonSerializable
         return $this->login_token;
     }
 
+    public function canUpdateUsername()
+    {
+        $usernameLastUpdated = strtotime($this->username_last_updated);
+        return strtotime('+14 day', $usernameLastUpdated) < strtotime('now');
+    }
+
     public function jsonSerialize()
     {
         return [

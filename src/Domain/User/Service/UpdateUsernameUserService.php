@@ -27,6 +27,9 @@ final class UpdateUsernameUserService extends UserService
         $currentUser = $this->userRepository->findById($userId);
 
         if ($currentUser->getUsername() != $username) {
+            if (!$currentUser->canUpdateUsername()) {
+                throw new ValidationException('Username was last updated within 2-weeks.');
+            }
             if (!preg_match('/^[\w\-]{4,15}$/i', $username)) {
                 throw new ValidationException('Username is invalid.');
             }
