@@ -28,6 +28,10 @@ final class UpdateTwitterIdUserService extends UserService
             throw new ValidationException('twitter_id cannot be empty.');
         }
 
+        if (strlen($twitterId) > 45) {
+            throw new ValidationException('twitter_id is too long.');
+        }
+
         $currentUser = $this->userRepository->findById($userId);
 
         if ($currentUser->getTwitterId() != $twitterId) {

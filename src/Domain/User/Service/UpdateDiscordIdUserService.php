@@ -28,6 +28,10 @@ final class UpdateDiscordIdUserService extends UserService
             throw new ValidationException('discord_id cannot be empty.');
         }
 
+        if (strlen($discordId) > 45) {
+            throw new ValidationException('discord_id is too long.');
+        }
+
         $currentUser = $this->userRepository->findById($userId);
 
         if ($currentUser->getdiscordId() != $discordId) {

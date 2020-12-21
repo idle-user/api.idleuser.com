@@ -28,6 +28,10 @@ final class UpdateChatangoIdUserService extends UserService
             throw new ValidationException('chatango_id cannot be empty.');
         }
 
+        if (strlen($chatangoId) > 45) {
+            throw new ValidationException('chatango_id is too long.');
+        }
+
         $currentUser = $this->userRepository->findById($userId);
 
         if ($currentUser->getchatangoId() != $chatangoId) {
