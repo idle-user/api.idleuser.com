@@ -17,7 +17,7 @@ final class UpdateChatangoIdUserService extends UserService
 
         $user = $this->userRepository->findByChatangoId($chatangoId);
 
-        $this->logger->info(sprintf('User chatangoId updated successfully: %s', $user->getId()));
+        $this->logger->info(sprintf('User chatango_id updated successfully: %s', $user->getId()));
 
         return $user;
     }

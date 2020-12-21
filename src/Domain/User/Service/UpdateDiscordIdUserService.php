@@ -17,7 +17,7 @@ final class UpdateDiscordIdUserService extends UserService
 
         $user = $this->userRepository->findByDiscordId($discordId);
 
-        $this->logger->info(sprintf('User discordId updated successfully: %s', $user->getId()));
+        $this->logger->info(sprintf('User discord_id updated successfully: %s', $user->getId()));
 
         return $user;
     }
