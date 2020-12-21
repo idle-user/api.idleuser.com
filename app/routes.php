@@ -51,8 +51,8 @@ return function (App $app) {
 
     // Matches (WatchWrestling)
     $app->group('/watchwrestling', function (Group $group) {
-        $group->post('/rate', Matches\AddMatchRatingAction::class)->setName('match-rate-add');
         $group->post('/bet', Matches\AddBetAction::class)->setName('match-bet-add');
+        $group->post('/rate', Matches\AddMatchRatingAction::class)->setName('match-rate-add');
         $group->group('/brands', function (Group $group) {
             $group->get('', Matches\ListBrandsAction::class);
             $group->get('/{brandId:[0-9]+}', Matches\ViewBrandAction::class);

@@ -46,11 +46,12 @@ final class UpdateUserService extends UserService
 
     private function validate($userId, array $data)
     {
-        if (empty($data['user_id'])) {
-            throw new ValidationException('User ID is required');
-        } elseif ($userId != $data['user_id']) {
-            throw new ValidationException('Mismatched User ID.');
-        }
+        // changing IDs not supported - so not required
+        // if (empty($data['user_id'])) {
+        //     throw new ValidationException('User ID is required');
+        // } elseif ($userId != $data['user_id']) {
+        //     throw new ValidationException('Mismatched User ID.');
+        // }
 
         if (empty($data['username'])) {
             throw new ValidationException('Username is required');
