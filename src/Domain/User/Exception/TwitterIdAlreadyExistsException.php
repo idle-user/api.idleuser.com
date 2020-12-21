@@ -7,5 +7,5 @@ use App\Domain\DomainException\DomainRecordConflictException;
 
 class TwitterIdAlreadyExistsException extends DomainRecordConflictException
 {
-    protected $message = 'The Twitter ID requested is registered';
+    protected $message = 'The Twitter ID requested is registered.';
 }

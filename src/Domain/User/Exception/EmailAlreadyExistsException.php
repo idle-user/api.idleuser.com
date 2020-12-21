@@ -7,5 +7,5 @@ use App\Domain\DomainException\DomainRecordConflictException;
 
 class EmailAlreadyExistsException extends DomainRecordConflictException
 {
-    protected $message = 'The Email requested is registered';
+    protected $message = 'The email requested is registered.';
 }
