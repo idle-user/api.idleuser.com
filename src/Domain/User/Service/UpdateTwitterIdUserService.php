@@ -24,6 +24,10 @@ final class UpdateTwitterIdUserService extends UserService
 
     private function validate($userId, $twitterId)
     {
+        if (empty($twitterId)) {
+            throw new ValidationException('twitter_id cannot be empty.');
+        }
+
         $currentUser = $this->userRepository->findById($userId);
 
         if ($currentUser->getTwitterId() != $twitterId) {

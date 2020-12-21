@@ -24,6 +24,10 @@ final class UpdateChatangoIdUserService extends UserService
 
     private function validate($userId, $chatangoId)
     {
+        if (empty($chatangoId)) {
+            throw new ValidationException('chatango_id cannot be empty.');
+        }
+
         $currentUser = $this->userRepository->findById($userId);
 
         if ($currentUser->getchatangoId() != $chatangoId) {

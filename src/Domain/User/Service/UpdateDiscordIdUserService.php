@@ -24,6 +24,10 @@ final class UpdateDiscordIdUserService extends UserService
 
     private function validate($userId, $discordId)
     {
+        if (empty($discordId)) {
+            throw new ValidationException('discord_id cannot be empty.');
+        }
+
         $currentUser = $this->userRepository->findById($userId);
 
         if ($currentUser->getdiscordId() != $discordId) {
