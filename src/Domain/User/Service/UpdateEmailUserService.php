@@ -27,7 +27,7 @@ final class UpdateEmailUserService extends UserService
         $currentUser = $this->userRepository->findById($userId);
 
         if ($currentUser->getemail() != $email) {
-            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 throw new ValidationException('Email is invalid.');
             }
             try {
