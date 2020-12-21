@@ -79,8 +79,11 @@ class User implements JsonSerializable
             'access' => $this->access,
             'username' => $this->username,
             'discord_id' => $this->discord_id,
+            'discord_last_updated' => $this->discord_last_updated,
             'chatango_id' => $this->chatango_id,
+            'chatango_last_updated' => $this->chatango_last_updated,
             'twitter_id' => $this->twitter_id,
+            'twitter_last_updated' => $this->twitter_last_updated,
             'last_login' => $this->last_login,
             'date_created' => $this->date_created,
         ];
