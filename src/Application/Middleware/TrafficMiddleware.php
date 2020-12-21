@@ -32,6 +32,8 @@ class TrafficMiddleware implements Middleware
 
         $response = $handler->handle($request);
 
+        // TODO: capture error response
+
         $this->updateResponseTrafficService->run($traffic, $response);
 
         return $response;
