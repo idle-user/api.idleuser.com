@@ -55,9 +55,12 @@ class AuthMiddleware implements Middleware
 
         $authInfo = $this->validateAuthService->run();
         $parsedBody = $request->getParsedBody();
+        $argsUserId = $route->getArgument('userId');
+        $postUserId = isset($parsedBody['user_id']) ? $parsedBody['user_id'] : null;
+        $isSelf = $authInfo->getUserId() == $argsUserId || $authInfo->getUserId() == $postUserId;
 
         if (in_array($routeName, $userPostRoutesArray)) {
-            if (!$authInfo->isAdmin() && $authInfo->getUserId() != $parsedBody['user_id']) {
+            if (!$isSelf && !$authInfo->isAdmin()) {
                 throw new HttpForbiddenException($request);
             }
         }
