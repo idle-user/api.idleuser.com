@@ -8,7 +8,7 @@ use Slim\App;
 return function (App $app) {
     $app->add(AuthMiddleware::class);
     $app->add(TrafficMiddleware::class);
-    $app->add(new RKA\Middleware\IpAddress());
+    $app->add(IpAddressMiddleware::class);
     $app->addRoutingMiddleware();
     $app->addBodyParsingMiddleware();
 };
