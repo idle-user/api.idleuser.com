@@ -29,6 +29,12 @@ return function (ContainerBuilder $containerBuilder) {
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 ],
             ],
+            'ip' => [
+                'checkProxyHeaders' => false,
+                'trustedProxies' => null,
+                'attributeName' => null,
+                'headersToInspect' => [],
+            ],
         ],
     ]);
 };
