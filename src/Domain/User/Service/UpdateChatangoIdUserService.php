@@ -17,13 +17,21 @@ final class UpdateChatangoIdUserService extends UserService
 
         $user = $this->userRepository->findByChatangoId($chatangoId);
 
-        $this->logger->info(sprintf('User chatangoId updated successfully: %s', $user->getId()));
+        $this->logger->info(sprintf('User chatango_id updated successfully: %s', $user->getId()));
 
         return $user;
     }
 
     private function validate($userId, $chatangoId)
     {
+        if (empty($chatangoId)) {
+            throw new ValidationException('chatango_id cannot be empty.');
+        }
+
+        if (strlen($chatangoId) > 45) {
+            throw new ValidationException('chatango_id is too long.');
+        }
+
         $currentUser = $this->userRepository->findById($userId);
 
         if ($currentUser->getchatangoId() != $chatangoId) {

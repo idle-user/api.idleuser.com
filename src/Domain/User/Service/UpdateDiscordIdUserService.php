@@ -17,13 +17,21 @@ final class UpdateDiscordIdUserService extends UserService
 
         $user = $this->userRepository->findByDiscordId($discordId);
 
-        $this->logger->info(sprintf('User discordId updated successfully: %s', $user->getId()));
+        $this->logger->info(sprintf('User discord_id updated successfully: %s', $user->getId()));
 
         return $user;
     }
 
     private function validate($userId, $discordId)
     {
+        if (empty($discordId)) {
+            throw new ValidationException('discord_id cannot be empty.');
+        }
+
+        if (strlen($discordId) > 45) {
+            throw new ValidationException('discord_id is too long.');
+        }
+
         $currentUser = $this->userRepository->findById($userId);
 
         if ($currentUser->getdiscordId() != $discordId) {

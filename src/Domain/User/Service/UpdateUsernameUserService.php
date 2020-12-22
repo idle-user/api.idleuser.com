@@ -27,7 +27,10 @@ final class UpdateUsernameUserService extends UserService
         $currentUser = $this->userRepository->findById($userId);
 
         if ($currentUser->getUsername() != $username) {
-            if (!preg_match('/^[\w\-]+$/i', $username)) {
+            if (!$currentUser->canUpdateUsername()) {
+                throw new ValidationException('Username was last updated within 2-weeks.');
+            }
+            if (!preg_match('/^[\w\-]{4,15}$/i', $username)) {
                 throw new ValidationException('Username is invalid.');
             }
             try {
@@ -35,7 +38,6 @@ final class UpdateUsernameUserService extends UserService
                 throw new UsernameAlreadyExistsException();
             } catch (UserNotFoundException $e) {
             }
-            $updateList[] = 'username';
         } else {
             throw new ValidationException('Nothing to update.');
         }

@@ -31,7 +31,7 @@ return function (App $app) {
         $group->get('/discord/{discordId}', User\ViewDiscordUserAction::class);
         $group->get('/chatango/{chatangoId}', User\ViewChatangoUserAction::class);
         $group->post('/login', User\LoginUserAction::class);
-        $group->post('/login/token', User\UpdateLoginTokenUserAction::class)->setName('login-token-update');
+        $group->post('/login/token', User\UpdateLoginTokenUserAction::class)->setName('user-update-login-token');
         $group->post('/register', User\RegisterUserAction::class)->setName('register');
         $group->put('/{userId:[0-9]+}', User\UpdateUserAction::class)->setName('user-update');
         $group
@@ -51,8 +51,8 @@ return function (App $app) {
 
     // Matches (WatchWrestling)
     $app->group('/watchwrestling', function (Group $group) {
-        $group->post('/rate', Matches\AddMatchRatingAction::class)->setName('match-rate-add');
         $group->post('/bet', Matches\AddBetAction::class)->setName('match-bet-add');
+        $group->post('/rate', Matches\AddMatchRatingAction::class)->setName('match-rate-add');
         $group->group('/brands', function (Group $group) {
             $group->get('', Matches\ListBrandsAction::class);
             $group->get('/{brandId:[0-9]+}', Matches\ViewBrandAction::class);

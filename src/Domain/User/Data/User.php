@@ -15,6 +15,7 @@ class User implements JsonSerializable
     private $twitter_id;
     private $last_login;
     private $date_created;
+    private $username_last_updated;
     private $secret_last_updated;
     private $email_last_updated;
     private $discord_last_updated;
@@ -47,29 +48,35 @@ class User implements JsonSerializable
         return $this->username;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function getDiscordId(): string
+    public function getDiscordId(): ?string
     {
         return $this->discord_id;
     }
 
-    public function getChatangoId(): string
+    public function getChatangoId(): ?string
     {
         return $this->chatango_id;
     }
 
-    public function getTwitterId(): string
+    public function getTwitterId(): ?string
     {
         return $this->twitter_id;
     }
 
-    public function getLoginToken(): string
+    public function getLoginToken(): ?string
     {
         return $this->login_token;
+    }
+
+    public function canUpdateUsername()
+    {
+        $usernameLastUpdated = strtotime($this->username_last_updated);
+        return strtotime('+14 day', $usernameLastUpdated) < strtotime('now');
     }
 
     public function jsonSerialize()
@@ -78,9 +85,13 @@ class User implements JsonSerializable
             'id' => $this->id,
             'access' => $this->access,
             'username' => $this->username,
+            'username_last_updated' => $this->username_last_updated,
             'discord_id' => $this->discord_id,
+            'discord_last_updated' => $this->discord_last_updated,
             'chatango_id' => $this->chatango_id,
+            'chatango_last_updated' => $this->chatango_last_updated,
             'twitter_id' => $this->twitter_id,
+            'twitter_last_updated' => $this->twitter_last_updated,
             'last_login' => $this->last_login,
             'date_created' => $this->date_created,
         ];
@@ -96,6 +107,7 @@ class User implements JsonSerializable
         $this->twitter_id = $row['twitter_id'];
         $this->last_login = $row['last_login'];
         $this->date_created = $row['date_created'];
+        $this->username_last_updated = $row['username_last_updated'];
         $this->secret_last_updated = $row['secret_last_updated'];
         $this->email_last_updated = $row['email_last_updated'];
         $this->discord_last_updated = $row['discord_last_updated'];

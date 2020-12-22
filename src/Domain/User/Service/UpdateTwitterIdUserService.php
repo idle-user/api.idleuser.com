@@ -17,13 +17,21 @@ final class UpdateTwitterIdUserService extends UserService
 
         $user = $this->userRepository->findByTwitterId($twitterId);
 
-        $this->logger->info(sprintf('User twitterId updated successfully: %s', $user->getId()));
+        $this->logger->info(sprintf('User twitter_id updated successfully: %s', $user->getId()));
 
         return $user;
     }
 
     private function validate($userId, $twitterId)
     {
+        if (empty($twitterId)) {
+            throw new ValidationException('twitter_id cannot be empty.');
+        }
+
+        if (strlen($twitterId) > 45) {
+            throw new ValidationException('twitter_id is too long.');
+        }
+
         $currentUser = $this->userRepository->findById($userId);
 
         if ($currentUser->getTwitterId() != $twitterId) {

@@ -24,7 +24,7 @@ class UpdateTwitterIdUserAction extends Action
     protected function action(): Response
     {
         $userId = (int) $this->resolveArg('userId');
-        $twitterId = (string) $this->resolvePost('twitterId');
+        $twitterId = (string) $this->resolvePost('twitter_id');
 
         $user = $this->updateTwitterIdUserService->run($userId, $twitterId);
 
