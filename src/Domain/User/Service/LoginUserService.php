@@ -12,6 +12,7 @@ final class LoginUserService extends UserService
         $this->validate($data);
 
         $user = $this->userRepository->login($data['username'], $data['secret']);
+        $user->setShowFullDetail(true);
 
         $this->logger->info(sprintf('User logged-in successfully: %s', $user->getId()));
 
