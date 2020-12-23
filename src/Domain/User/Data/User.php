@@ -7,6 +7,8 @@ use JsonSerializable;
 
 class User implements JsonSerializable
 {
+    private $showFullDetail;
+
     private $id;
     private $username;
     private $email;
@@ -29,6 +31,7 @@ class User implements JsonSerializable
 
     public function __construct()
     {
+        $this->showFullDetail = false;
     }
 
     public static function withRow(array $row)
@@ -36,6 +39,16 @@ class User implements JsonSerializable
         $instance = new self();
         $instance->fill($row);
         return $instance;
+    }
+
+    public function isShowingFullDetail()
+    {
+        return $this->showFullDetail;
+    }
+
+    public function setShowFullDetail(bool $showFullDetail)
+    {
+        $this->showFullDetail = $showFullDetail;
     }
 
     public function getId(): ?int
@@ -81,20 +94,33 @@ class User implements JsonSerializable
 
     public function jsonSerialize()
     {
-        return [
+        $publicDetail = [
             'id' => $this->id,
-            'access' => $this->access,
             'username' => $this->username,
+            'last_login' => $this->last_login,
+            'date_created' => $this->date_created,
+        ];
+        $privateDetail = [
+            'access' => $this->access,
             'username_last_updated' => $this->username_last_updated,
+            'email' => $this->email,
+            'email_last_updated' => $this->email_last_updated,
+            'secret_last_updated' => $this->secret_last_updated,
+            'login_token' => $this->login_token,
+            'login_token_exp' => $this->login_token_exp,
+            'temp_secret' => $this->temp_secret,
+            'temp_secret_exp' => $this->temp_secret_exp,
             'discord_id' => $this->discord_id,
             'discord_last_updated' => $this->discord_last_updated,
             'chatango_id' => $this->chatango_id,
             'chatango_last_updated' => $this->chatango_last_updated,
             'twitter_id' => $this->twitter_id,
             'twitter_last_updated' => $this->twitter_last_updated,
-            'last_login' => $this->last_login,
-            'date_created' => $this->date_created,
         ];
+        if ($this->showFullDetail) {
+            return array_merge($publicDetail, $privateDetail);
+        }
+        return $publicDetail;
     }
 
     protected function fill(array $row)
