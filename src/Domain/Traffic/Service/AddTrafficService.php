@@ -17,8 +17,9 @@ final class AddTrafficService extends TrafficService
 
         $userAgent = $request->getHeader('User-Agent')[0];
         $ipAddress = $request->getAttribute('ip_address');
+        $userId = $request->getAttribute('auth_user_id');
 
-        $traffic = $this->trafficRepository->addTraffic($requestText, $userAgent, $ipAddress);
+        $traffic = $this->trafficRepository->addTraffic($requestText, $userAgent, $ipAddress, $userId);
 
         return $traffic;
     }
