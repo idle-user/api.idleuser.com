@@ -25,7 +25,11 @@ class ViewUserAction extends Action
     {
         $userId = (int) $this->resolveArg('userId');
 
-        $user = $this->viewUserService->run($userId);
+        $isSelf = $this->request->getAttribute('auth_is_self');
+        $isAdmin = $this->request->getAttribute('auth_is_admin');
+        $showFullDetail = $isSelf || $isAdmin;
+
+        $user = $this->viewUserService->run($userId, $showFullDetail);
 
         return $this->respondWithData($user);
     }
