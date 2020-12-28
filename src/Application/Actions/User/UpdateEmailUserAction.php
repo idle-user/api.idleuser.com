@@ -24,7 +24,7 @@ class UpdateEmailUserAction extends Action
     protected function action(): Response
     {
         $userId = (int) $this->resolveArg('userId');
-        $email = (string) $this->resolvePost('email');
+        $email = (string) $this->resolveBodyArg('email');
 
         $user = $this->updateEmailUserService->run($userId, $email);
 

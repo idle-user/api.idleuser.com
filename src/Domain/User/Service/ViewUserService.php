@@ -7,13 +7,14 @@ use App\Exception\ValidationException;
 
 final class ViewUserService extends UserService
 {
-    public function run(int $userId)
+    public function run(int $userId, $showFullDetail = false)
     {
         $this->validate($userId);
 
         $user = $this->userRepository->findById($userId);
+        $user->setShowFullDetail($showFullDetail);
 
-        $this->logger->info("User id `${userId}` was viewed.");
+        $this->logger->info("User id `${userId}` was viewed. Full detail: `${showFullDetail}`");
 
         return $user;
     }

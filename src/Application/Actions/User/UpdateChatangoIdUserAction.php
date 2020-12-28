@@ -24,7 +24,7 @@ class UpdateChatangoIdUserAction extends Action
     protected function action(): Response
     {
         $userId = (int) $this->resolveArg('userId');
-        $chatangoId = (string) $this->resolvePost('chatango_id');
+        $chatangoId = (string) $this->resolveBodyArg('chatango_id');
 
         $user = $this->updateChatangoIdUserService->run($userId, $chatangoId);
 

@@ -23,7 +23,7 @@ class UpdateLoginTokenUserAction extends Action
      */
     protected function action(): Response
     {
-        $user_id = (int) $this->resolvePost('user_id');
+        $user_id = (int) $this->resolveBodyArg('user_id');
 
         $this->logger->info("Login Token for user `${user_id}`.");
 

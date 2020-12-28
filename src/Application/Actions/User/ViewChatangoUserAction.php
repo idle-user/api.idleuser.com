@@ -25,7 +25,11 @@ class ViewChatangoUserAction extends Action
     {
         $chatangoId = (string) $this->resolveArg('chatangoId');
 
-        $user = $this->viewChatangoUserService->run($chatangoId);
+        $isSelf = $this->request->getAttribute('auth_is_self');
+        $isAdmin = $this->request->getAttribute('auth_is_admin');
+        $showFullDetail = $isSelf || $isAdmin;
+
+        $user = $this->viewChatangoUserService->run($chatangoId, $showFullDetail);
 
         return $this->respondWithData($user);
     }

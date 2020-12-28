@@ -23,7 +23,7 @@ class RegisterUserAction extends Action
      */
     protected function action(): Response
     {
-        $username = $this->resolvePost('username');
+        $username = $this->resolveBodyArg('username');
 
         $this->logger->info("User `${username}` register attempt.");
 

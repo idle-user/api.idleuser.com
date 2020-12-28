@@ -88,6 +88,9 @@ class User implements JsonSerializable
 
     public function canUpdateUsername()
     {
+        if ($this->username_last_updated == 0) {
+            return true;
+        }
         $usernameLastUpdated = strtotime($this->username_last_updated);
         return strtotime('+14 day', $usernameLastUpdated) < strtotime('now');
     }

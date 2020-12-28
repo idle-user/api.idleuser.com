@@ -24,7 +24,7 @@ class UpdateUsernameUserAction extends Action
     protected function action(): Response
     {
         $userId = (int) $this->resolveArg('userId');
-        $username = (string) $this->resolvePost('username');
+        $username = (string) $this->resolveBodyArg('username');
 
         $user = $this->updateUsernameUserService->run($userId, $username);
 
