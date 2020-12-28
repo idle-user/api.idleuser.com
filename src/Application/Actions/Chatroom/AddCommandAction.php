@@ -23,7 +23,7 @@ class AddCommandAction extends Action
      */
     protected function action(): Response
     {
-        $commandName = $this->resolvePost('command');
+        $commandName = $this->resolveBodyArg('command');
 
         $this->logger->info("Add chatroom command `${commandName}` attempt.");
 

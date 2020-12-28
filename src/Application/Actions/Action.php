@@ -31,6 +31,16 @@ abstract class Action
     protected $args;
 
     /**
+     * @var array
+     */
+    protected $bodyArgs;
+
+    /**
+     * @var array
+     */
+    protected $queryParams;
+
+    /**
      * @param LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger)
@@ -49,6 +59,8 @@ abstract class Action
         $this->request = $request;
         $this->response = $response;
         $this->args = $args;
+        $this->bodyArgs = $this->request->getParsedBody();
+        $this->queryParams = $this->request->getQueryParams();
 
         return $this->action();
     }
@@ -92,14 +104,27 @@ abstract class Action
      * @return mixed
      * @throws HttpBadRequestException
      */
-    protected function resolvePost(string $name)
+    protected function resolveBodyArg(string $name)
     {
-        $postArgs = $this->request->getParsedBody();
-        if (!isset($postArgs[$name])) {
+        if (!isset($this->bodyArgs[$name])) {
             throw new HttpBadRequestException($this->request, "Could not resolve argument `{$name}`.");
         }
 
-        return $postArgs[$name];
+        return $this->bodyArgs[$name];
+    }
+
+    /**
+     * @param  string $name
+     * @return mixed
+     * @throws HttpBadRequestException
+     */
+    protected function resolveQueryParam(string $name)
+    {
+        if (!isset($this->queryParams[$name])) {
+            throw new HttpBadRequestException($this->request, "Could not resolve argument `{$name}`.");
+        }
+
+        return $this->queryParams[$name];
     }
 
     /**

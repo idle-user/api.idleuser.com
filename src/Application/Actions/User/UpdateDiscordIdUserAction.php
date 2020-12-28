@@ -24,7 +24,7 @@ class UpdateDiscordIdUserAction extends Action
     protected function action(): Response
     {
         $userId = (int) $this->resolveArg('userId');
-        $discordId = (string) $this->resolvePost('discord_id');
+        $discordId = (string) $this->resolveBodyArg('discord_id');
 
         $user = $this->updateDiscordIdUserService->run($userId, $discordId);
 

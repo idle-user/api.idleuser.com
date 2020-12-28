@@ -23,9 +23,9 @@ class AddMatchRatingAction extends Action
      */
     protected function action(): Response
     {
-        $userId = (int) $this->resolvePost('user_id');
-        $matchId = (int) $this->resolvePost('match_id');
-        $rating = (float) $this->resolvePost('rating');
+        $userId = (int) $this->resolveBodyArg('user_id');
+        $matchId = (int) $this->resolveBodyArg('match_id');
+        $rating = (float) $this->resolveBodyArg('rating');
 
         $bet = $this->addMatchRatingService->run($userId, $matchId, $rating);
 

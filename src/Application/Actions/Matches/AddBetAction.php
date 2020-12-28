@@ -23,10 +23,10 @@ class AddBetAction extends Action
      */
     protected function action(): Response
     {
-        $userId = (int) $this->resolvePost('user_id');
-        $matchId = (int) $this->resolvePost('match_id');
-        $team = (int) $this->resolvePost('team');
-        $points = (int) $this->resolvePost('points');
+        $userId = (int) $this->resolveBodyArg('user_id');
+        $matchId = (int) $this->resolveBodyArg('match_id');
+        $team = (int) $this->resolveBodyArg('team');
+        $points = (int) $this->resolveBodyArg('points');
 
         $bet = $this->addBetService->run($userId, $matchId, $team, $points);
 
