@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Application\Middleware;
 
+use App\Domain\Auth\Exception\AuthTokenExpiredException;
+use App\Domain\Auth\Exception\AuthTokenInvalidException;
+use App\Domain\Auth\Exception\AuthTokenNotFoundException;
 use App\Domain\Auth\Service\ValidateAuthService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -34,9 +37,32 @@ class AuthMiddleware implements Middleware
             throw new HttpNotFoundException($request);
         }
 
-        $adminRoutesArray = ['auth-override', 'register'];
-        $modRoutesArray = ['chatroom-command-add'];
-        $userPostRoutesArray = [
+        $parsedBody = $request->getParsedBody();
+        $argsUserId = $route->getArgument('userId');
+        $postUserId = isset($parsedBody['user_id']) ? $parsedBody['user_id'] : null;
+
+        try {
+            $authInfo = $this->validateAuthService->run();
+            $authUserId = $authInfo->getUserId();
+            $isSelf = $authUserId == $argsUserId || $authUserId == $postUserId;
+            $authIsMod = $authInfo->isMod();
+            $authIsAdmin = $authInfo->isAdmin();
+        } catch (AuthTokenNotFoundException | AuthTokenInvalidException | AuthTokenExpiredException $e) {
+            $authError = $e;
+            $authUserId = null;
+            $isSelf = false;
+            $authIsMod = false;
+            $authIsAdmin = false;
+        }
+
+        $request = $request->withAttribute('auth_user_id', $authUserId);
+        $request = $request->withAttribute('auth_is_self', $isSelf);
+        $request = $request->withAttribute('auth_is_mod', $authIsMod);
+        $request = $request->withAttribute('auth_is_admin', $authIsAdmin);
+
+        $adminRouteArray = ['auth-override', 'register'];
+        $modRouteArray = ['chatroom-command-add'];
+        $userPostRouteArray = [
             'match-rate-add',
             'match-bet-add',
             'user-update',
@@ -47,31 +73,29 @@ class AuthMiddleware implements Middleware
             'user-update-twitter',
             'user-update-login-token',
         ];
-        $authRequiredRouteArray = array_merge($adminRoutesArray, $modRoutesArray, $userPostRoutesArray);
+        $authRequiredRouteArray = array_merge($adminRouteArray, $modRouteArray, $userPostRouteArray);
 
         if (!in_array($routeName, $authRequiredRouteArray)) {
             return $handler->handle($request);
         }
 
-        $authInfo = $this->validateAuthService->run();
-        $parsedBody = $request->getParsedBody();
-        $argsUserId = $route->getArgument('userId');
-        $postUserId = isset($parsedBody['user_id']) ? $parsedBody['user_id'] : null;
-        $isSelf = $authInfo->getUserId() == $argsUserId || $authInfo->getUserId() == $postUserId;
+        if (isset($authError)) {
+            throw $authError;
+        }
 
-        if (in_array($routeName, $userPostRoutesArray)) {
+        if (in_array($routeName, $userPostRouteArray)) {
             if (!$isSelf && !$authInfo->isAdmin()) {
                 throw new HttpForbiddenException($request);
             }
         }
 
-        if (in_array($routeName, $modRoutesArray)) {
+        if (in_array($routeName, $modRouteArray)) {
             if (!$authInfo->isMod()) {
                 throw new HttpForbiddenException($request);
             }
         }
 
-        if (in_array($routeName, $adminRoutesArray)) {
+        if (in_array($routeName, $adminRouteArray)) {
             if (!$authInfo->isAdmin()) {
                 throw new HttpForbiddenException($request);
             }
