@@ -24,11 +24,11 @@ All end points below are available on https://api.idleuser.com/.
 
 # Auth End Points
 
-| End Point                      | Auth Required | Description                     |
-| ------------------------------ | ------------- | ------------------------------- |
-| `GET /auth`                    | Yes           | Test auth token                 |
-| `POST /auth`                   | No            | Request new auth token          |
-| `POST /auth/override/{userId}` | Yes           | Request new auth token for user |
+| End Point                 | Auth Required | Description                     |
+| ------------------------- | ------------- | ------------------------------- |
+| `GET /auth`               | Yes           | Test auth token                 |
+| `POST /auth`              | No            | Request new auth token          |
+| `PUT /auth/user/{userId}` | Yes           | Request new auth token for user |
 
 # User End Points
 
