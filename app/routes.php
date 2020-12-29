@@ -20,7 +20,7 @@ return function (App $app) {
     $app->group('/auth', function (Group $group) {
         $group->get('', Auth\ViewAuthAction::class);
         $group->post('', Auth\UpdateAuthAction::class);
-        $group->put('/override/user/{userId:[0-9]+}', Auth\OverrideAuthAction::class)->setName('auth-override');
+        $group->put('/user/{userId:[0-9]+}', Auth\OverrideAuthAction::class)->setName('auth-override');
     });
 
     // User
