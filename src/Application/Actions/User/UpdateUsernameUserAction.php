@@ -7,6 +7,7 @@ use App\Domain\User\Service\UpdateUsernameUserService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpForbiddenException;
 
 class UpdateUsernameUserAction extends Action
 {
@@ -25,6 +26,11 @@ class UpdateUsernameUserAction extends Action
     {
         $userId = (int) $this->resolveArg('userId');
         $username = (string) $this->resolveBodyArg('username');
+
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
+            throw new HttpForbiddenException($this->request);
+        }
 
         $user = $this->updateUsernameUserService->run($userId, $username);
 

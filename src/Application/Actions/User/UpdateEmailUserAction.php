@@ -7,6 +7,7 @@ use App\Domain\User\Service\UpdateEmailUserService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpForbiddenException;
 
 class UpdateEmailUserAction extends Action
 {
@@ -25,6 +26,11 @@ class UpdateEmailUserAction extends Action
     {
         $userId = (int) $this->resolveArg('userId');
         $email = (string) $this->resolveBodyArg('email');
+
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
+            throw new HttpForbiddenException($this->request);
+        }
 
         $user = $this->updateEmailUserService->run($userId, $email);
 

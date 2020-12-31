@@ -7,14 +7,13 @@ use App\Exception\ValidationException;
 
 final class ViewChatangoUserService extends UserService
 {
-    public function run(string $chatangoId, $showFullDetail = false)
+    public function run(string $chatangoId)
     {
         $this->validate($chatangoId);
 
         $user = $this->userRepository->findByChatangoId($chatangoId);
-        $user->setShowFullDetail($showFullDetail);
 
-        $this->logger->info("User Chatango_id `${chatangoId}` was viewed. Full detail: `${showFullDetail}`");
+        $this->logger->info("User Chatango_id `${chatangoId}` was viewed.");
 
         return $user;
     }

@@ -7,6 +7,7 @@ use App\Domain\User\Service\UpdateChatangoIdUserService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpForbiddenException;
 
 class UpdateChatangoIdUserAction extends Action
 {
@@ -25,6 +26,11 @@ class UpdateChatangoIdUserAction extends Action
     {
         $userId = (int) $this->resolveArg('userId');
         $chatangoId = (string) $this->resolveBodyArg('chatango_id');
+
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
+            throw new HttpForbiddenException($this->request);
+        }
 
         $user = $this->updateChatangoIdUserService->run($userId, $chatangoId);
 

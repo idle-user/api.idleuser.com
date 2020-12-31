@@ -25,11 +25,12 @@ class ViewDiscordUserAction extends Action
     {
         $discordId = (string) $this->resolveArg('discordId');
 
-        $isSelf = $this->request->getAttribute('auth_is_self');
-        $isAdmin = $this->request->getAttribute('auth_is_admin');
-        $showFullDetail = $isSelf || $isAdmin;
+        $user = $this->viewDiscordUserService->run($discordId);
 
-        $user = $this->viewDiscordUserService->run($discordId, $showFullDetail);
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->isAdmin() || $auth->getUserId() == $user->getId()) {
+            $user->setShowFullDetail(true);
+        }
 
         return $this->respondWithData($user);
     }

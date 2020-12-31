@@ -7,6 +7,7 @@ use App\Domain\User\Service\UpdateDiscordIdUserService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpForbiddenException;
 
 class UpdateDiscordIdUserAction extends Action
 {
@@ -25,6 +26,11 @@ class UpdateDiscordIdUserAction extends Action
     {
         $userId = (int) $this->resolveArg('userId');
         $discordId = (string) $this->resolveBodyArg('discord_id');
+
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
+            throw new HttpForbiddenException($this->request);
+        }
 
         $user = $this->updateDiscordIdUserService->run($userId, $discordId);
 
