@@ -25,8 +25,15 @@ class SearchUsernameAction extends Action
     {
         $keyword = (string) $this->resolveArg('keyword');
 
-        $user = $this->searchUsernameUserService->run($keyword);
+        $userList = $this->searchUsernameUserService->run($keyword);
 
-        return $this->respondWithData($user);
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->isAdmin()) {
+            foreach ($userList as $user) {
+                $user->setShowFullDetail(true);
+            }
+        }
+
+        return $this->respondWithData($userList);
     }
 }

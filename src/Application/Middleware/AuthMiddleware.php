@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Middleware;
 
+use App\Domain\Auth\Data\Auth;
 use App\Domain\Auth\Exception\AuthTokenExpiredException;
 use App\Domain\Auth\Exception\AuthTokenInvalidException;
 use App\Domain\Auth\Exception\AuthTokenNotFoundException;
@@ -33,36 +34,9 @@ class AuthMiddleware implements Middleware
         $route = $routeContext->getRoute();
         $routeName = $route->getName();
 
-        if (empty($route)) {
-            throw new HttpNotFoundException($request);
-        }
-
-        $parsedBody = $request->getParsedBody();
-        $argsUserId = $route->getArgument('userId');
-        $postUserId = isset($parsedBody['user_id']) ? $parsedBody['user_id'] : null;
-
-        try {
-            $authInfo = $this->validateAuthService->run();
-            $authUserId = $authInfo->getUserId();
-            $isSelf = $authUserId == $argsUserId || $authUserId == $postUserId;
-            $authIsMod = $authInfo->isMod();
-            $authIsAdmin = $authInfo->isAdmin();
-        } catch (AuthTokenNotFoundException | AuthTokenInvalidException | AuthTokenExpiredException $e) {
-            $authError = $e;
-            $authUserId = null;
-            $isSelf = false;
-            $authIsMod = false;
-            $authIsAdmin = false;
-        }
-
-        $request = $request->withAttribute('auth_user_id', $authUserId);
-        $request = $request->withAttribute('auth_is_self', $isSelf);
-        $request = $request->withAttribute('auth_is_mod', $authIsMod);
-        $request = $request->withAttribute('auth_is_admin', $authIsAdmin);
-
         $adminRouteArray = ['auth-override', 'register'];
         $modRouteArray = ['chatroom-command-add'];
-        $userPostRouteArray = [
+        $userRouteArray = [
             'match-rate-add',
             'match-bet-add',
             'user-update',
@@ -73,7 +47,16 @@ class AuthMiddleware implements Middleware
             'user-update-twitter',
             'user-update-login-token',
         ];
-        $authRequiredRouteArray = array_merge($adminRouteArray, $modRouteArray, $userPostRouteArray);
+        $authRequiredRouteArray = array_merge($adminRouteArray, $modRouteArray, $userRouteArray);
+
+        try {
+            $auth = $this->validateAuthService->run();
+        } catch (AuthTokenNotFoundException | AuthTokenInvalidException | AuthTokenExpiredException $e) {
+            $authError = $e;
+            $auth = Auth::create();
+        }
+
+        $request = $request->withAttribute('auth', $auth);
 
         if (!in_array($routeName, $authRequiredRouteArray)) {
             return $handler->handle($request);
@@ -83,22 +66,16 @@ class AuthMiddleware implements Middleware
             throw $authError;
         }
 
-        if (in_array($routeName, $userPostRouteArray)) {
-            if (!$isSelf && !$authInfo->isAdmin()) {
-                throw new HttpForbiddenException($request);
-            }
+        if (!$auth->isUser() && in_array($routeName, $userRouteArray)) {
+            throw new HttpForbiddenException($request);
         }
 
-        if (in_array($routeName, $modRouteArray)) {
-            if (!$authInfo->isMod()) {
-                throw new HttpForbiddenException($request);
-            }
+        if (!$auth->isMod() && in_array($routeName, $modRouteArray)) {
+            throw new HttpForbiddenException($request);
         }
 
-        if (in_array($routeName, $adminRouteArray)) {
-            if (!$authInfo->isAdmin()) {
-                throw new HttpForbiddenException($request);
-            }
+        if (!$auth->isAdmin() && in_array($routeName, $adminRouteArray)) {
+            throw new HttpForbiddenException($request);
         }
 
         return $handler->handle($request);

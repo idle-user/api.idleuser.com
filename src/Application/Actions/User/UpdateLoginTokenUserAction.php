@@ -7,6 +7,7 @@ use App\Domain\User\Service\UpdateLoginTokenUserService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpForbiddenException;
 
 class UpdateLoginTokenUserAction extends Action
 {
@@ -23,11 +24,14 @@ class UpdateLoginTokenUserAction extends Action
      */
     protected function action(): Response
     {
-        $user_id = (int) $this->resolveBodyArg('user_id');
+        $userId = (int) $this->resolveBodyArg('user_id');
 
-        $this->logger->info("Login Token for user `${user_id}`.");
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
+            throw new HttpForbiddenException($this->request);
+        }
 
-        $loginToken = $this->updateLoginTokenUserService->run($user_id);
+        $loginToken = $this->updateLoginTokenUserService->run($userId);
 
         return $this->respondWithData($loginToken);
     }

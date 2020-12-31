@@ -18,6 +18,12 @@ class Auth implements JsonSerializable
     {
     }
 
+    public static function create()
+    {
+        $instance = new self();
+        return $instance;
+    }
+
     public static function withRow(array $row)
     {
         $instance = new self();
@@ -49,6 +55,11 @@ class Auth implements JsonSerializable
     {
         $authExpTimestamp = strtotime($this->auth_token_exp);
         return time() > $authExpTimestamp;
+    }
+
+    public function isUser(): bool
+    {
+        return $this->access_level > 0;
     }
 
     public function isMod(): bool

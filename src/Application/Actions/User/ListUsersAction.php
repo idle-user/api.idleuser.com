@@ -23,11 +23,14 @@ class ListUsersAction extends Action
      */
     protected function action(): Response
     {
-        $isSelf = $this->request->getAttribute('auth_is_self');
-        $isAdmin = $this->request->getAttribute('auth_is_admin');
-        $showfullDetail = $isSelf || $isAdmin;
+        $userList = $this->listUserService->run();
 
-        $userList = $this->listUserService->run($showfullDetail);
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->isAdmin()) {
+            foreach ($userList as $user) {
+                $user->setShowFullDetail(true);
+            }
+        }
 
         return $this->respondWithData($userList);
     }

@@ -121,6 +121,19 @@ return function (App $app) {
             $group->get('/user/{userId:[0-9]+}/season/{seasonId:[0-9]+}', Matches\ViewStatsAction::class);
             $group->get('/leaderboard/season/{seasonId:[0-9]+}', Matches\ViewLeaderboardAction::class);
         });
+        $group->group('/royalrumbles', function (Group $group) {
+            $group->get('', Matches\ListRoyalRumblesAction::class);
+            $group->get('/entries', Matches\ListRoyalRumblesEntriesAction::class);
+            $group->get('/{royalrumbleId:[0-9]+}', Matches\ViewRoyalRumbleAction::class);
+            $group->get('/{royalrumbleId:[0-9]+}/entries', Matches\ListRoyalRumbleEntriesAction::class);
+            $group->get(
+                '/{royalrumbleId:[0-9]+}/entries/user/{userId:[0-9]+}',
+                Matches\ViewRoyalRumbleUserEntryAction::class,
+            );
+            $group
+                ->post('/{royalrumbleId:[0-9]+}', Matches\AddRoyalRumbleEntryAction::class)
+                ->setName('royalrumble-entry-add');
+        });
     });
 
     // Chatroom
