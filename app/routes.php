@@ -4,7 +4,7 @@ declare(strict_types=1);
 use App\Application\Actions\Auth;
 use App\Application\Actions\User;
 use App\Application\Actions\Matches;
-use App\Application\Actions\Chatroom;
+use App\Application\Actions\Chat;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -136,12 +136,12 @@ return function (App $app) {
         });
     });
 
-    // Chatroom
-    $app->group('/chatroom', function (Group $group) {
+    // Chat Commands
+    $app->group('/chat', function (Group $group) {
         $group->group('/commands', function (Group $group) {
-            $group->get('', Chatroom\ListCommandsAction::class);
-            $group->get('/{command}', Chatroom\ViewCommandAction::class);
-            $group->post('', Chatroom\AddCommandAction::class)->setName('chatroom-command-add');
+            $group->get('', Chat\ListCommandsAction::class);
+            $group->get('/{command}', Chat\ViewCommandAction::class);
+            $group->post('', Chat\AddCommandAction::class)->setName('chat-command-add');
         });
     });
 };

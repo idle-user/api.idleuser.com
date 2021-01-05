@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Actions\Chatroom;
+namespace App\Application\Actions\Chat;
 
-use App\Domain\Chatroom\Service\ListCommandsService;
+use App\Domain\Chat\Service\ListCommandsService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;

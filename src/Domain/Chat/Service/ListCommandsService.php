@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Domain\Chatroom\Service;
+namespace App\Domain\Chat\Service;
 
 final class ListCommandsService extends CommandService
 {
@@ -9,7 +9,7 @@ final class ListCommandsService extends CommandService
     {
         $commandList = $this->commandRepository->findAll();
 
-        $this->logger->info('Chatroom command list was viewed.');
+        $this->logger->info('Chat command list was viewed.');
 
         return $commandList;
     }

@@ -97,10 +97,10 @@ All end points below are available on https://api.idleuser.com/.
 | `GET /watchwrestling/user/{userId}/season/{seasonId}`       | No            | View stats by user ID and season ID             |
 | `GET /leaderboard/season/{seasonId}`                        | No            | View leaderboard by season ID                   |
 
-# Chatroom (Discord/Chatango) End Points
+# Chat Commands (Discord/Chatango) End Points
 
-| End Point                          | Auth Required | Description        |
-| ---------------------------------- | ------------- | ------------------ |
-| `GET /chatroom/commands`           | No            | View all commands  |
-| `GET /chatroom/commands/{command}` | No            | View command by ID |
-| `POST /chatroom/commands`          | Yes           | Add command        |
+| End Point                      | Auth Required | Description        |
+| ------------------------------ | ------------- | ------------------ |
+| `GET /chat/commands`           | No            | View all commands  |
+| `GET /chat/commands/{command}` | No            | View command by ID |
+| `POST /chat/commands`          | Yes           | Add command        |

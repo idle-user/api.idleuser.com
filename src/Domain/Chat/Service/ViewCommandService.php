@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Domain\Chatroom\Service;
+namespace App\Domain\Chat\Service;
 
 final class ViewCommandService extends CommandService
 {
@@ -9,7 +9,7 @@ final class ViewCommandService extends CommandService
     {
         $command = $this->commandRepository->findByCommand($keyword);
 
-        $this->logger->info("Chatroom command `${keyword}` was viewed.");
+        $this->logger->info("Chat command `${keyword}` was viewed.");
 
         return $command;
     }
