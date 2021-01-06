@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Actions\Chatroom;
+namespace App\Application\Actions\Chat;
 
-use App\Domain\Chatroom\Service\AddCommandService;
+use App\Domain\Chat\Service\AddCommandService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -25,7 +25,7 @@ class AddCommandAction extends Action
     {
         $commandName = $this->resolveBodyArg('command');
 
-        $this->logger->info("Add chatroom command `${commandName}` attempt.");
+        $this->logger->info("Add chat command `${commandName}` attempt.");
 
         $command = $this->addCommandService->run($this->request->getParsedBody());
 

@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Domain\Chatroom\Service;
+namespace App\Domain\Chat\Service;
 
-use App\Domain\Chatroom\Data\Command;
+use App\Domain\Chat\Data\Command;
 use App\Exception\ValidationException;
 
-final class UpdateCommandService extends CommandService
+final class AddCommandService extends CommandService
 {
     public function run(array $data)
     {
@@ -17,13 +17,11 @@ final class UpdateCommandService extends CommandService
             ->setResponse($data['response'])
             ->setDescription($data['description']);
 
-        $command = $this->commandRepository->findByCommand($data['command']);
-
-        $commandId = $this->commandRepository->update($command);
+        $commandId = $this->commandRepository->add($command);
 
         $command = $this->commandRepository->findById($commandId);
 
-        $this->logger->info(sprintf('Chatroom command updated successfully: %s', $command->getCommand()));
+        $this->logger->info(sprintf('Chat command created successfully: %s', $command->getCommand()));
 
         return $command;
     }

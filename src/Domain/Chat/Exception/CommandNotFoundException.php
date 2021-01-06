@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Domain\Chatroom\Exception;
+namespace App\Domain\Chat\Exception;
 
 use App\Domain\DomainException\DomainRecordNotFoundException;
 

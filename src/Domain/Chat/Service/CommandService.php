@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Domain\Chatroom\Service;
+namespace App\Domain\Chat\Service;
 
-use App\Domain\Chatroom\Repository\CommandRepository;
+use App\Domain\Chat\Repository\CommandRepository;
 use Psr\Log\LoggerInterface;
 
 abstract class CommandService

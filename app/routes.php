@@ -4,7 +4,7 @@ declare(strict_types=1);
 use App\Application\Actions\Auth;
 use App\Application\Actions\User;
 use App\Application\Actions\Matches;
-use App\Application\Actions\Chatroom;
+use App\Application\Actions\Chat;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -90,6 +90,7 @@ return function (App $app) {
             $group->get('/current/detail', Matches\ViewCurrentMatchDetailAction::class);
             $group->get('/{matchId:[0-9]+}', Matches\ViewMatchAction::class);
             $group->get('/{matchId:[0-9]+}/bets', Matches\ListMatchBetsAction::class);
+            $group->get('/{matchId:[0-9]+}/bets/calculation', Matches\ListMatchBetCalculationsAction::class);
             $group->get('/{matchId:[0-9]+}/detail', Matches\ViewMatchDetailAction::class);
             $group->get('/{matchId:[0-9]+}/ratings', Matches\ListMatchMatchRatingsAction::class);
             $group->get('/{matchId:[0-9]+}/calculation', Matches\ViewMatchCalculationAction::class);
@@ -104,9 +105,16 @@ return function (App $app) {
         });
         $group->group('/bets', function (Group $group) {
             $group->get('', Matches\ListBetsAction::class);
+            $group->get('/calculation', Matches\ListBetCalculationsAction::class);
             $group->get('/user/{userId:[0-9]+}', Matches\ListUserBetsAction::class);
+            $group->get('/user/{userId:[0-9]+}/calculation', Matches\ListUserBetCalculationsAction::class);
             $group->get('/match/{matchId:[0-9]+}', Matches\ListMatchBetsAction::class);
+            $group->get('/match/{matchId:[0-9]+}/calculation', Matches\ListMatchBetCalculationsAction::class);
             $group->get('/match/{matchId:[0-9]+}/user/{userId:[0-9]+}', Matches\ViewBetAction::class);
+            $group->get(
+                '/match/{matchId:[0-9]+}/user/{userId:[0-9]+}/calculation',
+                Matches\ViewBetCalculationAction::class,
+            );
         });
         $group->group('/ratings', function (Group $group) {
             $group->get('', Matches\ListMatchRatingsAction::class);
@@ -136,12 +144,12 @@ return function (App $app) {
         });
     });
 
-    // Chatroom
-    $app->group('/chatroom', function (Group $group) {
+    // Chat Commands
+    $app->group('/chat', function (Group $group) {
         $group->group('/commands', function (Group $group) {
-            $group->get('', Chatroom\ListCommandsAction::class);
-            $group->get('/{command}', Chatroom\ViewCommandAction::class);
-            $group->post('', Chatroom\AddCommandAction::class)->setName('chatroom-command-add');
+            $group->get('', Chat\ListCommandsAction::class);
+            $group->get('/{command}', Chat\ViewCommandAction::class);
+            $group->post('', Chat\AddCommandAction::class)->setName('chat-command-add');
         });
     });
 };
