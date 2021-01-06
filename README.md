@@ -51,51 +51,56 @@ All end points below are available on https://api.idleuser.com/.
 
 # Matches (WatchWrestling) End Points
 
-| End Point                                                   | Auth Required | Description                                     |
-| ----------------------------------------------------------- | ------------- | ----------------------------------------------- |
-| `POST /watchwrestling/bet`                                  | Yes           | Bet on match                                    |
-| `POST /watchwrestling/rate`                                 | Yes           | Rate match                                      |
-| `GET /watchwrestling/brands`                                | No            | View all brands                                 |
-| `GET /watchwrestling/brands/{brandId}`                      | No            | View brand by ID                                |
-| `GET /watchwrestling/titles`                                | No            | View all titles                                 |
-| `GET /watchwrestling/titles/{titleId}`                      | No            | View title by ID                                |
-| `GET /watchwrestling/matchtypes`                            | No            | View all match types                            |
-| `GET /watchwrestling/matchtypes/{matchTypeId}`              | No            | View match type by ID                           |
-| `GET /watchwrestling/contestants`                           | No            | View all contestants                            |
-| `GET /watchwrestling/contestants/match/{matchId}`           | No            | View contestants by match ID                    |
-| `GET /watchwrestling/events`                                | No            | View all events                                 |
-| `GET /watchwrestling/events/future`                         | No            | View all future events                          |
-| `GET /watchwrestling/events/{eventId}`                      | No            | View event by ID                                |
-| `GET /watchwrestling/events/search/{keyword}`               | No            | View events with matching name                  |
-| `GET /watchwrestling/superstars`                            | No            | View all superstars                             |
-| `GET /watchwrestling/superstars/{superstarId}`              | No            | View superstar by ID                            |
-| `GET /watchwrestling/superstars/search/{keyword}`           | No            | View superstar with matching name               |
-| `GET /watchwrestling/matches`                               | No            | View all matches                                |
-| `GET /watchwrestling/matches/detail`                        | No            | View all matches with detail                    |
-| `GET /watchwrestling/matches/calculation`                   | No            | View all matches calculations                   |
-| `GET /watchwrestling/matches/betopen`                       | No            | View all matches with bets open                 |
-| `GET /watchwrestling/matches/betopen/detail`                | No            | View all matches with bets open and with detail |
-| `GET /watchwrestling/matches/recent/detail`                 | No            | View last closed match with detail              |
-| `GET /watchwrestling/matches/current/detail`                | No            | View current match with detail                  |
-| `GET /watchwrestling/matches/{matchId}`                     | No            | View match by ID                                |
-| `GET /watchwrestling/matches/{matchId}/bets`                | No            | View match bets by match ID                     |
-| `GET /watchwrestling/matches/{matchId}/detail`              | No            | View match with detail by match ID              |
-| `GET /watchwrestling/matches/{matchId}/ratings`             | No            | View match ratings by match ID                  |
-| `GET /watchwrestling/matches/{matchId}/calculation`         | No            | View match calculation by match ID              |
-| `GET /watchwrestling/matches/{matchId}/contestants`         | No            | View match contestants by match ID              |
-| `GET /watchwrestling/bets`                                  | No            | View all match bets                             |
-| `GET /watchwrestling/bets/user/{userId}`                    | No            | View match bets by user ID                      |
-| `GET /watchwrestling/bets/match/{matchId}`                  | No            | View match bets by match ID                     |
-| `GET /watchwrestling/bets/match/{matchId}/user/{userId}`    | No            | View bet by match ID and user ID                |
-| `GET /watchwrestling/ratings`                               | No            | View all match ratings                          |
-| `GET /watchwrestling/ratings/user/{userId}`                 | No            | View all match rating by user ID                |
-| `GET /watchwrestling/ratings/match/{matchId}`               | No            | View match ratings by match ID                  |
-| `GET /watchwrestling/ratings/match/{matchId}/user/{userId}` | No            | View match rating by match ID and user ID       |
-| `GET /watchwrestling/stats`                                 | No            | View all user stats                             |
-| `GET /watchwrestling/stats/user/{userId}`                   | No            | View stats by user ID                           |
-| `GET /watchwrestling/stats/season/{seasonId}`               | No            | View stats by season ID                         |
-| `GET /watchwrestling/user/{userId}/season/{seasonId}`       | No            | View stats by user ID and season ID             |
-| `GET /leaderboard/season/{seasonId}`                        | No            | View leaderboard by season ID                   |
+| End Point                                                            | Auth Required | Description                                     |
+| -------------------------------------------------------------------- | ------------- | ----------------------------------------------- |
+| `POST /watchwrestling/bet`                                           | Yes           | Bet on match                                    |
+| `POST /watchwrestling/rate`                                          | Yes           | Rate match                                      |
+| `GET /watchwrestling/brands`                                         | No            | View all brands                                 |
+| `GET /watchwrestling/brands/{brandId}`                               | No            | View brand by ID                                |
+| `GET /watchwrestling/titles`                                         | No            | View all titles                                 |
+| `GET /watchwrestling/titles/{titleId}`                               | No            | View title by ID                                |
+| `GET /watchwrestling/matchtypes`                                     | No            | View all match types                            |
+| `GET /watchwrestling/matchtypes/{matchTypeId}`                       | No            | View match type by ID                           |
+| `GET /watchwrestling/contestants`                                    | No            | View all contestants                            |
+| `GET /watchwrestling/contestants/match/{matchId}`                    | No            | View contestants by match ID                    |
+| `GET /watchwrestling/events`                                         | No            | View all events                                 |
+| `GET /watchwrestling/events/future`                                  | No            | View all future events                          |
+| `GET /watchwrestling/events/{eventId}`                               | No            | View event by ID                                |
+| `GET /watchwrestling/events/search/{keyword}`                        | No            | View events with matching name                  |
+| `GET /watchwrestling/superstars`                                     | No            | View all superstars                             |
+| `GET /watchwrestling/superstars/{superstarId}`                       | No            | View superstar by ID                            |
+| `GET /watchwrestling/superstars/search/{keyword}`                    | No            | View superstar with matching name               |
+| `GET /watchwrestling/matches`                                        | No            | View all matches                                |
+| `GET /watchwrestling/matches/detail`                                 | No            | View all matches with detail                    |
+| `GET /watchwrestling/matches/calculation`                            | No            | View all matches calculations                   |
+| `GET /watchwrestling/matches/betopen`                                | No            | View all matches with bets open                 |
+| `GET /watchwrestling/matches/betopen/detail`                         | No            | View all matches with bets open and with detail |
+| `GET /watchwrestling/matches/recent/detail`                          | No            | View last closed match with detail              |
+| `GET /watchwrestling/matches/current/detail`                         | No            | View current match with detail                  |
+| `GET /watchwrestling/matches/{matchId}`                              | No            | View match by ID                                |
+| `GET /watchwrestling/matches/{matchId}/bets`                         | No            | View match bets by match ID                     |
+| `GET /watchwrestling/matches/{matchId}/bets/calculation`             | No            | View match bet calculations by match ID         |
+| `GET /watchwrestling/matches/{matchId}/detail`                       | No            | View match with detail by match ID              |
+| `GET /watchwrestling/matches/{matchId}/ratings`                      | No            | View match ratings by match ID                  |
+| `GET /watchwrestling/matches/{matchId}/calculation`                  | No            | View match calculation by match ID              |
+| `GET /watchwrestling/matches/{matchId}/contestants`                  | No            | View match contestants by match ID              |
+| `GET /watchwrestling/bets`                                           | No            | View all match bets                             |
+| `GET /watchwrestling/bets/calculation`                               | No            | View all match bet calculations                 |
+| `GET /watchwrestling/bets/user/{userId}`                             | No            | View match bets by user ID                      |
+| `GET /watchwrestling/bets/user/{userId}/calculation`                 | No            | View match bet calculations by user ID          |
+| `GET /watchwrestling/bets/match/{matchId}`                           | No            | View match bets by match ID                     |
+| `GET /watchwrestling/bets/match/{matchId}/calculation`               | No            | View match bet calculations by match ID         |
+| `GET /watchwrestling/bets/match/{matchId}/user/{userId}`             | No            | View bet by match ID and user ID                |
+| `GET /watchwrestling/bets/match/{matchId}/user/{userId}/calculation` | No            | View bet calculation by match ID and user ID    |
+| `GET /watchwrestling/ratings`                                        | No            | View all match ratings                          |
+| `GET /watchwrestling/ratings/user/{userId}`                          | No            | View all match rating by user ID                |
+| `GET /watchwrestling/ratings/match/{matchId}`                        | No            | View match ratings by match ID                  |
+| `GET /watchwrestling/ratings/match/{matchId}/user/{userId}`          | No            | View match rating by match ID and user ID       |
+| `GET /watchwrestling/stats`                                          | No            | View all user stats                             |
+| `GET /watchwrestling/stats/user/{userId}`                            | No            | View stats by user ID                           |
+| `GET /watchwrestling/stats/season/{seasonId}`                        | No            | View stats by season ID                         |
+| `GET /watchwrestling/user/{userId}/season/{seasonId}`                | No            | View stats by user ID and season ID             |
+| `GET /leaderboard/season/{seasonId}`                                 | No            | View leaderboard by season ID                   |
 
 # Chat Commands (Discord/Chatango) End Points
 
