@@ -7,10 +7,10 @@ final class ViewBetCalculationService extends BetCalculationService
 {
     public function run(int $userId, int $matchId)
     {
-        $bet = $this->betCalculationRepository->findById($userId, $matchId);
+        $betCalculation = $this->betCalculationRepository->findById($userId, $matchId);
 
         $this->logger->info("Bet calculation user id `${userId}` match id `${matchId}` was viewed.");
 
-        return $bet;
+        return $betCalculation;
     }
 }
