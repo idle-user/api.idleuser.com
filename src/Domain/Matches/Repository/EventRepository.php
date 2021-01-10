@@ -32,7 +32,7 @@ class EventRepository
 
     public function findFuture()
     {
-        $sql = 'SELECT * FROM matches_event WHERE date_time > DATE(NOW()) ORDER BY date_time DESC';
+        $sql = 'SELECT * FROM matches_event WHERE date_time > DATE(NOW()) ORDER BY date_time ASC';
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
