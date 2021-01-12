@@ -31,8 +31,9 @@ return function (App $app) {
         $group->get('/discord/{discordId}', User\ViewDiscordUserAction::class);
         $group->get('/chatango/{chatangoId}', User\ViewChatangoUserAction::class);
         $group->post('/login', User\LoginUserAction::class);
-        $group->post('/login/token', User\UpdateLoginTokenUserAction::class)->setName('user-update-login-token');
         $group->post('/register', User\RegisterUserAction::class)->setName('register');
+        $group->post('/login/token', User\UpdateLoginTokenUserAction::class)->setName('user-update-login-token');
+        $group->post('/secret/token', User\UpdateSecretTokenUserAction::class)->setName('user-update-secret-token');
         $group->put('/{userId:[0-9]+}', User\UpdateUserAction::class)->setName('user-update');
         $group
             ->patch('/{userId:[0-9]+}/username', User\UpdateUsernameUserAction::class)

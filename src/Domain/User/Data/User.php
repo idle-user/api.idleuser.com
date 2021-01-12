@@ -86,6 +86,11 @@ class User implements JsonSerializable
         return $this->login_token;
     }
 
+    public function getSecretToken(): ?string
+    {
+        return $this->temp_secret;
+    }
+
     public function canUpdateUsername()
     {
         if ($this->username_last_updated == 0) {

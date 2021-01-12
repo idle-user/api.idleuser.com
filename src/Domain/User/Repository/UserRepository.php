@@ -165,10 +165,16 @@ class UserRepository
         return $result;
     }
 
-    public function updateLoginTokenById($userId, $loginToken)
+    public function updateLoginTokenById($userId, $token)
     {
         $sql = 'UPDATE user SET login_token=?, login_token_exp=DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE id=?';
-        $this->db->query($sql, [$loginToken, $userId]);
+        $this->db->query($sql, [$token, $userId]);
+    }
+
+    public function updateSecretTokenById($userId, $token)
+    {
+        $sql = 'UPDATE user SET temp_secret=?, temp_secret_exp=DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE id=?';
+        $this->db->query($sql, [$token, $userId]);
     }
 
     public function updateUsernameById($userId, $username)
