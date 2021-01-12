@@ -37,6 +37,7 @@ All end points below are available on https://api.idleuser.com/.
 | `POST /users/login`                | No            | Login to account                  |
 | `POST /users/register`             | Yes           | Register account                  |
 | `POST /users/login/token`          | Yes           | Request login token for web       |
+| `POST /users/secret/token`         | Yes           | Request secret token for web      |
 | `PUT /users/{userId}`              | Yes           | Update account                    |
 | `PATCH /users/{userId}/username`   | Yes           | Update username                   |
 | `PATCH /users/{userId}/email`      | Yes           | Update email                      |

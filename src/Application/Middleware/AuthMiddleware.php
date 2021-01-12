@@ -46,6 +46,7 @@ class AuthMiddleware implements Middleware
             'user-update-chatango',
             'user-update-twitter',
             'user-update-login-token',
+            'user-update-secret-token',
         ];
         $authRequiredRouteArray = array_merge($adminRouteArray, $modRouteArray, $userRouteArray);
 
