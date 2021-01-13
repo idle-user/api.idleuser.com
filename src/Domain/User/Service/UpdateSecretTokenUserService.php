@@ -7,7 +7,7 @@ final class UpdateSecretTokenUserService extends UserService
 {
     public function run(int $userId)
     {
-        $token = bin2hex(random_bytes(8));
+        $token = bin2hex(random_bytes(32));
 
         $this->userRepository->updateSecretTokenById($userId, $token);
 
