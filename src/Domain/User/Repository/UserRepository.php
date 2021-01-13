@@ -173,7 +173,7 @@ class UserRepository
 
     public function updateSecretTokenById($userId, $token)
     {
-        $sql = 'UPDATE user SET temp_secret=?, temp_secret_exp=DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE id=?';
+        $sql = 'UPDATE user SET temp_secret=?, temp_secret_exp=DATE_ADD(NOW(), INTERVAL 30 MINUTE) WHERE id=?';
         $this->db->query($sql, [$token, $userId]);
     }
 
