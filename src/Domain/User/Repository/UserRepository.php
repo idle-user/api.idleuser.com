@@ -114,15 +114,10 @@ class UserRepository
         return $ret;
     }
 
-    public function register(array $data)
+    public function register($username, $secret)
     {
-        $sql = 'INSERT INTO user (username, secret, discord_id, chatango_id, date_created) VALUES (?, ?, ?, ?, NOW())';
-        $args = [
-            $data['username'],
-            password_hash($data['secret'], PASSWORD_BCRYPT),
-            $data['discord_id'],
-            $data['chatango_id'],
-        ];
+        $sql = 'INSERT INTO user (username, secret, date_created, secret_last_updated) VALUES (?, ?, NOW(), NOW())';
+        $args = [$username, password_hash($secret, PASSWORD_BCRYPT)];
 
         try {
             $this->db->query($sql, $args);
