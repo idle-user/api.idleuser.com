@@ -80,19 +80,19 @@ All end points below are available on https://api.idleuser.com/.
 | `GET /watchwrestling/matches/current/detail`                         | No            | View current match with detail                  |
 | `GET /watchwrestling/matches/{matchId}`                              | No            | View match by ID                                |
 | `GET /watchwrestling/matches/{matchId}/bets`                         | No            | View match bets by match ID                     |
-| `GET /watchwrestling/matches/{matchId}/bets/calculation`             | No            | View match bet calculations by match ID         |
+| `GET /watchwrestling/matches/{matchId}/bets/calculation`             | No            | View match bet details by match ID              |
 | `GET /watchwrestling/matches/{matchId}/detail`                       | No            | View match with detail by match ID              |
 | `GET /watchwrestling/matches/{matchId}/ratings`                      | No            | View match ratings by match ID                  |
 | `GET /watchwrestling/matches/{matchId}/calculation`                  | No            | View match calculation by match ID              |
 | `GET /watchwrestling/matches/{matchId}/contestants`                  | No            | View match contestants by match ID              |
 | `GET /watchwrestling/bets`                                           | No            | View all match bets                             |
-| `GET /watchwrestling/bets/calculation`                               | No            | View all match bet calculations                 |
+| `GET /watchwrestling/bets/calculation`                               | No            | View all match bet details                      |
 | `GET /watchwrestling/bets/user/{userId}`                             | No            | View match bets by user ID                      |
-| `GET /watchwrestling/bets/user/{userId}/calculation`                 | No            | View match bet calculations by user ID          |
+| `GET /watchwrestling/bets/user/{userId}/calculation`                 | No            | View match bet details by user ID               |
 | `GET /watchwrestling/bets/match/{matchId}`                           | No            | View match bets by match ID                     |
-| `GET /watchwrestling/bets/match/{matchId}/calculation`               | No            | View match bet calculations by match ID         |
+| `GET /watchwrestling/bets/match/{matchId}/calculation`               | No            | View match bet details by match ID              |
 | `GET /watchwrestling/bets/match/{matchId}/user/{userId}`             | No            | View bet by match ID and user ID                |
-| `GET /watchwrestling/bets/match/{matchId}/user/{userId}/calculation` | No            | View bet calculation by match ID and user ID    |
+| `GET /watchwrestling/bets/match/{matchId}/user/{userId}/calculation` | No            | View bet detail by match ID and user ID         |
 | `GET /watchwrestling/ratings`                                        | No            | View all match ratings                          |
 | `GET /watchwrestling/ratings/user/{userId}`                          | No            | View all match rating by user ID                |
 | `GET /watchwrestling/ratings/match/{matchId}`                        | No            | View match ratings by match ID                  |

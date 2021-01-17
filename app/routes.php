@@ -91,7 +91,7 @@ return function (App $app) {
             $group->get('/current/detail', Matches\ViewCurrentMatchDetailAction::class);
             $group->get('/{matchId:[0-9]+}', Matches\ViewMatchAction::class);
             $group->get('/{matchId:[0-9]+}/bets', Matches\ListMatchBetsAction::class);
-            $group->get('/{matchId:[0-9]+}/bets/calculation', Matches\ListMatchBetCalculationsAction::class);
+            $group->get('/{matchId:[0-9]+}/bets/detail', Matches\ListMatchBetsDetailAction::class);
             $group->get('/{matchId:[0-9]+}/detail', Matches\ViewMatchDetailAction::class);
             $group->get('/{matchId:[0-9]+}/ratings', Matches\ListMatchMatchRatingsAction::class);
             $group->get('/{matchId:[0-9]+}/calculation', Matches\ViewMatchCalculationAction::class);
@@ -106,16 +106,14 @@ return function (App $app) {
         });
         $group->group('/bets', function (Group $group) {
             $group->get('', Matches\ListBetsAction::class);
-            $group->get('/calculation', Matches\ListBetCalculationsAction::class);
+            $group->get('/detail', Matches\ListBetsDetailAction::class);
             $group->get('/user/{userId:[0-9]+}', Matches\ListUserBetsAction::class);
-            $group->get('/user/{userId:[0-9]+}/calculation', Matches\ListUserBetCalculationsAction::class);
+            $group->get('/user/{userId:[0-9]+}/detail', Matches\ListUserBetsDetailAction::class);
+            $group->get('/user/{userId:[0-9]+}/current/detail', Matches\ListCurrentUserBetsDetailAction::class);
             $group->get('/match/{matchId:[0-9]+}', Matches\ListMatchBetsAction::class);
-            $group->get('/match/{matchId:[0-9]+}/calculation', Matches\ListMatchBetCalculationsAction::class);
+            $group->get('/match/{matchId:[0-9]+}/detail', Matches\ListMatchBetsDetailAction::class);
             $group->get('/match/{matchId:[0-9]+}/user/{userId:[0-9]+}', Matches\ViewBetAction::class);
-            $group->get(
-                '/match/{matchId:[0-9]+}/user/{userId:[0-9]+}/calculation',
-                Matches\ViewBetCalculationAction::class,
-            );
+            $group->get('/match/{matchId:[0-9]+}/user/{userId:[0-9]+}/detail', Matches\ViewBetDetailAction::class);
         });
         $group->group('/ratings', function (Group $group) {
             $group->get('', Matches\ListMatchRatingsAction::class);
