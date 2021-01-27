@@ -7,6 +7,7 @@ use App\Domain\Matches\Service\AddRoyalRumbleEntryService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpForbiddenException;
 
 class AddRoyalRumbleEntryAction extends Action
@@ -25,7 +26,11 @@ class AddRoyalRumbleEntryAction extends Action
     protected function action(): Response
     {
         $royalRumbleId = (int) $this->resolveArg('royalrumbleId');
-        $userId = (int) $this->resolveBodyArg('user_id');
+        try {
+            $userId = (int) $this->resolveBodyArg('user_id');
+        } catch (HttpBadRequestException $e) {
+            $userId = null;
+        }
         $displayName = (string) $this->resolveBodyArg('display_name');
         $comment = (string) $this->resolveBodyArg('comment');
 
