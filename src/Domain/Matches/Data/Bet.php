@@ -45,7 +45,7 @@ class Bet implements JsonSerializable
         return $this->team;
     }
 
-    public function getPoints(): ?int
+    public function getPoints()
     {
         return $this->points;
     }
