@@ -68,7 +68,7 @@ final class AddBetService
 
     private function validate(Bet $bet)
     {
-        if ($bet->getPoints() <= 0) {
+        if (is_int($bet->getPoints()) && $bet->getPoints() <= 0) {
             throw new InvalidBetAmountException();
         }
 
