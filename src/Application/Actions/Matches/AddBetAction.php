@@ -26,7 +26,7 @@ class AddBetAction extends Action
         $userId = (int) $this->resolveBodyArg('user_id');
         $matchId = (int) $this->resolveBodyArg('match_id');
         $team = (int) $this->resolveBodyArg('team');
-        $points = (int) $this->resolveBodyArg('points');
+        $points = $this->resolveBodyArg('points');
 
         $bet = $this->addBetService->run($userId, $matchId, $team, $points);
 

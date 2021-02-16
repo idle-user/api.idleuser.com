@@ -68,7 +68,7 @@ class Bet implements JsonSerializable
         return $this;
     }
 
-    public function setPoints(int $points)
+    public function setPoints($points)
     {
         $this->points = $points;
         return $this;

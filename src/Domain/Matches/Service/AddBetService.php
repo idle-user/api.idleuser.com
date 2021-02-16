@@ -45,7 +45,7 @@ final class AddBetService
         $this->contestantRepository = $contestantRepository;
     }
 
-    public function run(int $userId, int $matchId, int $team, int $points)
+    public function run(int $userId, int $matchId, int $team, $points)
     {
         $bet = Bet::create()
             ->setUserId($userId)
@@ -68,7 +68,7 @@ final class AddBetService
 
     private function validate(Bet $bet)
     {
-        if (is_int($bet->getPoints()) && $bet->getPoints() <= 0) {
+        if ($bet->getPoints() <= 0) {
             throw new InvalidBetAmountException();
         }
 
