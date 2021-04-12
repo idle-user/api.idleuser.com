@@ -54,7 +54,7 @@ class SeasonRepository
 
     public function findCurrentSeason()
     {
-        $sql = 'SELECT * FROM matches_season WHERE NOW() BETWEEN start_date AND end_date';
+        $sql = 'SELECT * FROM matches_season WHERE NOW() BETWEEN start_date AND IFNULL(end_date, NOW())';
         $stmt = $this->db->query($sql);
         $row = $stmt->fetch();
         if (!$row) {
