@@ -8,7 +8,7 @@ use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class AddBetAction extends Action
+class UpdateBetAction extends Action
 {
     private $updateBetService;
 
