@@ -55,6 +55,7 @@ All end points below are available on https://api.idleuser.com/.
 | End Point                                                       | Auth Required | Description                                     |
 | --------------------------------------------------------------- | ------------- | ----------------------------------------------- |
 | `POST /watchwrestling/bet`                                      | Yes           | Bet on match                                    |
+| `PUT /watchwrestling/bet`                                       | Yes           | Update Bet on match                             |
 | `POST /watchwrestling/rate`                                     | Yes           | Rate match                                      |
 | `GET /watchwrestling/brands`                                    | No            | View all brands                                 |
 | `GET /watchwrestling/brands/{brandId}`                          | No            | View brand by ID                                |

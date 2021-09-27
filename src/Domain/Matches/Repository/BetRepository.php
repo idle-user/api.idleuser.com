@@ -86,4 +86,19 @@ class BetRepository
             }
         }
     }
+
+    public function update(Bet $bet)
+    {
+        $sql = 'UPDATE matches_bet SET points=?, dt_placed=NOW() WHERE user_id=? AND match_id=? AND team=?';
+        $args = [$bet->getPoints(), $bet->getUserId(), $bet->getMatchId(), $bet->getTeam()];
+        try {
+            $this->db->query($sql, $args);
+        } catch (PDOException $e) {
+            if ($e->getCode() == 23000) {
+                throw new BetAlreadyExistsException();
+            } else {
+                throw $e;
+            }
+        }
+    }
 }
