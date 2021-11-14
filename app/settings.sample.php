@@ -9,6 +9,7 @@ return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
         'settings' => [
             'displayErrorDetails' => true, // Should be set to false in production
+            'timezone' => isset($_ENV['TZ']) ? $_ENV['TZ'] : date_default_timezone_get(),
             'logger' => [
                 'name' => 'slim-app',
                 'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',

@@ -45,6 +45,9 @@ $routes($app);
 /** @var bool $displayErrorDetails */
 $displayErrorDetails = $container->get('settings')['displayErrorDetails'];
 
+/** @var str $timezone */
+date_default_timezone_set($container->get('settings')['timezone']);
+
 // Create Request object from globals
 $serverRequestCreator = ServerRequestCreatorFactory::create();
 $request = $serverRequestCreator->createServerRequestFromGlobals();
