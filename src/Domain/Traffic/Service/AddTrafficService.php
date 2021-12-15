@@ -16,7 +16,12 @@ final class AddTrafficService extends TrafficService
         $requestText = "${requestMethod} ${requestPath}";
 
         $userAgent = $request->getHeader('User-Agent')[0];
-        $ipAddress = $request->getAttribute('ip_address');
+        # check cloudflare
+		if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])){
+            $ipAddress = $_SERVER['HTTP_CF_CONNECTING_IP'];
+		} else {
+            $ipAddress = $request->getAttribute('ip_address');
+        }
         $userId = $request->getAttribute('auth')->getUserId();
 
         $traffic = $this->trafficRepository->addTraffic($requestText, $userAgent, $ipAddress, $userId);
