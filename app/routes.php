@@ -5,6 +5,7 @@ use App\Application\Actions\Auth;
 use App\Application\Actions\User;
 use App\Application\Actions\Matches;
 use App\Application\Actions\Chat;
+use App\Application\Actions\AltLink;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -151,5 +152,12 @@ return function (App $app) {
             $group->get('/{command}', Chat\ViewCommandAction::class);
             $group->post('', Chat\AddCommandAction::class)->setName('chat-command-add');
         });
+    });
+
+    // AltLink
+    $app->group('/altlink', function (Group $group) {
+        $group->get('', AltLink\ListAltLinksAction::class)->setName('altlink-list');
+        $group->get('/{alias}', AltLink\ViewAltLinkAction::class)->setName('altlink-view');
+        $group->post('', AltLink\AddAltLinkAction::class)->setName('altlink-add');
     });
 };
