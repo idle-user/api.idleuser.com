@@ -7,6 +7,8 @@ use App\Domain\Matches\Service\AddMatchRatingService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpForbiddenException;
+
 
 class AddMatchRatingAction extends Action
 {
@@ -26,6 +28,11 @@ class AddMatchRatingAction extends Action
         $userId = (int) $this->resolveBodyArg('user_id');
         $matchId = (int) $this->resolveBodyArg('match_id');
         $rating = (float) $this->resolveBodyArg('rating');
+
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
+            throw new HttpForbiddenException($this->request);
+        }
 
         $bet = $this->addMatchRatingService->run($userId, $matchId, $rating);
 
