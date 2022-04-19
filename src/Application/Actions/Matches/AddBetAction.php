@@ -7,6 +7,7 @@ use App\Domain\Matches\Service\AddBetService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Exception\HttpForbiddenException;
 
 class AddBetAction extends Action
 {
@@ -27,6 +28,11 @@ class AddBetAction extends Action
         $matchId = (int) $this->resolveBodyArg('match_id');
         $team = (int) $this->resolveBodyArg('team');
         $points = $this->resolveBodyArg('points');
+
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
+            throw new HttpForbiddenException($this->request);
+        }
 
         $bet = $this->addBetService->run($userId, $matchId, $team, $points);
 
