@@ -1,18 +1,49 @@
-version: '3.7'
+version: "3.9"
+services:
+
+  web:
+    image: nginx:latest
+    restart: unless-stopped
+    ports:
+    - published: 2080
+      target: 80
+    environment:
+      TZ: America/Los_Angeles
+    links:
+    - db
+    - fpm
+    volumes:
+    - .:/var/www/api
+    - ./resources/web/site.conf:/etc/nginx/conf.d/default.conf
+
+  fpm:
+    build: .
+    restart: unless-stopped
+    environment:
+      TZ: America/Los_Angeles
+      docker: "true"
+      MYSQL_DATABASE: Website
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    volumes:
+    - .:/var/www/api
+
+  db:
+    image: mariadb:latest
+    restart: unless-stopped
+    ports:
+    - published: 2306
+      target: 3306
+    environment:
+      TZ: America/Los_Angeles
+      MYSQL_DATABASE: Website
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    volumes:
+    - db:/var/lib/mysql
+    - ./resources/db/my.cnf:/etc/mysql/conf.d/my.cnf
+    - ./resources/db/init.sql:/docker-entrypoint-initdb.d/db-init.sql
 
 volumes:
-    logs:
-        driver: local
-
-services:
-    slim:
-        image: php:7-alpine
-        working_dir: /var/www
-        command: php -S 0.0.0.0:8080 -t public
-        environment:
-            docker: "true"
-        ports:
-            - 8080:8080
-        volumes:
-            - .:/var/www
-            - logs:/var/www/logs
+  db: {}
