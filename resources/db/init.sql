@@ -3879,4 +3879,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-INSERT INTO `user` (`username`, `secret`, `access`, `date_created`) VALUES ('admin', '$2y$10$rTitW1DwMtImPUSJ4NWeC.YteWUuA8uA8Tt2eozns4MMOMGnL5KpO', 3, NOW());
+INSERT INTO `user` (`username`, `secret`, `access`, `date_created`) VALUES ('admin', '$2y$10$z21CfhGFmUqFImVjHq.EW.2NuYCN5Gc/IDxOHY2glMhWe4WKioWZO', 3, NOW());
