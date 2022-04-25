@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
     environment:
       TZ: America/Los_Angeles
-      docker: "true"
+      docker: 1
       MYSQL_DATABASE: Website
       MYSQL_USER: root
       MYSQL_PASSWORD: root
