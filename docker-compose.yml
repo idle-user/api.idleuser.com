@@ -23,8 +23,8 @@ services:
       TZ: America/Los_Angeles
       docker: "true"
       MYSQL_DATABASE: Website
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
     volumes:
     - .:/var/www/api
 
@@ -38,8 +38,6 @@ services:
       TZ: America/Los_Angeles
       MYSQL_DATABASE: Website
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
     volumes:
     - db:/var/lib/mysql
     - ./resources/db/my.cnf:/etc/mysql/conf.d/my.cnf
