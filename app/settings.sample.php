@@ -9,7 +9,7 @@ return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
         'settings' => [
             'displayErrorDetails' => true, // Should be set to false in production
-            'timezone' => isset($_ENV['TZ']) ? $_ENV['TZ'] : date_default_timezone_get(),
+            'timezone' => $_ENV['TZ']) ?? date_default_timezone_get(),
             'logger' => [
                 'name' => 'slim-app',
                 'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
@@ -17,10 +17,10 @@ return function (ContainerBuilder $containerBuilder) {
             ],
             'db' => [
                 'driver' => 'mysql',
-                'host' => '',
-                'database' => '',
-                'username' => '',
-                'password' => '',
+                'host' => 'db',
+                'database' => $_ENV['MYSQL_DATABASE'],
+                'username' => $_ENV['MYSQL_USER'],
+                'password' => $_ENV['MYSQL_PASSWORD'],
                 'charset' => 'utf8mb4',
                 'collation' => 'utf8_unicode_ci',
                 'prefix' => '',
