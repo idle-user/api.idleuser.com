@@ -6,3 +6,4 @@ app/settings.php
 /logs/*
 !/logs/README.md
 .phpunit.result.cache
+.env
