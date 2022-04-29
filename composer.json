@@ -1,5 +1,5 @@
 {
-    "name": "idleuser/api",
+    "name": "idle-user/api",
     "description": "An API for idleuser.com built with Slim Framework",
     "keywords": [
         "microframework",
@@ -8,12 +8,12 @@
         "psr7",
         "api"
     ],
-    "homepage": "https://github.com/idle-user/website",
+    "homepage": "https://github.com/idle-user/api.idleuser.com",
     "license": "MIT",
     "authors": [
         {
             "name": "Jesus Andrade",
-            "homepage": "http://idleuser.com/"
+            "homepage": "https://idleuser.com/"
         }
     ],
     "require": {
