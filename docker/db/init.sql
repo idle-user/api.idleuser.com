@@ -589,6 +589,7 @@ CREATE TABLE `traffic` (
   `ip_id` binary(16) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `response_code` int(10) unsigned DEFAULT NULL,
+  `note` TEXT DEFAULT NULL,
   `response_updated` datetime DEFAULT NULL,
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -1230,7 +1231,8 @@ SET character_set_client = utf8;
   `user_id` tinyint NOT NULL,
   `auth_user_username` tinyint NOT NULL,
   `inet6_ntoa(traffic_ip.ip)` tinyint NOT NULL,
-  `user_agent` tinyint NOT NULL
+  `user_agent` tinyint NOT NULL,
+  `note` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
@@ -2664,9 +2666,10 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `usp_traffic_ins`(
     IN in_request TEXT,
-	IN in_user_agent TEXT,
+	  IN in_user_agent TEXT,
     IN in_ip TEXT,
-    IN in_user_id INT
+    IN in_user_id INT,
+    IN in_note TEXT
 )
 BEGIN
 
@@ -2710,9 +2713,9 @@ BEGIN
     SELECT UUID() INTO t_id;
 
     INSERT INTO `traffic`
-		(id, request_id, user_agent_id, ip_id, user_id, created)
+		(id, request_id, user_agent_id, ip_id, user_id, note, created)
 	VALUES
-		(UUID_TO_BIN(t_id), t_request_id, t_user_agent_id, t_ip_id, in_user_id, t_now);
+		(UUID_TO_BIN(t_id), t_request_id, t_user_agent_id, t_ip_id, in_user_id, in_note, t_now);
 
 
     SELECT t_id AS `uuid`, `traffic`.* FROM `traffic` WHERE id=UUID_TO_BIN(t_id);
@@ -3238,7 +3241,7 @@ DELIMITER ;
 /*!50001 SET collation_connection      = utf8mb4_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 */
-/*!50001 VIEW `uv_traffic` AS select `traffic`.`created` AS `created`,`traffic`.`response_code` AS `response_code`,`traffic_request`.`request` AS `request`,`traffic`.`user_id` AS `user_id`,`user`.`username` AS `auth_user_username`,inet6_ntoa(`traffic_ip`.`ip`) AS `inet6_ntoa(traffic_ip.ip)`,`traffic_user_agent`.`user_agent` AS `user_agent` from ((((`traffic` join `traffic_request` on(`traffic`.`request_id` = `traffic_request`.`id`)) join `traffic_user_agent` on(`traffic`.`user_agent_id` = `traffic_user_agent`.`id`)) join `traffic_ip` on(`traffic`.`ip_id` = `traffic_ip`.`id`)) left join `user` on(`traffic`.`user_id` = `user`.`id`)) */;
+/*!50001 VIEW `uv_traffic` AS select `traffic`.`created` AS `created`,`traffic`.`response_code` AS `response_code`,`traffic_request`.`request` AS `request`,`traffic`.`user_id` AS `user_id`,`user`.`username` AS `auth_user_username`,inet6_ntoa(`traffic_ip`.`ip`) AS `inet6_ntoa(traffic_ip.ip)`,`traffic_user_agent`.`user_agent` AS `user_agent`,`traffic`.`note` AS `note` from ((((`traffic` join `traffic_request` on(`traffic`.`request_id` = `traffic_request`.`id`)) join `traffic_user_agent` on(`traffic`.`user_agent_id` = `traffic_user_agent`.`id`)) join `traffic_ip` on(`traffic`.`ip_id` = `traffic_ip`.`id`)) left join `user` on(`traffic`.`user_id` = `user`.`id`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
