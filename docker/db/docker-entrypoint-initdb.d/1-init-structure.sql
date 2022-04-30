@@ -9,9 +9,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- Table structure for table `altlink`
---
 
 DROP TABLE IF EXISTS `altlink`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -29,15 +26,11 @@ CREATE TABLE `altlink` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `api_auth`
---
-
 DROP TABLE IF EXISTS `api_auth`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `api_auth` (
-  `auth_token` binary(32) NOT NULL,
+  `auth_token` binary(16) NOT NULL,
   `auth_token_exp` datetime NOT NULL,
   `access_level` int(2) unsigned NOT NULL DEFAULT 1,
   `user_id` int(11) NOT NULL,
@@ -47,10 +40,6 @@ CREATE TABLE `api_auth` (
   UNIQUE KEY `user_id_UNIQUE` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `chatroom`
---
 
 DROP TABLE IF EXISTS `chatroom`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -63,10 +52,6 @@ CREATE TABLE `chatroom` (
   PRIMARY KEY (`message_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=256 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `chatroom_command`
---
 
 DROP TABLE IF EXISTS `chatroom_command`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -81,10 +66,6 @@ CREATE TABLE `chatroom_command` (
   UNIQUE KEY `prefix_UNIQUE` (`command`)
 ) ENGINE=InnoDB AUTO_INCREMENT=625 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `chatroom_scheduler`
---
 
 DROP TABLE IF EXISTS `chatroom_scheduler`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -109,10 +90,6 @@ CREATE TABLE `chatroom_scheduler` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `command_image`
---
-
 DROP TABLE IF EXISTS `command_image`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -125,10 +102,6 @@ CREATE TABLE `command_image` (
   PRIMARY KEY (`command`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `guild_info`
---
 
 DROP TABLE IF EXISTS `guild_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -143,10 +116,6 @@ CREATE TABLE `guild_info` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `led`
---
 
 DROP TABLE IF EXISTS `led`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -164,10 +133,6 @@ CREATE TABLE `led` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `matches_bet`
---
 
 DROP TABLE IF EXISTS `matches_bet`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -189,66 +154,13 @@ CREATE TABLE `matches_bet` (
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `Website`.`user_bet_AFTER_INSERT` AFTER INSERT ON `matches_bet` FOR EACH ROW
-BEGIN
-	CALL `usp_matches_upd_match_calculation`(NEW.match_id);
-	CALL `usp_matches_upd_bet_calculation`(NEW.match_id);
 
-    INSERT INTO `matches_stats` (user_id, season, wins, losses, ratings, rating_points, daily_points, bet_points, total_points, available_points, updated)
-		SELECT *, NOW() FROM `uv_matches_stats_calc_s5` vusc
-	ON DUPLICATE KEY UPDATE
-		wins=vusc.wins,
-		losses=vusc.losses,
-		ratings=vusc.ratings,
-		rating_points=vusc.rating_points,
-		daily_points=vusc.daily_points,
-		bet_points=vusc.bet_points,
-		total_points=vusc.total_points,
-		available_points=vusc.available_points,
-		updated=NOW();
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `Website`.`user_bet_AFTER_UPDATE` AFTER UPDATE ON `matches_bet` FOR EACH ROW
-BEGIN
-	CALL `usp_matches_upd_match_calculation`(NEW.match_id);
-	CALL `usp_matches_upd_bet_calculation`(NEW.match_id);
-
-    INSERT INTO `matches_stats` (user_id, season, wins, losses, ratings, rating_points, daily_points, bet_points, total_points, available_points, updated)
-		SELECT *, NOW() FROM `uv_matches_stats_calc_s5` vusc
-	ON DUPLICATE KEY UPDATE
-		wins=vusc.wins,
-		losses=vusc.losses,
-		ratings=vusc.ratings,
-		rating_points=vusc.rating_points,
-		daily_points=vusc.daily_points,
-		bet_points=vusc.bet_points,
-		total_points=vusc.total_points,
-		available_points=vusc.available_points,
-		updated=NOW();
-END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
---
--- Table structure for table `matches_bet_calculation`
---
 
 DROP TABLE IF EXISTS `matches_bet_calculation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -267,10 +179,6 @@ CREATE TABLE `matches_bet_calculation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `matches_brand`
---
-
 DROP TABLE IF EXISTS `matches_brand`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -283,10 +191,6 @@ CREATE TABLE `matches_brand` (
   UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `matches_contestant`
---
 
 DROP TABLE IF EXISTS `matches_contestant`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -307,56 +211,40 @@ CREATE TABLE `matches_contestant` (
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `Website`.`match_contestant_AFTER_INSERT` AFTER INSERT ON `matches_contestant` FOR EACH ROW
-BEGIN
-	CALL `usp_matches_upd_match_calculation`(NEW.match_id);
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `Website`.`match_contestant_AFTER_UPDATE` AFTER UPDATE ON `matches_contestant` FOR EACH ROW
-BEGIN
-	CALL `usp_matches_upd_match_calculation`(NEW.match_id);
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `Website`.`match_contestant_AFTER_DELETE` AFTER DELETE ON `matches_contestant` FOR EACH ROW
-BEGIN
-	CALL `usp_matches_upd_match_calculation`(OLD.match_id);
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
---
--- Table structure for table `matches_event`
---
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 DROP TABLE IF EXISTS `matches_event`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -370,10 +258,6 @@ CREATE TABLE `matches_event` (
 ) ENGINE=InnoDB AUTO_INCREMENT=435 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `matches_favorite_superstar`
---
-
 DROP TABLE IF EXISTS `matches_favorite_superstar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -384,10 +268,6 @@ CREATE TABLE `matches_favorite_superstar` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `matches_match`
---
 
 DROP TABLE IF EXISTS `matches_match`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -414,11 +294,7 @@ CREATE TABLE `matches_match` (
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `Website`.`match_AFTER_INSERT` AFTER INSERT ON `matches_match` FOR EACH ROW
-BEGIN
-	CALL `usp_matches_upd_match_calculation`(NEW.id);
-END */;;
+
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -432,34 +308,12 @@ DELIMITER ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `Website`.`match_AFTER_UPDATE` AFTER UPDATE ON `matches_match` FOR EACH ROW
-BEGIN
-	CALL `usp_matches_upd_match_calculation`(NEW.id);
-    CALL `usp_matches_upd_bet_calculation`(NEW.id);
 
-    INSERT INTO `matches_stats` (user_id, season, wins, losses, ratings, rating_points, daily_points, bet_points, total_points, available_points, updated)
-		SELECT *, NOW() FROM `uv_matches_stats_calc_s5` vusc
-	ON DUPLICATE KEY UPDATE
-		wins=vusc.wins,
-		losses=vusc.losses,
-		ratings=vusc.ratings,
-		rating_points=vusc.rating_points,
-		daily_points=vusc.daily_points,
-		bet_points=vusc.bet_points,
-		total_points=vusc.total_points,
-		available_points=vusc.available_points,
-		updated=NOW();
-END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-
---
--- Table structure for table `matches_match_calculation`
---
 
 DROP TABLE IF EXISTS `matches_match_calculation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -485,10 +339,6 @@ CREATE TABLE `matches_match_calculation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `matches_match_rating`
---
-
 DROP TABLE IF EXISTS `matches_match_rating`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -509,11 +359,7 @@ CREATE TABLE `matches_match_rating` (
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `Website`.`user_match_rating_AFTER_INSERT` AFTER INSERT ON `matches_match_rating` FOR EACH ROW
-BEGIN
-	CALL `usp_matches_upd_match_calculation`(NEW.match_id);
-END */;;
+
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -527,20 +373,13 @@ DELIMITER ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `Website`.`user_match_rating_AFTER_UPDATE` AFTER UPDATE ON `matches_match_rating` FOR EACH ROW
-BEGIN
-	CALL `usp_matches_upd_match_calculation`(NEW.match_id);
-END */;;
+
+
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-
---
--- Table structure for table `matches_match_type`
---
 
 DROP TABLE IF EXISTS `matches_match_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -552,10 +391,6 @@ CREATE TABLE `matches_match_type` (
   UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `matches_royalrumble`
---
 
 DROP TABLE IF EXISTS `matches_royalrumble`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -570,10 +405,6 @@ CREATE TABLE `matches_royalrumble` (
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `matches_royalrumble_entry`
---
-
 DROP TABLE IF EXISTS `matches_royalrumble_entry`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -587,10 +418,6 @@ CREATE TABLE `matches_royalrumble_entry` (
   PRIMARY KEY (`royalrumble_id`,`display_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `matches_season`
---
 
 DROP TABLE IF EXISTS `matches_season`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -607,10 +434,6 @@ CREATE TABLE `matches_season` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `matches_stable`
---
-
 DROP TABLE IF EXISTS `matches_stable`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -626,10 +449,6 @@ CREATE TABLE `matches_stable` (
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `matches_stable_member`
---
-
 DROP TABLE IF EXISTS `matches_stable_member`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -639,10 +458,6 @@ CREATE TABLE `matches_stable_member` (
   PRIMARY KEY (`stable_id`,`superstar_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `matches_stats`
---
 
 DROP TABLE IF EXISTS `matches_stats`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -662,10 +477,6 @@ CREATE TABLE `matches_stats` (
   PRIMARY KEY (`user_id`,`season`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `matches_superstar`
---
 
 DROP TABLE IF EXISTS `matches_superstar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -690,10 +501,6 @@ CREATE TABLE `matches_superstar` (
 ) ENGINE=InnoDB AUTO_INCREMENT=506 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `matches_title`
---
-
 DROP TABLE IF EXISTS `matches_title`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -704,10 +511,6 @@ CREATE TABLE `matches_title` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `poll_item`
---
 
 DROP TABLE IF EXISTS `poll_item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -720,10 +523,6 @@ CREATE TABLE `poll_item` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `poll_topic`
---
 
 DROP TABLE IF EXISTS `poll_topic`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -741,10 +540,6 @@ CREATE TABLE `poll_topic` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `poll_vote`
---
 
 DROP TABLE IF EXISTS `poll_vote`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -766,26 +561,12 @@ CREATE TABLE `poll_vote` (
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `Website`.`poll_vote_AFTER_INSERT` AFTER INSERT ON `poll_vote` FOR EACH ROW
-BEGIN
-    UPDATE `Website`.`poll_item`
-    SET `Website`.`poll_item`.`votes`=`Website`.`poll_item`.`votes`+1
-    WHERE `Website`.`poll_item`.`id`=NEW.item_id;
 
-    UPDATE `Website`.`poll_topic`
-    SET `Website`.`poll_topic`.`votes`=`Website`.`poll_topic`.`votes`+1
-    WHERE `Website`.`poll_topic`.`id`=NEW.topic_id;
-END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-
---
--- Table structure for table `quote`
---
 
 DROP TABLE IF EXISTS `quote`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -798,29 +579,23 @@ CREATE TABLE `quote` (
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `traffic`
---
-
 DROP TABLE IF EXISTS `traffic`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `traffic` (
   `id` binary(16) NOT NULL,
+  `domain_id` binary(16) NOT NULL,
   `request_id` binary(16) NOT NULL,
   `user_agent_id` binary(16) NOT NULL,
   `ip_id` binary(16) NOT NULL,
-  `auth_user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `response_code` int(10) unsigned DEFAULT NULL,
+  `note` TEXT DEFAULT NULL,
   `response_updated` datetime DEFAULT NULL,
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `traffic_ip`
---
 
 DROP TABLE IF EXISTS `traffic_ip`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -836,9 +611,20 @@ CREATE TABLE `traffic_ip` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `traffic_request`
---
+DROP TABLE IF EXISTS `traffic_domain`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `traffic_domain` (
+  `id` binary(16) NOT NULL,
+  `domain` text NOT NULL,
+  `md5hash` binary(16) NOT NULL,
+  `created` datetime NOT NULL,
+  `last_accessed` datetime NOT NULL,
+  `access_cnt` int(10) unsigned NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `md5hash_UNIQUE` (`md5hash`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 DROP TABLE IF EXISTS `traffic_request`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -855,10 +641,6 @@ CREATE TABLE `traffic_request` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `traffic_user_agent`
---
-
 DROP TABLE IF EXISTS `traffic_user_agent`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -873,10 +655,6 @@ CREATE TABLE `traffic_user_agent` (
   UNIQUE KEY `md5hash_UNIQUE` (`md5hash`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `user`
---
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -918,11 +696,7 @@ CREATE TABLE `user` (
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `Website`.`user_AFTER_INSERT` AFTER INSERT ON `user` FOR EACH ROW
-BEGIN
-	CALL `usp_matches_ins_stats`(NEW.id);
-END */;;
+
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -936,25 +710,12 @@ DELIMITER ;
 /*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `Website`.`user_AFTER_UPDATE` AFTER UPDATE ON `user` FOR EACH ROW
-BEGIN
-	IF NOT (NEW.username <=> OLD.username) THEN
-		INSERT INTO `user_username_history`
-			(`id`, `user_id`, `old_username`,  `new_username`, `created`)
-        VALUES
-			(UUID_TO_BIN(UUID()), NEW.id, OLD.username, NEW.username, NOW());
-    END IF;
-END */;;
+
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-
---
--- Table structure for table `user_username_history`
---
 
 DROP TABLE IF EXISTS `user_username_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -968,10 +729,6 @@ CREATE TABLE `user_username_history` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Temporary table structure for view `uv_matches`
---
 
 DROP TABLE IF EXISTS `uv_matches`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches`*/;
@@ -1012,10 +769,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_matches_all`
---
-
 DROP TABLE IF EXISTS `uv_matches_all`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_all`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1040,10 +793,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_matches_all_bets`
---
-
 DROP TABLE IF EXISTS `uv_matches_all_bets`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_all_bets`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1061,10 +810,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_matches_last_updated_by`
---
-
 DROP TABLE IF EXISTS `uv_matches_last_updated_by`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_last_updated_by`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1079,10 +824,6 @@ SET character_set_client = utf8;
   `max_dt` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
-
---
--- Temporary table structure for view `uv_matches_match_calculation`
---
 
 DROP TABLE IF EXISTS `uv_matches_match_calculation`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_match_calculation`*/;
@@ -1104,10 +845,6 @@ SET character_set_client = utf8;
   `user_rating_cnt` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
-
---
--- Temporary table structure for view `uv_matches_match_detail`
---
 
 DROP TABLE IF EXISTS `uv_matches_match_detail`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_match_detail`*/;
@@ -1148,10 +885,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_matches_match_rating`
---
-
 DROP TABLE IF EXISTS `uv_matches_match_rating`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_match_rating`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1162,10 +895,6 @@ SET character_set_client = utf8;
   `user_rating_cnt` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
-
---
--- Temporary table structure for view `uv_matches_royalrumble`
---
 
 DROP TABLE IF EXISTS `uv_matches_royalrumble`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_royalrumble`*/;
@@ -1187,10 +916,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_matches_season_rating`
---
-
 DROP TABLE IF EXISTS `uv_matches_season_rating`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_season_rating`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1201,10 +926,6 @@ SET character_set_client = utf8;
   `rating_cnt` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
-
---
--- Temporary table structure for view `uv_matches_stats`
---
 
 DROP TABLE IF EXISTS `uv_matches_stats`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats`*/;
@@ -1269,10 +990,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_matches_stats_calc`
---
-
 DROP TABLE IF EXISTS `uv_matches_stats_calc`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats_calc`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1314,10 +1031,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_matches_stats_calc_s1`
---
-
 DROP TABLE IF EXISTS `uv_matches_stats_calc_s1`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats_calc_s1`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1335,10 +1048,6 @@ SET character_set_client = utf8;
   `available_points` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
-
---
--- Temporary table structure for view `uv_matches_stats_calc_s2`
---
 
 DROP TABLE IF EXISTS `uv_matches_stats_calc_s2`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats_calc_s2`*/;
@@ -1358,10 +1067,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_matches_stats_calc_s3`
---
-
 DROP TABLE IF EXISTS `uv_matches_stats_calc_s3`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats_calc_s3`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1379,10 +1084,6 @@ SET character_set_client = utf8;
   `available_points` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
-
---
--- Temporary table structure for view `uv_matches_stats_calc_s4`
---
 
 DROP TABLE IF EXISTS `uv_matches_stats_calc_s4`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats_calc_s4`*/;
@@ -1402,10 +1103,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_matches_stats_calc_s5`
---
-
 DROP TABLE IF EXISTS `uv_matches_stats_calc_s5`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats_calc_s5`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1424,10 +1121,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_matches_stats_calc_s6`
---
-
 DROP TABLE IF EXISTS `uv_matches_stats_calc_s6`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats_calc_s6`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1445,10 +1138,6 @@ SET character_set_client = utf8;
   `available_points` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
-
---
--- Temporary table structure for view `uv_matches_user_bets`
---
 
 DROP TABLE IF EXISTS `uv_matches_user_bets`;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_user_bets`*/;
@@ -1479,10 +1168,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_poll_active`
---
-
 DROP TABLE IF EXISTS `uv_poll_active`;
 /*!50001 DROP VIEW IF EXISTS `uv_poll_active`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1501,10 +1186,6 @@ SET character_set_client = utf8;
   `admin_hide` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
-
---
--- Temporary table structure for view `uv_poll_expired`
---
 
 DROP TABLE IF EXISTS `uv_poll_expired`;
 /*!50001 DROP VIEW IF EXISTS `uv_poll_expired`*/;
@@ -1525,10 +1206,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_poll_info`
---
-
 DROP TABLE IF EXISTS `uv_poll_info`;
 /*!50001 DROP VIEW IF EXISTS `uv_poll_info`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1548,10 +1225,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_table_size_on_disk`
---
-
 DROP TABLE IF EXISTS `uv_table_size_on_disk`;
 /*!50001 DROP VIEW IF EXISTS `uv_table_size_on_disk`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1563,10 +1236,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_traffic`
---
-
 DROP TABLE IF EXISTS `uv_traffic`;
 /*!50001 DROP VIEW IF EXISTS `uv_traffic`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1575,16 +1244,13 @@ SET character_set_client = utf8;
   `created` tinyint NOT NULL,
   `response_code` tinyint NOT NULL,
   `request` tinyint NOT NULL,
-  `auth_user_id` tinyint NOT NULL,
+  `user_id` tinyint NOT NULL,
   `auth_user_username` tinyint NOT NULL,
   `inet6_ntoa(traffic_ip.ip)` tinyint NOT NULL,
-  `user_agent` tinyint NOT NULL
+  `user_agent` tinyint NOT NULL,
+  `note` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
-
---
--- Temporary table structure for view `uv_traffic_general_daily`
---
 
 DROP TABLE IF EXISTS `uv_traffic_general_daily`;
 /*!50001 DROP VIEW IF EXISTS `uv_traffic_general_daily`*/;
@@ -1597,10 +1263,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_traffic_ip_daily`
---
-
 DROP TABLE IF EXISTS `uv_traffic_ip_daily`;
 /*!50001 DROP VIEW IF EXISTS `uv_traffic_ip_daily`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1611,10 +1273,6 @@ SET character_set_client = utf8;
   `date` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
-
---
--- Temporary table structure for view `uv_web_traffic`
---
 
 DROP TABLE IF EXISTS `uv_web_traffic`;
 /*!50001 DROP VIEW IF EXISTS `uv_web_traffic`*/;
@@ -1632,10 +1290,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_web_traffic_general_daily`
---
-
 DROP TABLE IF EXISTS `uv_web_traffic_general_daily`;
 /*!50001 DROP VIEW IF EXISTS `uv_web_traffic_general_daily`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1647,10 +1301,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_web_traffic_ip_daily`
---
-
 DROP TABLE IF EXISTS `uv_web_traffic_ip_daily`;
 /*!50001 DROP VIEW IF EXISTS `uv_web_traffic_ip_daily`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1661,10 +1311,6 @@ SET character_set_client = utf8;
   `date` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
-
---
--- Temporary table structure for view `uv_web_traffic_uri_daily`
---
 
 DROP TABLE IF EXISTS `uv_web_traffic_uri_daily`;
 /*!50001 DROP VIEW IF EXISTS `uv_web_traffic_uri_daily`*/;
@@ -1678,10 +1324,6 @@ SET character_set_client = utf8;
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
---
--- Temporary table structure for view `uv_web_traffic_useragent_daily`
---
-
 DROP TABLE IF EXISTS `uv_web_traffic_useragent_daily`;
 /*!50001 DROP VIEW IF EXISTS `uv_web_traffic_useragent_daily`*/;
 SET @saved_cs_client     = @@character_set_client;
@@ -1693,10 +1335,6 @@ SET character_set_client = utf8;
   `date` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
-
---
--- Table structure for table `web_contact`
---
 
 DROP TABLE IF EXISTS `web_contact`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1715,10 +1353,6 @@ CREATE TABLE `web_contact` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `web_ip`
---
-
 DROP TABLE IF EXISTS `web_ip`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -1732,10 +1366,6 @@ CREATE TABLE `web_ip` (
   UNIQUE KEY `ip_UNIQUE` (`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `web_traffic`
---
 
 DROP TABLE IF EXISTS `web_traffic`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1752,10 +1382,6 @@ CREATE TABLE `web_traffic` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `web_uri`
---
-
 DROP TABLE IF EXISTS `web_uri`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -1769,10 +1395,6 @@ CREATE TABLE `web_uri` (
   UNIQUE KEY `md5hash_UNIQUE` (`md5hash`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `web_user_action`
---
 
 DROP TABLE IF EXISTS `web_user_action`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1788,10 +1410,6 @@ CREATE TABLE `web_user_action` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `web_user_agent`
---
-
 DROP TABLE IF EXISTS `web_user_agent`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -1806,9 +1424,7 @@ CREATE TABLE `web_user_agent` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping routines for database 'Website'
---
+
 /*!50003 DROP FUNCTION IF EXISTS `BIN_TO_UUID` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1920,7 +1536,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `usp_api_ins_auth`(
 	IN in_uid INT(11) UNSIGNED,
-    IN in_token BINARY(32)
+    IN in_token BINARY(16)
 )
 BEGIN
 
@@ -3065,20 +2681,33 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `usp_traffic_ins`(
+    IN in_domain TEXT,
     IN in_request TEXT,
-	IN in_user_agent TEXT,
+	  IN in_user_agent TEXT,
     IN in_ip TEXT,
-    IN in_auth_user_id INT
+    IN in_user_id INT,
+    IN in_note TEXT
 )
 BEGIN
 
     DECLARE t_now DATETIME;
     DECLARE t_id CHAR(36);
-	DECLARE t_request_id BINARY(16);
+    DECLARE t_domain_id BINARY(16);
+	  DECLARE t_request_id BINARY(16);
     DECLARE t_user_agent_id BINARY(16);
-	DECLARE t_ip_id BINARY(16);
+	  DECLARE t_ip_id BINARY(16);
 
     SELECT NOW() INTO t_now;
+
+
+	INSERT INTO `traffic_domain`
+		(id, domain, md5hash, created, last_accessed, access_cnt)
+	VALUES
+        (UUID_TO_BIN(UUID()), in_domain, UNHEX(MD5(in_domain)), t_now, t_now, 1)
+    ON DUPLICATE KEY UPDATE
+		  last_accessed=t_now,
+      access_cnt=access_cnt+1;
+	SELECT id INTO t_domain_id FROM `traffic_domain` WHERE md5hash=UNHEX(MD5(in_domain));
 
 
 	INSERT INTO `traffic_request`
@@ -3112,9 +2741,9 @@ BEGIN
     SELECT UUID() INTO t_id;
 
     INSERT INTO `traffic`
-		(id, request_id, user_agent_id, ip_id, auth_user_id, created)
+		(id, domain_id, request_id, user_agent_id, ip_id, user_id, note, created)
 	VALUES
-		(UUID_TO_BIN(t_id), t_request_id, t_user_agent_id, t_ip_id, in_auth_user_id, t_now);
+		(UUID_TO_BIN(t_id), t_domain_id, t_request_id, t_user_agent_id, t_ip_id, in_user_id, in_note, t_now);
 
 
     SELECT t_id AS `uuid`, `traffic`.* FROM `traffic` WHERE id=UUID_TO_BIN(t_id);
@@ -3300,10 +2929,6 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
---
--- Final view structure for view `uv_matches`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_matches`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3318,10 +2943,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_matches_all`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_matches_all`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_all`*/;
@@ -3338,10 +2959,6 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
---
--- Final view structure for view `uv_matches_all_bets`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_matches_all_bets`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_all_bets`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3356,10 +2973,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_matches_last_updated_by`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_matches_last_updated_by`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_last_updated_by`*/;
@@ -3376,10 +2989,6 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
---
--- Final view structure for view `uv_matches_match_calculation`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_matches_match_calculation`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_match_calculation`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3394,10 +3003,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_matches_match_detail`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_matches_match_detail`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_match_detail`*/;
@@ -3414,10 +3019,6 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
---
--- Final view structure for view `uv_matches_match_rating`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_matches_match_rating`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_match_rating`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3432,10 +3033,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_matches_royalrumble`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_matches_royalrumble`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_royalrumble`*/;
@@ -3452,10 +3049,6 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
---
--- Final view structure for view `uv_matches_season_rating`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_matches_season_rating`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_season_rating`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3470,10 +3063,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_matches_stats`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_matches_stats`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats`*/;
@@ -3490,10 +3079,6 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
---
--- Final view structure for view `uv_matches_stats_calc`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_matches_stats_calc`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats_calc`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3508,10 +3093,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_matches_stats_calc_s1`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_matches_stats_calc_s1`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats_calc_s1`*/;
@@ -3528,10 +3109,6 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
---
--- Final view structure for view `uv_matches_stats_calc_s2`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_matches_stats_calc_s2`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats_calc_s2`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3546,10 +3123,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_matches_stats_calc_s3`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_matches_stats_calc_s3`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats_calc_s3`*/;
@@ -3566,10 +3139,6 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
---
--- Final view structure for view `uv_matches_stats_calc_s4`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_matches_stats_calc_s4`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats_calc_s4`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3584,10 +3153,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_matches_stats_calc_s5`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_matches_stats_calc_s5`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats_calc_s5`*/;
@@ -3604,10 +3169,6 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
---
--- Final view structure for view `uv_matches_stats_calc_s6`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_matches_stats_calc_s6`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_stats_calc_s6`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3622,10 +3183,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_matches_user_bets`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_matches_user_bets`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches_user_bets`*/;
@@ -3642,10 +3199,6 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
---
--- Final view structure for view `uv_poll_active`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_poll_active`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_poll_active`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3660,10 +3213,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_poll_expired`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_poll_expired`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_poll_expired`*/;
@@ -3680,10 +3229,6 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
---
--- Final view structure for view `uv_poll_info`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_poll_info`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_poll_info`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3698,10 +3243,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_table_size_on_disk`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_table_size_on_disk`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_table_size_on_disk`*/;
@@ -3718,10 +3259,6 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
---
--- Final view structure for view `uv_traffic`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_traffic`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_traffic`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3732,14 +3269,10 @@ DELIMITER ;
 /*!50001 SET collation_connection      = utf8mb4_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 */
-/*!50001 VIEW `uv_traffic` AS select `traffic`.`created` AS `created`,`traffic`.`response_code` AS `response_code`,`traffic_request`.`request` AS `request`,`traffic`.`auth_user_id` AS `auth_user_id`,`user`.`username` AS `auth_user_username`,inet6_ntoa(`traffic_ip`.`ip`) AS `inet6_ntoa(traffic_ip.ip)`,`traffic_user_agent`.`user_agent` AS `user_agent` from ((((`traffic` join `traffic_request` on(`traffic`.`request_id` = `traffic_request`.`id`)) join `traffic_user_agent` on(`traffic`.`user_agent_id` = `traffic_user_agent`.`id`)) join `traffic_ip` on(`traffic`.`ip_id` = `traffic_ip`.`id`)) left join `user` on(`traffic`.`auth_user_id` = `user`.`id`)) */;
+/*!50001 VIEW `uv_traffic` AS select `traffic`.`created` AS `created`,`traffic`.`response_code` AS `response_code`,`traffic_request`.`request` AS `request`,`traffic`.`user_id` AS `user_id`,`user`.`username` AS `auth_user_username`,inet6_ntoa(`traffic_ip`.`ip`) AS `inet6_ntoa(traffic_ip.ip)`,`traffic_user_agent`.`user_agent` AS `user_agent`,`traffic`.`note` AS `note` from ((((`traffic` join `traffic_request` on(`traffic`.`request_id` = `traffic_request`.`id`)) join `traffic_user_agent` on(`traffic`.`user_agent_id` = `traffic_user_agent`.`id`)) join `traffic_ip` on(`traffic`.`ip_id` = `traffic_ip`.`id`)) left join `user` on(`traffic`.`user_id` = `user`.`id`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_traffic_general_daily`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_traffic_general_daily`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_traffic_general_daily`*/;
@@ -3756,10 +3289,6 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
---
--- Final view structure for view `uv_traffic_ip_daily`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_traffic_ip_daily`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_traffic_ip_daily`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3774,10 +3303,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_web_traffic`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_web_traffic`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_web_traffic`*/;
@@ -3794,10 +3319,6 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
---
--- Final view structure for view `uv_web_traffic_general_daily`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_web_traffic_general_daily`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_web_traffic_general_daily`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3812,10 +3333,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_web_traffic_ip_daily`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_web_traffic_ip_daily`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_web_traffic_ip_daily`*/;
@@ -3832,10 +3349,6 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
---
--- Final view structure for view `uv_web_traffic_uri_daily`
---
-
 /*!50001 DROP TABLE IF EXISTS `uv_web_traffic_uri_daily`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_web_traffic_uri_daily`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3850,10 +3363,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `uv_web_traffic_useragent_daily`
---
 
 /*!50001 DROP TABLE IF EXISTS `uv_web_traffic_useragent_daily`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_web_traffic_useragent_daily`*/;
@@ -3879,4 +3388,108 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-INSERT INTO `user` (`username`, `secret`, `access`, `date_created`) VALUES ('admin', '$2y$10$z21CfhGFmUqFImVjHq.EW.2NuYCN5Gc/IDxOHY2glMhWe4WKioWZO', 3, NOW());
+
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `user_bet_AFTER_INSERT` AFTER INSERT ON `matches_bet` FOR EACH ROW
+BEGIN
+	CALL `usp_matches_upd_match_calculation`(NEW.match_id);
+	CALL `usp_matches_upd_bet_calculation`(NEW.match_id);
+
+    INSERT INTO `matches_stats` (user_id, season, wins, losses, ratings, rating_points, daily_points, bet_points, total_points, available_points, updated)
+		SELECT *, NOW() FROM `uv_matches_stats_calc_s5` vusc
+	ON DUPLICATE KEY UPDATE
+		wins=vusc.wins,
+		losses=vusc.losses,
+		ratings=vusc.ratings,
+		rating_points=vusc.rating_points,
+		daily_points=vusc.daily_points,
+		bet_points=vusc.bet_points,
+		total_points=vusc.total_points,
+		available_points=vusc.available_points,
+		updated=NOW();
+END */;;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `user_bet_AFTER_UPDATE` AFTER UPDATE ON `matches_bet` FOR EACH ROW
+BEGIN
+	CALL `usp_matches_upd_match_calculation`(NEW.match_id);
+	CALL `usp_matches_upd_bet_calculation`(NEW.match_id);
+
+    INSERT INTO `matches_stats` (user_id, season, wins, losses, ratings, rating_points, daily_points, bet_points, total_points, available_points, updated)
+		SELECT *, NOW() FROM `uv_matches_stats_calc_s5` vusc
+	ON DUPLICATE KEY UPDATE
+		wins=vusc.wins,
+		losses=vusc.losses,
+		ratings=vusc.ratings,
+		rating_points=vusc.rating_points,
+		daily_points=vusc.daily_points,
+		bet_points=vusc.bet_points,
+		total_points=vusc.total_points,
+		available_points=vusc.available_points,
+		updated=NOW();
+END */;;
+
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `match_contestant_AFTER_INSERT` AFTER INSERT ON `matches_contestant` FOR EACH ROW
+BEGIN
+	CALL `usp_matches_upd_match_calculation`(NEW.match_id);
+END */;;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `match_contestant_AFTER_UPDATE` AFTER UPDATE ON `matches_contestant` FOR EACH ROW
+BEGIN
+	CALL `usp_matches_upd_match_calculation`(NEW.match_id);
+END */;;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `match_contestant_AFTER_DELETE` AFTER DELETE ON `matches_contestant` FOR EACH ROW
+BEGIN
+	CALL `usp_matches_upd_match_calculation`(OLD.match_id);
+END */;;
+
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `match_AFTER_INSERT` AFTER INSERT ON `matches_match` FOR EACH ROW
+BEGIN
+	CALL `usp_matches_upd_match_calculation`(NEW.id);
+END */;;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `match_AFTER_UPDATE` AFTER UPDATE ON `matches_match` FOR EACH ROW
+BEGIN
+	CALL `usp_matches_upd_match_calculation`(NEW.id);
+    CALL `usp_matches_upd_bet_calculation`(NEW.id);
+
+    INSERT INTO `matches_stats` (user_id, season, wins, losses, ratings, rating_points, daily_points, bet_points, total_points, available_points, updated)
+		SELECT *, NOW() FROM `uv_matches_stats_calc_s5` vusc
+	ON DUPLICATE KEY UPDATE
+		wins=vusc.wins,
+		losses=vusc.losses,
+		ratings=vusc.ratings,
+		rating_points=vusc.rating_points,
+		daily_points=vusc.daily_points,
+		bet_points=vusc.bet_points,
+		total_points=vusc.total_points,
+		available_points=vusc.available_points,
+		updated=NOW();
+END */;;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `user_match_rating_AFTER_INSERT` AFTER INSERT ON `matches_match_rating` FOR EACH ROW
+BEGIN
+	CALL `usp_matches_upd_match_calculation`(NEW.match_id);
+END */;;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `user_match_rating_AFTER_UPDATE` AFTER UPDATE ON `matches_match_rating` FOR EACH ROW
+BEGIN
+	CALL `usp_matches_upd_match_calculation`(NEW.match_id);
+END */;;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `user_AFTER_INSERT` AFTER INSERT ON `user` FOR EACH ROW
+BEGIN
+	CALL `usp_matches_ins_stats`(NEW.id);
+END */;;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER `user_AFTER_UPDATE` AFTER UPDATE ON `user` FOR EACH ROW
+BEGIN
+	IF NOT (NEW.username <=> OLD.username) THEN
+		INSERT INTO `user_username_history`
+			(`id`, `user_id`, `old_username`,  `new_username`, `created`)
+        VALUES
+			(UUID_TO_BIN(UUID()), NEW.id, OLD.username, NEW.username, NOW());
+    END IF;
+END */;;

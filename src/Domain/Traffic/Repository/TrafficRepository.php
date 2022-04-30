@@ -28,10 +28,10 @@ class TrafficRepository
         return Traffic::withRow($row);
     }
 
-    public function addTraffic($requestText, $userAgent, $ipAddress, $userId)
+    public function addTraffic($domain, $requestText, $userAgent, $ipAddress, $userId, $note=null)
     {
-        $sql = 'CALL usp_traffic_ins(?, ?, ?, ?)';
-        $stmt = $this->db->query($sql, [$requestText, $userAgent, $ipAddress, $userId]);
+        $sql = 'CALL usp_traffic_ins(?, ?, ?, ?, ?, ?)';
+        $stmt = $this->db->query($sql, [$domain, $requestText, $userAgent, $ipAddress, $userId, $note]);
         $row = $stmt->fetch();
         if (!$row) {
             throw new TrafficNotFoundException();

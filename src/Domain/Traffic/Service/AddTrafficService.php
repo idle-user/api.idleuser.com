@@ -11,6 +11,7 @@ final class AddTrafficService extends TrafficService
 {
     public function run(Request $request)
     {
+        $domain = $_SERVER['HTTP_HOST'];
         $requestMethod = $request->getMethod();
         $requestPath = $request->getUri()->getPath();
         $requestText = "${requestMethod} ${requestPath}";
@@ -24,7 +25,7 @@ final class AddTrafficService extends TrafficService
         }
         $userId = $request->getAttribute('auth')->getUserId();
 
-        $traffic = $this->trafficRepository->addTraffic($requestText, $userAgent, $ipAddress, $userId);
+        $traffic = $this->trafficRepository->addTraffic($domain, $requestText, $userAgent, $ipAddress, $userId);
 
         return $traffic;
     }
