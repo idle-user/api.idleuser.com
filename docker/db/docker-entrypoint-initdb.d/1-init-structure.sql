@@ -30,7 +30,7 @@ DROP TABLE IF EXISTS `api_auth`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `api_auth` (
-  `auth_token` binary(32) NOT NULL,
+  `auth_token` binary(16) NOT NULL,
   `auth_token_exp` datetime NOT NULL,
   `access_level` int(2) unsigned NOT NULL DEFAULT 1,
   `user_id` int(11) NOT NULL,
@@ -584,6 +584,7 @@ DROP TABLE IF EXISTS `traffic`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `traffic` (
   `id` binary(16) NOT NULL,
+  `domain_id` binary(16) NOT NULL,
   `request_id` binary(16) NOT NULL,
   `user_agent_id` binary(16) NOT NULL,
   `ip_id` binary(16) NOT NULL,
@@ -607,6 +608,21 @@ CREATE TABLE `traffic_ip` (
   `access_cnt` int(10) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ip_UNIQUE` (`ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `traffic_domain`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `traffic_domain` (
+  `id` binary(16) NOT NULL,
+  `domain` text NOT NULL,
+  `md5hash` binary(16) NOT NULL,
+  `created` datetime NOT NULL,
+  `last_accessed` datetime NOT NULL,
+  `access_cnt` int(10) unsigned NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `md5hash_UNIQUE` (`md5hash`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1520,7 +1536,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE PROCEDURE `usp_api_ins_auth`(
 	IN in_uid INT(11) UNSIGNED,
-    IN in_token BINARY(32)
+    IN in_token BINARY(16)
 )
 BEGIN
 
@@ -2665,6 +2681,7 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE PROCEDURE `usp_traffic_ins`(
+    IN in_domain TEXT,
     IN in_request TEXT,
 	  IN in_user_agent TEXT,
     IN in_ip TEXT,
@@ -2675,11 +2692,22 @@ BEGIN
 
     DECLARE t_now DATETIME;
     DECLARE t_id CHAR(36);
-	DECLARE t_request_id BINARY(16);
+    DECLARE t_domain_id BINARY(16);
+	  DECLARE t_request_id BINARY(16);
     DECLARE t_user_agent_id BINARY(16);
-	DECLARE t_ip_id BINARY(16);
+	  DECLARE t_ip_id BINARY(16);
 
     SELECT NOW() INTO t_now;
+
+
+	INSERT INTO `traffic_domain`
+		(id, domain, md5hash, created, last_accessed, access_cnt)
+	VALUES
+        (UUID_TO_BIN(UUID()), in_domain, UNHEX(MD5(in_domain)), t_now, t_now, 1)
+    ON DUPLICATE KEY UPDATE
+		  last_accessed=t_now,
+      access_cnt=access_cnt+1;
+	SELECT id INTO t_domain_id FROM `traffic_domain` WHERE md5hash=UNHEX(MD5(in_domain));
 
 
 	INSERT INTO `traffic_request`
@@ -2713,9 +2741,9 @@ BEGIN
     SELECT UUID() INTO t_id;
 
     INSERT INTO `traffic`
-		(id, request_id, user_agent_id, ip_id, user_id, note, created)
+		(id, domain_id, request_id, user_agent_id, ip_id, user_id, note, created)
 	VALUES
-		(UUID_TO_BIN(t_id), t_request_id, t_user_agent_id, t_ip_id, in_user_id, in_note, t_now);
+		(UUID_TO_BIN(t_id), t_domain_id, t_request_id, t_user_agent_id, t_ip_id, in_user_id, in_note, t_now);
 
 
     SELECT t_id AS `uuid`, `traffic`.* FROM `traffic` WHERE id=UUID_TO_BIN(t_id);
@@ -3465,5 +3493,3 @@ BEGIN
 			(UUID_TO_BIN(UUID()), NEW.id, OLD.username, NEW.username, NOW());
     END IF;
 END */;;
-
-INSERT INTO `user` (`username`, `secret`, `access`, `date_created`) VALUES ('admin', '$2y$10$z21CfhGFmUqFImVjHq.EW.2NuYCN5Gc/IDxOHY2glMhWe4WKioWZO', 3, NOW());

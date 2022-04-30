@@ -8,6 +8,7 @@ use JsonSerializable;
 class Traffic implements JsonSerializable
 {
     private $id;
+    private $domain_id;
     private $request_id;
     private $user_agent_id;
     private $ip_id;
@@ -40,6 +41,7 @@ class Traffic implements JsonSerializable
     {
         return [
             'id' => $this->id,
+            'domain_id' => $this->domain_id,
             'request_id' => $this->request_id,
             'user_agent_id' => $this->user_agent_id,
             'ip_id' => $this->ip_id,
@@ -52,6 +54,7 @@ class Traffic implements JsonSerializable
     protected function fill(array $row)
     {
         $this->id = $row['uuid'];
+        $this->domain_id = $row['domain_id'];
         $this->request_id = $row['request_id'];
         $this->user_agent_id = $row['user_agent_id'];
         $this->ip_id = $row['ip_id'];

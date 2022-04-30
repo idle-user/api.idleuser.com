@@ -20,7 +20,8 @@ services:
     restart: unless-stopped
     environment:
       docker: 1
-      TZ: ${TZ}
+      TZ: ${TZ}'
+      API_KEY: ${API_KEY}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
@@ -34,14 +35,16 @@ services:
     - 2306:3306
     environment:
       TZ: America/Los_Angeles
-      MYSQL_ROOT_PASSWORD: root
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      API_KEY: ${API_KEY}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
     - db:/var/lib/mysql
     - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-    - ./docker/db/init.sql:/docker-entrypoint-initdb.d/db-init.sql
+    - ./docker/db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
 volumes:
   db: {}
