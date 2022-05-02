@@ -1257,6 +1257,7 @@ DROP TABLE IF EXISTS `uv_traffic_general_daily`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 /*!50001 CREATE TABLE `uv_traffic_general_daily` (
+  `domain` tinyint NOT NULL,
   `total_traffic` tinyint NOT NULL,
   `unique_ips` tinyint NOT NULL,
   `date` tinyint NOT NULL
@@ -1270,68 +1271,6 @@ SET character_set_client = utf8;
 /*!50001 CREATE TABLE `uv_traffic_ip_daily` (
   `ip` tinyint NOT NULL,
   `total_hits` tinyint NOT NULL,
-  `date` tinyint NOT NULL
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
-
-DROP TABLE IF EXISTS `uv_web_traffic`;
-/*!50001 DROP VIEW IF EXISTS `uv_web_traffic`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `uv_web_traffic` (
-  `bot` tinyint NOT NULL,
-  `created` tinyint NOT NULL,
-  `user_id` tinyint NOT NULL,
-  `username` tinyint NOT NULL,
-  `ip` tinyint NOT NULL,
-  `uri` tinyint NOT NULL,
-  `user_action` tinyint NOT NULL,
-  `user_agent` tinyint NOT NULL
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
-
-DROP TABLE IF EXISTS `uv_web_traffic_general_daily`;
-/*!50001 DROP VIEW IF EXISTS `uv_web_traffic_general_daily`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `uv_web_traffic_general_daily` (
-  `total_traffic` tinyint NOT NULL,
-  `unique_ips` tinyint NOT NULL,
-  `date` tinyint NOT NULL
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
-
-DROP TABLE IF EXISTS `uv_web_traffic_ip_daily`;
-/*!50001 DROP VIEW IF EXISTS `uv_web_traffic_ip_daily`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `uv_web_traffic_ip_daily` (
-  `ip` tinyint NOT NULL,
-  `total_hits` tinyint NOT NULL,
-  `date` tinyint NOT NULL
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
-
-DROP TABLE IF EXISTS `uv_web_traffic_uri_daily`;
-/*!50001 DROP VIEW IF EXISTS `uv_web_traffic_uri_daily`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `uv_web_traffic_uri_daily` (
-  `uri` tinyint NOT NULL,
-  `total_traffic` tinyint NOT NULL,
-  `unique_ips` tinyint NOT NULL,
-  `date` tinyint NOT NULL
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
-
-DROP TABLE IF EXISTS `uv_web_traffic_useragent_daily`;
-/*!50001 DROP VIEW IF EXISTS `uv_web_traffic_useragent_daily`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `uv_web_traffic_useragent_daily` (
-  `user_agent` tinyint NOT NULL,
-  `total_traffic` tinyint NOT NULL,
-  `unique_ips` tinyint NOT NULL,
   `date` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
@@ -1350,77 +1289,6 @@ CREATE TABLE `web_contact` (
   `user_id` int(11) unsigned NOT NULL,
   `received_dt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-DROP TABLE IF EXISTS `web_ip`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `web_ip` (
-  `id` binary(16) NOT NULL,
-  `ip` varbinary(16) NOT NULL,
-  `old_ip` int(11) unsigned DEFAULT NULL,
-  `created` datetime NOT NULL,
-  `last_accessed` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `ip_UNIQUE` (`ip`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-DROP TABLE IF EXISTS `web_traffic`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `web_traffic` (
-  `id` binary(16) NOT NULL,
-  `user_id` int(11) unsigned NOT NULL,
-  `ip_id` binary(16) NOT NULL,
-  `uri_id` binary(16) NOT NULL,
-  `user_agent_id` binary(16) NOT NULL,
-  `user_action_id` binary(16) NOT NULL,
-  `dt` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-DROP TABLE IF EXISTS `web_uri`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `web_uri` (
-  `id` binary(16) NOT NULL,
-  `uri` text NOT NULL,
-  `md5hash` binary(16) NOT NULL,
-  `created` datetime NOT NULL,
-  `last_accessed` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `md5hash_UNIQUE` (`md5hash`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-DROP TABLE IF EXISTS `web_user_action`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `web_user_action` (
-  `id` binary(16) NOT NULL,
-  `user_action` text NOT NULL,
-  `md5hash` binary(16) NOT NULL,
-  `created` datetime NOT NULL,
-  `last_accessed` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `md5hash_UNIQUE` (`md5hash`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-DROP TABLE IF EXISTS `web_user_agent`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `web_user_agent` (
-  `id` binary(16) NOT NULL,
-  `user_agent` text NOT NULL,
-  `md5hash` binary(16) NOT NULL,
-  `created` datetime NOT NULL,
-  `last_accessed` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `md5hash_UNIQUE` (`md5hash`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2853,81 +2721,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `usp_web_ins_traffic` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE PROCEDURE `usp_web_ins_traffic`(
-	IN in_uid INT(11) UNSIGNED,
-    IN in_ip TEXT,
-    IN in_uri TEXT,
-    IN in_user_agent TEXT,
-    IN in_user_action TEXT
-)
-BEGIN
-
-    DECLARE t_now DATETIME;
-    DECLARE t_ip_id BINARY(16);
-    DECLARE t_uri_id BINARY(16);
-    DECLARE t_user_agent_id BINARY(16);
-    DECLARE t_user_action_id BINARY(16);
-
-    SELECT NOW() INTO t_now;
-
-
-    INSERT INTO `web_ip`
-		(id, ip, created, last_accessed)
-	VALUES
-        (UUID_TO_BIN(UUID()), INET6_ATON(in_ip), t_now, t_now)
-    ON DUPLICATE KEY UPDATE
-		last_accessed=t_now;
-	SELECT id INTO t_ip_id FROM `web_ip` WHERE ip=INET6_ATON(in_ip);
-
-
-	INSERT INTO `web_uri`
-		(id, uri, md5hash, created, last_accessed)
-	VALUES
-        (UUID_TO_BIN(UUID()), in_uri, UNHEX(MD5(in_uri)), t_now, t_now)
-    ON DUPLICATE KEY UPDATE
-		last_accessed=t_now;
-	SELECT id INTO t_uri_id FROM `web_uri` WHERE md5hash=UNHEX(MD5(in_uri));
-
-
-	INSERT INTO `web_user_agent`
-		(id, user_agent, md5hash, created, last_accessed)
-	VALUES
-        (UUID_TO_BIN(UUID()), in_user_agent, UNHEX(MD5(in_user_agent)), t_now, t_now)
-    ON DUPLICATE KEY UPDATE
-		last_accessed=t_now;
-	SELECT id INTO t_user_agent_id FROM `web_user_agent` WHERE md5hash=UNHEX(MD5(in_user_agent));
-
-
-	INSERT INTO `web_user_action`
-		(id, user_action, md5hash, created, last_accessed)
-	VALUES
-        (UUID_TO_BIN(UUID()), in_user_action, UNHEX(MD5(in_user_action)), t_now, t_now)
-    ON DUPLICATE KEY UPDATE
-		last_accessed=t_now;
-	SELECT id INTO t_user_action_id FROM `web_user_action` WHERE md5hash=UNHEX(MD5(in_user_action));
-
-
-    INSERT INTO `web_traffic`
-		(id, user_id, ip_id, uri_id, user_agent_id, user_action_id, dt)
-	VALUES
-		(UUID_TO_BIN(UUID()), in_uid, t_ip_id, t_uri_id, t_user_agent_id, t_user_action_id, t_now);
-
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 /*!50001 DROP TABLE IF EXISTS `uv_matches`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_matches`*/;
@@ -3274,6 +3067,21 @@ DELIMITER ;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
+/*!50001 DROP TABLE IF EXISTS `uv_traffic`*/;
+/*!50001 DROP VIEW IF EXISTS `uv_traffic`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 */
+/*!50001 VIEW `uv_traffic` AS select `traffic`.`created` AS `created`,`traffic_domain`.`domain` AS `domain`,`traffic`.`response_code` AS `response_code`,`traffic_request`.`request` AS `request`,`traffic`.`user_id` AS `auth_user_id`,`user`.`username` AS `auth_user_username`,inet6_ntoa(`traffic_ip`.`ip`) AS `inet6_ntoa(traffic_ip.ip)`,`traffic_user_agent`.`user_agent` AS `user_agent` from (((((`traffic` left join `traffic_request` on(`traffic`.`request_id` = `traffic_request`.`id`)) left join `traffic_domain` on(`traffic`.`domain_id` = `traffic_domain`.`id`)) left join `traffic_user_agent` on(`traffic`.`user_agent_id` = `traffic_user_agent`.`id`)) left join `traffic_ip` on(`traffic`.`ip_id` = `traffic_ip`.`id`)) left join `user` on(`traffic`.`user_id` = `user`.`id`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
 /*!50001 DROP TABLE IF EXISTS `uv_traffic_general_daily`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_traffic_general_daily`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -3284,10 +3092,11 @@ DELIMITER ;
 /*!50001 SET collation_connection      = utf8mb4_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 */
-/*!50001 VIEW `uv_traffic_general_daily` AS select count(`traffic`.`id`) AS `total_traffic`,count(distinct `traffic`.`ip_id`) AS `unique_ips`,cast(`traffic`.`created` as date) AS `date` from `traffic` group by cast(`traffic`.`created` as date) order by cast(`traffic`.`created` as date) desc */;
+/*!50001 VIEW `uv_traffic_general_daily` AS select `traffic_domain`.`domain` AS `domain`,count(`traffic`.`id`) AS `total_traffic`,count(distinct `traffic`.`ip_id`) AS `unique_ips`,cast(`traffic`.`created` as date) AS `date` from (`traffic` join `traffic_domain` on(`traffic_domain`.`id` = `traffic`.`domain_id`)) group by cast(`traffic`.`created` as date),`traffic_domain`.`domain` order by cast(`traffic`.`created` as date) desc */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
 
 /*!50001 DROP TABLE IF EXISTS `uv_traffic_ip_daily`*/;
 /*!50001 DROP VIEW IF EXISTS `uv_traffic_ip_daily`*/;
@@ -3303,82 +3112,6 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
-/*!50001 DROP TABLE IF EXISTS `uv_web_traffic`*/;
-/*!50001 DROP VIEW IF EXISTS `uv_web_traffic`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 */
-/*!50001 VIEW `uv_web_traffic` AS select locate('bot',`web_user_agent`.`user_agent`) > 0 AS `bot`,`web_traffic`.`dt` AS `created`,`web_traffic`.`user_id` AS `user_id`,`user`.`username` AS `username`,inet6_ntoa(`web_ip`.`ip`) AS `ip`,`web_uri`.`uri` AS `uri`,`web_user_action`.`user_action` AS `user_action`,`web_user_agent`.`user_agent` AS `user_agent` from (((((`web_traffic` join `web_uri` on(`web_uri`.`id` = `web_traffic`.`uri_id`)) join `web_user_action` on(`web_user_action`.`id` = `web_traffic`.`user_action_id`)) join `web_user_agent` on(`web_user_agent`.`id` = `web_traffic`.`user_agent_id`)) join `web_ip` on(`web_ip`.`id` = `web_traffic`.`ip_id`)) left join `user` on(`user`.`id` = `web_traffic`.`user_id`)) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
-/*!50001 DROP TABLE IF EXISTS `uv_web_traffic_general_daily`*/;
-/*!50001 DROP VIEW IF EXISTS `uv_web_traffic_general_daily`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 */
-/*!50001 VIEW `uv_web_traffic_general_daily` AS select count(`web_traffic`.`ip_id`) AS `total_traffic`,count(distinct `web_traffic`.`ip_id`) AS `unique_ips`,cast(`web_traffic`.`dt` as date) AS `date` from `web_traffic` group by cast(`web_traffic`.`dt` as date) order by cast(`web_traffic`.`dt` as date) desc */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
-/*!50001 DROP TABLE IF EXISTS `uv_web_traffic_ip_daily`*/;
-/*!50001 DROP VIEW IF EXISTS `uv_web_traffic_ip_daily`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 */
-/*!50001 VIEW `uv_web_traffic_ip_daily` AS select inet6_ntoa(`web_ip`.`ip`) AS `ip`,count(`web_traffic`.`ip_id`) AS `total_hits`,cast(`web_traffic`.`dt` as date) AS `date` from (`web_traffic` join `web_ip` on(`web_ip`.`id` = `web_traffic`.`ip_id`)) group by cast(`web_traffic`.`dt` as date),`web_traffic`.`ip_id` order by cast(`web_traffic`.`dt` as date) desc,count(`web_traffic`.`ip_id`) desc */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
-/*!50001 DROP TABLE IF EXISTS `uv_web_traffic_uri_daily`*/;
-/*!50001 DROP VIEW IF EXISTS `uv_web_traffic_uri_daily`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 */
-/*!50001 VIEW `uv_web_traffic_uri_daily` AS select `web_uri`.`uri` AS `uri`,count(`web_traffic`.`id`) AS `total_traffic`,count(distinct `web_traffic`.`ip_id`) AS `unique_ips`,cast(`web_traffic`.`dt` as date) AS `date` from (`web_traffic` join `web_uri` on(`web_uri`.`id` = `web_traffic`.`uri_id`)) group by cast(`web_traffic`.`dt` as date),`web_traffic`.`uri_id` order by cast(`web_traffic`.`dt` as date) desc,count(`web_traffic`.`id`) desc */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
-/*!50001 DROP TABLE IF EXISTS `uv_web_traffic_useragent_daily`*/;
-/*!50001 DROP VIEW IF EXISTS `uv_web_traffic_useragent_daily`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 */
-/*!50001 VIEW `uv_web_traffic_useragent_daily` AS select `web_user_agent`.`user_agent` AS `user_agent`,count(`web_traffic`.`user_agent_id`) AS `total_traffic`,count(distinct `web_traffic`.`ip_id`) AS `unique_ips`,cast(`web_traffic`.`dt` as date) AS `date` from (`web_traffic` join `web_user_agent` on(`web_user_agent`.`id` = `web_traffic`.`user_agent_id`)) group by cast(`web_traffic`.`dt` as date),`web_traffic`.`user_agent_id` order by cast(`web_traffic`.`dt` as date) desc,count(`web_traffic`.`user_agent_id`) desc */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
