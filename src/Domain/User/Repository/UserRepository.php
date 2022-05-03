@@ -187,18 +187,18 @@ class UserRepository
     public function updateDiscordIdById($userId, $discordId)
     {
         $sql = 'REPLACE INTO user_social (user_id, social_type_id, social_id, last_updated) VALUES (?, (SELECT id FROM social_type WHERE name=\'Discord\'), ?, NOW())';
-        $this->db->query($sql, [$discordId, $userId]);
+        $this->db->query($sql, [$userId, $discordId]);
     }
 
     public function updateChatangoIdById($userId, $chatangodId)
     {
         $sql = 'REPLACE INTO user_social (user_id, social_type_id, social_id, last_updated) VALUES (?, (SELECT id FROM social_type WHERE name=\'Chatango\'), ?, NOW())';
-        $this->db->query($sql, [$chatangodId, $userId]);
+        $this->db->query($sql, [$userId, $chatangodId]);
     }
 
     public function updateTwitterIdById($userId, $twitterId)
     {
         $sql = 'REPLACE INTO user_social (user_id, social_type_id, social_id, last_updated) VALUES (?, (SELECT id FROM social_type WHERE name=\'Twitter\'), ?, NOW())';
-        $this->db->query($sql, [$twitterId, $userId]);
+        $this->db->query($sql, [$userId, $twitterId]);
     }
 }
