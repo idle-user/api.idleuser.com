@@ -22,7 +22,7 @@ class UserRepository
 
     public function findAll()
     {
-        $sql = 'SELECT * FROM user';
+        $sql = 'SELECT * FROM uv_user';
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -36,7 +36,7 @@ class UserRepository
 
     public function findById($id)
     {
-        $sql = 'SELECT * FROM user WHERE id=?';
+        $sql = 'SELECT * FROM uv_user WHERE id=?';
         $stmt = $this->db->query($sql, [$id]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -47,7 +47,7 @@ class UserRepository
 
     public function findByUsername($username)
     {
-        $sql = 'SELECT * FROM user WHERE username=?';
+        $sql = 'SELECT * FROM uv_user WHERE username=?';
         $stmt = $this->db->query($sql, [$username]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -58,7 +58,7 @@ class UserRepository
 
     public function findByEmail($email)
     {
-        $sql = 'SELECT * FROM user WHERE email=?';
+        $sql = 'SELECT * FROM uv_user WHERE email=?';
         $stmt = $this->db->query($sql, [$email]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -69,7 +69,7 @@ class UserRepository
 
     public function findByDiscordId($discordId)
     {
-        $sql = 'SELECT * FROM user WHERE discord_id=?';
+        $sql = 'SELECT * FROM uv_user WHERE discord_id=?';
         $stmt = $this->db->query($sql, [$discordId]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -80,7 +80,7 @@ class UserRepository
 
     public function findByChatangoId($chatangoId)
     {
-        $sql = 'SELECT * FROM user WHERE chatango_id=?';
+        $sql = 'SELECT * FROM uv_user WHERE chatango_id=?';
         $stmt = $this->db->query($sql, [$chatangoId]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -91,7 +91,7 @@ class UserRepository
 
     public function findByTwitterId($twitterId)
     {
-        $sql = 'SELECT * FROM user WHERE twitter_id=?';
+        $sql = 'SELECT * FROM uv_user WHERE twitter_id=?';
         $stmt = $this->db->query($sql, [$twitterId]);
         $row = $stmt->fetch();
         if (!$row) {
@@ -186,19 +186,19 @@ class UserRepository
 
     public function updateDiscordIdById($userId, $discordId)
     {
-        $sql = 'UPDATE user SET discord_id=?, discord_last_updated=NOW() WHERE id=?';
+        $sql = 'REPLACE INTO user_social (user_id, social_type_id, social_id, last_updated) VALUES (?, (SELECT id FROM social_type WHERE name=\'Discord\'), ?, NOW())';
         $this->db->query($sql, [$discordId, $userId]);
     }
 
     public function updateChatangoIdById($userId, $chatangodId)
     {
-        $sql = 'UPDATE user SET chatango_id=?, chatango_last_updated=NOW() WHERE id=?';
+        $sql = 'REPLACE INTO user_social (user_id, social_type_id, social_id, last_updated) VALUES (?, (SELECT id FROM social_type WHERE name=\'Chatango\'), ?, NOW())';
         $this->db->query($sql, [$chatangodId, $userId]);
     }
 
     public function updateTwitterIdById($userId, $twitterId)
     {
-        $sql = 'UPDATE user SET twitter_id=?, twitter_last_updated=NOW() WHERE id=?';
+        $sql = 'REPLACE INTO user_social (user_id, social_type_id, social_id, last_updated) VALUES (?, (SELECT id FROM social_type WHERE name=\'Twitter\'), ?, NOW())';
         $this->db->query($sql, [$twitterId, $userId]);
     }
 }
