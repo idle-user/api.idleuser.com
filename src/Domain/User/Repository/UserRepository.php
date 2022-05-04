@@ -134,7 +134,7 @@ class UserRepository
         return $userId;
     }
 
-    public function login($username, $secret)
+    public function loginWithUsername($username, $secret)
     {
         try {
             if (password_verify($secret, $this->findSecretByUsername($username))) {
@@ -149,10 +149,36 @@ class UserRepository
         }
     }
 
+    public function loginWithEmail($email, $secret)
+    {
+        try {
+            if (password_verify($secret, $this->findSecretByEmail($email))) {
+                $sql = 'UPDATE user SET last_login=NOW() WHERE email=?';
+                $this->db->query($sql, [$email]);
+                return $this->findByEmail($email);
+            } else {
+                throw new UserLoginFailedException();
+            }
+        } catch (UserNotFoundException $e) {
+            throw new UserLoginFailedException();
+        }
+    }
+
     private function findSecretByUsername($username)
     {
         $sql = 'SELECT secret FROM user WHERE username=?';
         $stmt = $this->db->query($sql, [$username]);
+        $result = $stmt->fetchColumn();
+        if (!$result) {
+            throw new UserNotFoundException();
+        }
+        return $result;
+    }
+
+    private function findSecretByEmail($email)
+    {
+        $sql = 'SELECT secret FROM user WHERE email=?';
+        $stmt = $this->db->query($sql, [$email]);
         $result = $stmt->fetchColumn();
         if (!$result) {
             throw new UserNotFoundException();
