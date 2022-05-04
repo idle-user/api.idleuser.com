@@ -37,6 +37,9 @@ return function (App $app) {
         $group->post('/secret/token', User\UpdateSecretTokenUserAction::class)->setName('user-update-secret-token');
         $group->put('/{userId:[0-9]+}', User\UpdateUserAction::class)->setName('user-update');
         $group
+            ->patch('/{userId:[0-9]+}/secret', User\UpdateSecretUserAction::class)
+            ->setName('user-update-secret');
+        $group
             ->patch('/{userId:[0-9]+}/username', User\UpdateUsernameUserAction::class)
             ->setName('user-update-username');
         $group->patch('/{userId:[0-9]+}/email', User\UpdateEmailUserAction::class)->setName('user-update-email');

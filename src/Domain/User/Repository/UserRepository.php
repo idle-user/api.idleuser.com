@@ -164,6 +164,32 @@ class UserRepository
         }
     }
 
+    public function updateSecretById($userId, $oldSecret, $newSeret)
+    {
+        try {
+            if (password_verify($oldSecret, $this->findSecretById($userId))) {
+                $sql = 'UPDATE user SET secret=? secret_last_updated=NOW() WHERE id=?';
+                $this->db->query($sql, [$userId, password_hash($newSeret, PASSWORD_BCRYPT)]);
+                return $this->findById($userId);
+            } else {
+                throw new UserLoginFailedException();
+            }
+        } catch (UserNotFoundException $e) {
+            throw new UserLoginFailedException();
+        }
+    }
+
+    private function findSecretById($id)
+    {
+        $sql = 'SELECT secret FROM user WHERE id=?';
+        $stmt = $this->db->query($sql, [$id]);
+        $result = $stmt->fetchColumn();
+        if (!$result) {
+            throw new UserNotFoundException();
+        }
+        return $result;
+    }
+
     private function findSecretByUsername($username)
     {
         $sql = 'SELECT secret FROM user WHERE username=?';
