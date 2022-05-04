@@ -5,17 +5,20 @@ namespace App\Application\Actions\User;
 
 use App\Domain\User\Service\LoginUserService;
 use App\Application\Actions\Action;
+use App\Domain\Auth\Service\AuthTokenAuthService;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class LoginUserAction extends Action
 {
     private $loginUserService;
+    private $authTokenAuthService;
 
-    public function __construct(LoggerInterface $logger, LoginUserService $loginUserService)
+    public function __construct(LoggerInterface $logger, LoginUserService $loginUserService, AuthTokenAuthService $authTokenAuthService)
     {
         parent::__construct($logger);
         $this->loginUserService = $loginUserService;
+        $this->authTokenAuthService = $authTokenAuthService;
     }
 
     /**
@@ -28,7 +31,10 @@ class LoginUserAction extends Action
         $this->logger->info("User `${username}` login attempt.");
 
         $user = $this->loginUserService->run($this->request->getParsedBody());
+        $auth = $this->authTokenAuthService->run($user);
 
-        return $this->respondWithData($user);
+        $user_auth = array_merge($user->jsonSerialize(), $auth->jsonSerializeToken());
+
+        return $this->respondWithData($user_auth);
     }
 }

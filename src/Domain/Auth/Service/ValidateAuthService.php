@@ -30,8 +30,6 @@ final class ValidateAuthService extends AuthService
 
     private function validate($token)
     {
-        $token = $this->getBearerToken();
-
         if (!$token) {
             throw new AuthTokenNotFoundException();
         }

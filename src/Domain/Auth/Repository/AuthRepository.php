@@ -7,6 +7,7 @@ namespace App\Domain\Auth\Repository;
 use App\Domain\Database;
 use App\Domain\Auth\Data\Auth;
 use App\Domain\Auth\Exception\AuthTokenInvalidException;
+use App\Domain\Auth\Exception\AuthTokenNotFoundException;
 
 class AuthRepository
 {
@@ -35,9 +36,17 @@ class AuthRepository
         $stmt = $this->db->query($sql, [$userId]);
         $row = $stmt->fetch();
         if (!$row) {
-            throw new AuthTokenInvalidException();
+            throw new AuthTokenNotFoundException();
         }
         return Auth::withRow($row);
+    }
+
+    public function createAuthToken($userId, $access)
+    {
+        $token = random_bytes(32);
+        $sql = 'INSERT INTO api_auth (auth_token, auth_token_exp, access_level, user_id, created, last_updated) VALUES (?, (SELECT NOW() + INTERVAL 1 YEAR), ?, ?, NOW(), NOW())';
+        $this->db->query($sql, [$token, $access, $userId]);
+        return bin2hex($token);
     }
 
     public function updateAuthToken($userId)

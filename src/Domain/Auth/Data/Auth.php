@@ -72,6 +72,14 @@ class Auth implements JsonSerializable
         return $this->access_level == 3;
     }
 
+    public function jsonSerializeToken()
+    {
+        return [
+            'auth_token' => $this->auth_token,
+            'auth_token_exp' => $this->auth_token_exp,
+        ];
+    }
+
     public function jsonSerialize()
     {
         return [

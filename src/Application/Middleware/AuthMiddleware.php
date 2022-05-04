@@ -40,6 +40,7 @@ class AuthMiddleware implements Middleware
             'match-rate-add',
             'match-bet-add',
             'user-update',
+            'user-update-secret',
             'user-update-username',
             'user-update-email',
             'user-update-discord',
