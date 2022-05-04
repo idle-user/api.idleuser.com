@@ -34,7 +34,7 @@ class AuthMiddleware implements Middleware
         $route = $routeContext->getRoute();
         $routeName = $route->getName();
 
-        $adminRouteArray = ['auth-override', 'register'];
+        $adminRouteArray = ['auth-override'];
         $modRouteArray = ['chat-command-add', 'altlink-list'];
         $userRouteArray = [
             'match-rate-add',
