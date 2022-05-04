@@ -28,12 +28,12 @@ class UpdateSecretUserAction extends Action
 
         $this->logger->info("User `${userId}` Update Secret attempt.");
 
-        $auth = $this->request->getAttribute('auth');
-        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
-            throw new HttpForbiddenException($this->request);
-        }
-
         $user = $this->updateSecretUserService->run($userId, $this->request->getParsedBody());
+
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->isAdmin() || $auth->getUserId() == $user->getId()) {
+            $user->setShowFullDetail(true);
+        }
 
         return $this->respondWithData($user);
     }

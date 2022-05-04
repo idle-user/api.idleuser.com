@@ -26,11 +26,6 @@ class UpdateLoginTokenUserAction extends Action
     {
         $userId = (int) $this->resolveBodyArg('user_id');
 
-        $auth = $this->request->getAttribute('auth');
-        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
-            throw new HttpForbiddenException($this->request);
-        }
-
         $loginToken = $this->updateLoginTokenUserService->run($userId);
 
         return $this->respondWithData($loginToken);

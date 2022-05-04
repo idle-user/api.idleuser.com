@@ -27,12 +27,12 @@ class UpdateChatangoIdUserAction extends Action
         $userId = (int) $this->resolveArg('userId');
         $chatangoId = (string) $this->resolveBodyArg('chatango_id');
 
-        $auth = $this->request->getAttribute('auth');
-        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
-            throw new HttpForbiddenException($this->request);
-        }
-
         $user = $this->updateChatangoIdUserService->run($userId, $chatangoId);
+
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->isAdmin() || $auth->getUserId() == $user->getId()) {
+            $user->setShowFullDetail(true);
+        }
 
         return $this->respondWithData($user);
     }

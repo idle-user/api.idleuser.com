@@ -19,8 +19,8 @@ return function (App $app) {
 
     // Auth
     $app->group('/auth', function (Group $group) {
-        $group->get('', Auth\ViewAuthAction::class);
-        $group->post('', Auth\UpdateAuthAction::class);
+        $group->get('', Auth\ViewAuthAction::class)->setName('auth-view');
+        $group->post('', Auth\UpdateAuthAction::class)->setName('auth-update');
         $group->put('/user/{userId:[0-9]+}', Auth\OverrideAuthAction::class)->setName('auth-override');
     });
 

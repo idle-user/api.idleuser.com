@@ -26,11 +26,6 @@ class UpdateSecretTokenUserAction extends Action
     {
         $userId = (int) $this->resolveBodyArg('user_id');
 
-        $auth = $this->request->getAttribute('auth');
-        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
-            throw new HttpForbiddenException($this->request);
-        }
-
         $secretToken = $this->updateSecretTokenUserService->run($userId);
 
         return $this->respondWithData($secretToken);
