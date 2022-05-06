@@ -33,6 +33,7 @@ return function (App $app) {
         $group->get('/chatango/{chatangoId}', User\ViewChatangoUserAction::class);
         $group->post('/login', User\LoginUserAction::class);
         $group->post('/register', User\RegisterUserAction::class)->setName('register');
+        $group->get('/login/token', User\LoginTokenUserAction::class)->setName('user-login-with-token');
         $group->post('/login/token', User\UpdateLoginTokenUserAction::class)->setName('user-update-login-token');
         $group->post('/secret/token', User\UpdateSecretTokenUserAction::class)->setName('user-update-secret-token');
         $group->put('/{userId:[0-9]+}', User\UpdateUserAction::class)->setName('user-update');

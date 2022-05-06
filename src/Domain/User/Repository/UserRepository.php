@@ -67,6 +67,17 @@ class UserRepository
         return User::withRow($row);
     }
 
+    public function findByLoginToken($token)
+    {
+        $sql = 'SELECT * FROM uv_user WHERE login_token=? AND login_token_exp>NOW()';
+        $stmt = $this->db->query($sql, [$token]);
+        $row = $stmt->fetch();
+        if (!$row) {
+            throw new UserNotFoundException();
+        }
+        return User::withRow($row);
+    }
+
     public function findByDiscordId($discordId)
     {
         $sql = 'SELECT * FROM uv_user WHERE discord_id=?';
@@ -159,6 +170,18 @@ class UserRepository
             } else {
                 throw new UserLoginFailedException();
             }
+        } catch (UserNotFoundException $e) {
+            throw new UserLoginFailedException();
+        }
+    }
+
+    public function loginWithToken($token)
+    {
+        try {
+                $user = $this->findByLoginToken($token);
+                $sql = 'UPDATE user SET last_login=NOW(), login_token_exp=NOW() WHERE id=?';
+                $this->db->query($sql, [$user->getId()]);
+                return $this->findById($user->getId());
         } catch (UserNotFoundException $e) {
             throw new UserLoginFailedException();
         }
