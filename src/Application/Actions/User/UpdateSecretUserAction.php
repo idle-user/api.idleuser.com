@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
-use App\Domain\User\Service\UpdateUserService;
+use App\Domain\User\Service\UpdateSecretUserService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpForbiddenException;
 
-class UpdateUserAction extends Action
+class UpdateSecretUserAction extends Action
 {
-    private $updateUserService;
+    private $updateSecretUserService;
 
-    public function __construct(LoggerInterface $logger, UpdateUserService $updateUserService)
+    public function __construct(LoggerInterface $logger, UpdateSecretUserService $updateSecretUserService)
     {
         parent::__construct($logger);
-        $this->updateUserService = $updateUserService;
+        $this->updateSecretUserService = $updateSecretUserService;
     }
 
     /**
@@ -26,7 +26,9 @@ class UpdateUserAction extends Action
     {
         $userId = (int) $this->resolveArg('userId');
 
-        $user = $this->updateUserService->run($userId, $this->request->getParsedBody());
+        $this->logger->info("User `${userId}` Update Secret attempt.");
+
+        $user = $this->updateSecretUserService->run($userId, $this->request->getParsedBody());
 
         $auth = $this->request->getAttribute('auth');
         if ($auth->isAdmin() || $auth->getUserId() == $user->getId()) {

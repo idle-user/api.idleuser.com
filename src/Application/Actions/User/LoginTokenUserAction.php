@@ -3,21 +3,21 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
-use App\Domain\User\Service\RegisterUserService;
 use App\Application\Actions\Action;
 use App\Domain\Auth\Service\AuthTokenAuthService;
+use App\Domain\User\Service\LoginTokenUserService;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class RegisterUserAction extends Action
+class LoginTokenUserAction extends Action
 {
-    private $registerUserService;
+    private $loginTokenUserService;
     private $authTokenAuthService;
 
-    public function __construct(LoggerInterface $logger, RegisterUserService $registerUserService, AuthTokenAuthService $authTokenAuthService)
+    public function __construct(LoggerInterface $logger, LoginTokenUserService $loginTokenUserService, AuthTokenAuthService $authTokenAuthService)
     {
         parent::__construct($logger);
-        $this->registerUserService = $registerUserService;
+        $this->loginTokenUserService = $loginTokenUserService;
         $this->authTokenAuthService = $authTokenAuthService;
     }
 
@@ -26,11 +26,7 @@ class RegisterUserAction extends Action
      */
     protected function action(): Response
     {
-        $username = $this->resolveBodyArg('username');
-
-        $this->logger->info("User `${username}` register attempt.");
-
-        $user = $this->registerUserService->run($this->request->getParsedBody());
+        $user = $this->loginTokenUserService->run($this->queryParams);
         $auth = $this->authTokenAuthService->run($user);
 
         $user_auth = array_merge($user->jsonSerialize(), $auth->jsonSerializeToken());

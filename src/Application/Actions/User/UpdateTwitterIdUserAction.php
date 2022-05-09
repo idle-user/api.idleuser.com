@@ -27,12 +27,12 @@ class UpdateTwitterIdUserAction extends Action
         $userId = (int) $this->resolveArg('userId');
         $twitterId = (string) $this->resolveBodyArg('twitter_id');
 
-        $auth = $this->request->getAttribute('auth');
-        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
-            throw new HttpForbiddenException($this->request);
-        }
-
         $user = $this->updateTwitterIdUserService->run($userId, $twitterId);
+
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->isAdmin() || $auth->getUserId() == $user->getId()) {
+            $user->setShowFullDetail(true);
+        }
 
         return $this->respondWithData($user);
     }

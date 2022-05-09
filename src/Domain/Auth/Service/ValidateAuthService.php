@@ -7,7 +7,7 @@ namespace App\Domain\Auth\Service;
 use App\Domain\Auth\Service\AuthService;
 use App\Domain\Auth\Exception\AuthTokenExpiredException;
 use App\Domain\Auth\Exception\AuthTokenInvalidException;
-use App\Domain\Auth\Exception\AuthTokenNotFoundException;
+use App\Exception\ValidationException;
 
 final class ValidateAuthService extends AuthService
 {
@@ -30,15 +30,24 @@ final class ValidateAuthService extends AuthService
 
     private function validate($token)
     {
-        $token = $this->getBearerToken();
-
         if (!$token) {
-            throw new AuthTokenNotFoundException();
+             throw new ValidationException('Authorization Token is required');
         }
 
-        if (!(strlen($token) % 2 == 0 && ctype_xdigit($token))) {
+        if (!ctype_xdigit($token)) {
             throw new AuthTokenInvalidException();
         }
+    }
+
+    function getBearerToken()
+    {
+        $headers = $this->getAuthorizationHeader();
+        if (!empty($headers)) {
+            if (preg_match('/Bearer\s(\S+)/', $headers, $matches)) {
+                return $matches[1];
+            }
+        }
+        return null;
     }
 
     function getAuthorizationHeader()
@@ -59,16 +68,5 @@ final class ValidateAuthService extends AuthService
             }
         }
         return $headers;
-    }
-
-    function getBearerToken()
-    {
-        $headers = $this->getAuthorizationHeader();
-        if (!empty($headers)) {
-            if (preg_match('/Bearer\s(\S+)/', $headers, $matches)) {
-                return $matches[1];
-            }
-        }
-        return null;
     }
 }

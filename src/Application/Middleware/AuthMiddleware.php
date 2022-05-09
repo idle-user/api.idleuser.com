@@ -8,11 +8,11 @@ use App\Domain\Auth\Exception\AuthTokenExpiredException;
 use App\Domain\Auth\Exception\AuthTokenInvalidException;
 use App\Domain\Auth\Exception\AuthTokenNotFoundException;
 use App\Domain\Auth\Service\ValidateAuthService;
+use App\Exception\ValidationException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
-use Slim\Exception\HttpNotFoundException;
 use Slim\Exception\HttpForbiddenException;
 use Slim\Routing\RouteContext;
 
@@ -34,12 +34,14 @@ class AuthMiddleware implements Middleware
         $route = $routeContext->getRoute();
         $routeName = $route->getName();
 
-        $adminRouteArray = ['auth-override', 'register'];
+        $adminRouteArray = ['auth-override'];
         $modRouteArray = ['chat-command-add', 'altlink-list'];
         $userRouteArray = [
             'match-rate-add',
             'match-bet-add',
+            'royalrumble-entry-add',
             'user-update',
+            'user-update-secret',
             'user-update-username',
             'user-update-email',
             'user-update-discord',
@@ -48,11 +50,12 @@ class AuthMiddleware implements Middleware
             'user-update-login-token',
             'user-update-secret-token',
         ];
-        $authRequiredRouteArray = array_merge($adminRouteArray, $modRouteArray, $userRouteArray);
+        $authRouteArray = ['auth-view', 'auth-update'];
+        $authRequiredRouteArray = array_merge($adminRouteArray, $modRouteArray, $userRouteArray, $authRouteArray);
 
         try {
             $auth = $this->validateAuthService->run();
-        } catch (AuthTokenNotFoundException | AuthTokenInvalidException | AuthTokenExpiredException $e) {
+        } catch (AuthTokenNotFoundException | AuthTokenInvalidException | AuthTokenExpiredException | ValidationException $e) {
             $authError = $e;
             $auth = Auth::create();
         }
@@ -67,8 +70,16 @@ class AuthMiddleware implements Middleware
             throw $authError;
         }
 
-        if (!$auth->isUser() && in_array($routeName, $userRouteArray)) {
-            throw new HttpForbiddenException($request);
+        if(in_array($routeName, $userRouteArray)){
+            if(!$auth->isUser()) {
+                 throw new HttpForbiddenException($request);
+            }
+
+            $userId = (int) $route->getArgument('userId');
+
+            if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
+                throw new HttpForbiddenException($request);
+            }
         }
 
         if (!$auth->isMod() && in_array($routeName, $modRouteArray)) {

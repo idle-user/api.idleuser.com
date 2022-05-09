@@ -67,6 +67,17 @@ class UserRepository
         return User::withRow($row);
     }
 
+    public function findByLoginToken($token)
+    {
+        $sql = 'SELECT * FROM uv_user WHERE login_token=? AND login_token_exp>NOW()';
+        $stmt = $this->db->query($sql, [$token]);
+        $row = $stmt->fetch();
+        if (!$row) {
+            throw new UserNotFoundException();
+        }
+        return User::withRow($row);
+    }
+
     public function findByDiscordId($discordId)
     {
         $sql = 'SELECT * FROM uv_user WHERE discord_id=?';
@@ -134,7 +145,7 @@ class UserRepository
         return $userId;
     }
 
-    public function login($username, $secret)
+    public function loginWithUsername($username, $secret)
     {
         try {
             if (password_verify($secret, $this->findSecretByUsername($username))) {
@@ -149,10 +160,74 @@ class UserRepository
         }
     }
 
+    public function loginWithEmail($email, $secret)
+    {
+        try {
+            if (password_verify($secret, $this->findSecretByEmail($email))) {
+                $sql = 'UPDATE user SET last_login=NOW() WHERE email=?';
+                $this->db->query($sql, [$email]);
+                return $this->findByEmail($email);
+            } else {
+                throw new UserLoginFailedException();
+            }
+        } catch (UserNotFoundException $e) {
+            throw new UserLoginFailedException();
+        }
+    }
+
+    public function loginWithToken($token)
+    {
+        try {
+                $user = $this->findByLoginToken($token);
+                $sql = 'UPDATE user SET last_login=NOW(), login_token_exp=NOW() WHERE id=?';
+                $this->db->query($sql, [$user->getId()]);
+                return $this->findById($user->getId());
+        } catch (UserNotFoundException $e) {
+            throw new UserLoginFailedException();
+        }
+    }
+
+    public function updateSecretById($userId, $oldSecret, $newSeret)
+    {
+        try {
+            if (password_verify($oldSecret, $this->findSecretById($userId))) {
+                $sql = 'UPDATE user SET secret=? secret_last_updated=NOW() WHERE id=?';
+                $this->db->query($sql, [$userId, password_hash($newSeret, PASSWORD_BCRYPT)]);
+                return $this->findById($userId);
+            } else {
+                throw new UserLoginFailedException();
+            }
+        } catch (UserNotFoundException $e) {
+            throw new UserLoginFailedException();
+        }
+    }
+
+    private function findSecretById($id)
+    {
+        $sql = 'SELECT secret FROM user WHERE id=?';
+        $stmt = $this->db->query($sql, [$id]);
+        $result = $stmt->fetchColumn();
+        if (!$result) {
+            throw new UserNotFoundException();
+        }
+        return $result;
+    }
+
     private function findSecretByUsername($username)
     {
         $sql = 'SELECT secret FROM user WHERE username=?';
         $stmt = $this->db->query($sql, [$username]);
+        $result = $stmt->fetchColumn();
+        if (!$result) {
+            throw new UserNotFoundException();
+        }
+        return $result;
+    }
+
+    private function findSecretByEmail($email)
+    {
+        $sql = 'SELECT secret FROM user WHERE email=?';
+        $stmt = $this->db->query($sql, [$email]);
         $result = $stmt->fetchColumn();
         if (!$result) {
             throw new UserNotFoundException();

@@ -27,12 +27,12 @@ class UpdateDiscordIdUserAction extends Action
         $userId = (int) $this->resolveArg('userId');
         $discordId = (string) $this->resolveBodyArg('discord_id');
 
-        $auth = $this->request->getAttribute('auth');
-        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
-            throw new HttpForbiddenException($this->request);
-        }
-
         $user = $this->updateDiscordIdUserService->run($userId, $discordId);
+
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->isAdmin() || $auth->getUserId() == $user->getId()) {
+            $user->setShowFullDetail(true);
+        }
 
         return $this->respondWithData($user);
     }

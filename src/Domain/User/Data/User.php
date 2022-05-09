@@ -56,6 +56,11 @@ class User implements JsonSerializable
         return $this->id;
     }
 
+    public function getAccessLevel(): ?int
+    {
+        return $this->access;
+    }
+
     public function getUsername(): string
     {
         return $this->username;

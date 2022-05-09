@@ -19,8 +19,8 @@ return function (App $app) {
 
     // Auth
     $app->group('/auth', function (Group $group) {
-        $group->get('', Auth\ViewAuthAction::class);
-        $group->post('', Auth\UpdateAuthAction::class);
+        $group->get('', Auth\ViewAuthAction::class)->setName('auth-view');
+        $group->post('', Auth\UpdateAuthAction::class)->setName('auth-update');
         $group->put('/user/{userId:[0-9]+}', Auth\OverrideAuthAction::class)->setName('auth-override');
     });
 
@@ -33,9 +33,13 @@ return function (App $app) {
         $group->get('/chatango/{chatangoId}', User\ViewChatangoUserAction::class);
         $group->post('/login', User\LoginUserAction::class);
         $group->post('/register', User\RegisterUserAction::class)->setName('register');
+        $group->get('/login/token', User\LoginTokenUserAction::class)->setName('user-login-with-token');
         $group->post('/login/token', User\UpdateLoginTokenUserAction::class)->setName('user-update-login-token');
         $group->post('/secret/token', User\UpdateSecretTokenUserAction::class)->setName('user-update-secret-token');
         $group->put('/{userId:[0-9]+}', User\UpdateUserAction::class)->setName('user-update');
+        $group
+            ->patch('/{userId:[0-9]+}/secret', User\UpdateSecretUserAction::class)
+            ->setName('user-update-secret');
         $group
             ->patch('/{userId:[0-9]+}/username', User\UpdateUsernameUserAction::class)
             ->setName('user-update-username');

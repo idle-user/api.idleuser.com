@@ -27,12 +27,12 @@ class UpdateUsernameUserAction extends Action
         $userId = (int) $this->resolveArg('userId');
         $username = (string) $this->resolveBodyArg('username');
 
-        $auth = $this->request->getAttribute('auth');
-        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
-            throw new HttpForbiddenException($this->request);
-        }
-
         $user = $this->updateUsernameUserService->run($userId, $username);
+
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->isAdmin() || $auth->getUserId() == $user->getId()) {
+            $user->setShowFullDetail(true);
+        }
 
         return $this->respondWithData($user);
     }

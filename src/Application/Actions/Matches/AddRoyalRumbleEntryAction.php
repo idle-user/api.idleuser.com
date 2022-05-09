@@ -38,11 +38,6 @@ class AddRoyalRumbleEntryAction extends Action
             $userId = null;
         }
 
-        $auth = $this->request->getAttribute('auth');
-        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
-            throw new HttpForbiddenException($this->request);
-        }
-
         $royalrumbleEntry = $this->addRoyalRumbleEntryService->run($royalRumbleId, $userId, $displayName, $comment);
 
         return $this->respondWithData($royalrumbleEntry);

@@ -11,7 +11,13 @@ final class LoginUserService extends UserService
     {
         $this->validate($data);
 
-        $user = $this->userRepository->login($data['username'], $data['secret']);
+        if(filter_var($data['username'], FILTER_VALIDATE_EMAIL)) {
+            $user = $this->userRepository->loginWithEmail($data['username'], $data['secret']);
+        }
+        else {
+            $user = $this->userRepository->loginWithUsername($data['username'], $data['secret']);
+        }
+
         $user->setShowFullDetail(true);
 
         $this->logger->info(sprintf('User logged-in successfully: %s', $user->getId()));

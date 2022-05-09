@@ -29,11 +29,6 @@ class AddBetAction extends Action
         $team = (int) $this->resolveBodyArg('team');
         $points = $this->resolveBodyArg('points');
 
-        $auth = $this->request->getAttribute('auth');
-        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
-            throw new HttpForbiddenException($this->request);
-        }
-
         $bet = $this->addBetService->run($userId, $matchId, $team, $points);
 
         return $this->respondWithData($bet);

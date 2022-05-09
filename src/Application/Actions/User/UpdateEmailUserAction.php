@@ -27,12 +27,12 @@ class UpdateEmailUserAction extends Action
         $userId = (int) $this->resolveArg('userId');
         $email = (string) $this->resolveBodyArg('email');
 
-        $auth = $this->request->getAttribute('auth');
-        if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
-            throw new HttpForbiddenException($this->request);
-        }
-
         $user = $this->updateEmailUserService->run($userId, $email);
+
+        $auth = $this->request->getAttribute('auth');
+        if ($auth->isAdmin() || $auth->getUserId() == $user->getId()) {
+            $user->setShowFullDetail(true);
+        }
 
         return $this->respondWithData($user);
     }
