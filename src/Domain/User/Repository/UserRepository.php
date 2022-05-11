@@ -191,7 +191,7 @@ class UserRepository
     {
         try {
             if (password_verify($oldSecret, $this->findSecretById($userId))) {
-                $sql = 'UPDATE user SET secret=? secret_last_updated=NOW() WHERE id=?';
+                $sql = 'UPDATE user SET secret=?, secret_last_updated=NOW() WHERE id=?';
                 $this->db->query($sql, [$userId, password_hash($newSeret, PASSWORD_BCRYPT)]);
                 return $this->findById($userId);
             } else {

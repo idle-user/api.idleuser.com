@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Service;
 
-use App\Domain\User\Exception\UserNotFoundException;
 use App\Exception\ValidationException;
 
 final class UpdateSecretUserService extends UserService
@@ -36,7 +35,7 @@ final class UpdateSecretUserService extends UserService
         }
 
         if (empty($data['secret_check'])) {
-            throw new ValidationException('Secret is required.');
+            throw new ValidationException('Secret Check is required.');
         }
 
         if ($data['secret'] != $data['secret_check']) {
