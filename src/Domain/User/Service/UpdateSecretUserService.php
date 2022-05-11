@@ -15,8 +15,6 @@ final class UpdateSecretUserService extends UserService
 
         $user = $this->userRepository->findById($userId);
 
-        $user->setShowFullDetail(true);
-
         $this->logger->info(sprintf('User secret updated successfully: %s', $user->getId()));
 
         return $user;
