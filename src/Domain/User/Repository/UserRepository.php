@@ -78,6 +78,17 @@ class UserRepository
         return User::withRow($row);
     }
 
+    public function findByResetToken($token)
+    {
+        $sql = 'SELECT * FROM uv_user WHERE temp_secret=? AND temp_secret_exp>NOW()';
+        $stmt = $this->db->query($sql, [$token]);
+        $row = $stmt->fetch();
+        if (!$row) {
+            throw new UserNotFoundException();
+        }
+        return User::withRow($row);
+    }
+
     public function findByDiscordId($discordId)
     {
         $sql = 'SELECT * FROM uv_user WHERE discord_id=?';
@@ -178,10 +189,22 @@ class UserRepository
     public function loginWithToken($token)
     {
         try {
-                $user = $this->findByLoginToken($token);
-                $sql = 'UPDATE user SET last_login=NOW(), login_token_exp=NOW() WHERE id=?';
-                $this->db->query($sql, [$user->getId()]);
-                return $this->findById($user->getId());
+            $user = $this->findByLoginToken($token);
+            $sql = 'UPDATE user SET last_login=NOW(), login_token_exp=NOW() WHERE id=?';
+            $this->db->query($sql, [$user->getId()]);
+            return $this->findById($user->getId());
+        } catch (UserNotFoundException $e) {
+            throw new UserLoginFailedException();
+        }
+    }
+
+    public function resetSecretWithToken($token, $secret)
+    {
+        try {
+            $user = $this->findByResetToken($token);
+            $sql = 'UPDATE user SET secret=?, secret_last_updated=NOW(), temp_secret_exp=NOW() WHERE id=?';
+            $this->db->query($sql, [password_hash($secret, PASSWORD_BCRYPT), $user->getId()]);
+            return $this->findById($user->getId());
         } catch (UserNotFoundException $e) {
             throw new UserLoginFailedException();
         }
