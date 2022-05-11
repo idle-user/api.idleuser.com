@@ -187,12 +187,12 @@ class UserRepository
         }
     }
 
-    public function updateSecretById($userId, $oldSecret, $newSeret)
+    public function updateSecretById($userId, $oldSecret, $newSecret)
     {
         try {
             if (password_verify($oldSecret, $this->findSecretById($userId))) {
-                $sql = 'UPDATE user SET secret=? secret_last_updated=NOW() WHERE id=?';
-                $this->db->query($sql, [$userId, password_hash($newSeret, PASSWORD_BCRYPT)]);
+                $sql = 'UPDATE user SET secret=?, secret_last_updated=NOW() WHERE id=?';
+                $this->db->query($sql, [password_hash($newSecret, PASSWORD_BCRYPT), $userId]);
                 return $this->findById($userId);
             } else {
                 throw new UserLoginFailedException();
