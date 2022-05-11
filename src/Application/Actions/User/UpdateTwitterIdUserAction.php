@@ -7,7 +7,6 @@ use App\Domain\User\Service\UpdateTwitterIdUserService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
-use Slim\Exception\HttpForbiddenException;
 
 class UpdateTwitterIdUserAction extends Action
 {

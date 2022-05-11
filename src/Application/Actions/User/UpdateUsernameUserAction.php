@@ -7,7 +7,6 @@ use App\Domain\User\Service\UpdateUsernameUserService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
-use Slim\Exception\HttpForbiddenException;
 
 class UpdateUsernameUserAction extends Action
 {

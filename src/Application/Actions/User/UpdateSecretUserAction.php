@@ -7,7 +7,6 @@ use App\Domain\User\Service\UpdateSecretUserService;
 use App\Application\Actions\Action;
 use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
-use Slim\Exception\HttpForbiddenException;
 
 class UpdateSecretUserAction extends Action
 {
