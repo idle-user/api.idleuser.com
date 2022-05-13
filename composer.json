@@ -20,6 +20,7 @@
         "php": "^7.2",
         "ext-json": "*",
         "akrabat/ip-address-middleware": "^2.0",
+        "middlewares/trailing-slash": "^2.0",
         "monolog/monolog": "^2.0",
         "php-di/php-di": "^6.1",
         "slim/psr7": "^1.2",
