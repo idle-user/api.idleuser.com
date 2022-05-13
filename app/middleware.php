@@ -9,6 +9,4 @@ return function (App $app) {
     $app->add(TrafficMiddleware::class);
     $app->add(IpAddressMiddleware::class);
     $app->add(AuthMiddleware::class);
-    $app->addRoutingMiddleware();
-    $app->addBodyParsingMiddleware();
 };
