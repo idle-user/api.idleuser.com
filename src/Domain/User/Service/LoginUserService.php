@@ -11,10 +11,9 @@ final class LoginUserService extends UserService
     {
         $this->validate($data);
 
-        if(filter_var($data['username'], FILTER_VALIDATE_EMAIL)) {
+        if (filter_var($data['username'], FILTER_VALIDATE_EMAIL)) {
             $user = $this->userRepository->loginWithEmail($data['username'], $data['secret']);
-        }
-        else {
+        } else {
             $user = $this->userRepository->loginWithUsername($data['username'], $data['secret']);
         }
 

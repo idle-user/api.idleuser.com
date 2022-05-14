@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
-use App\Domain\User\Service\UpdateTwitterIdUserService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\User\Service\UpdateTwitterIdUserService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class UpdateTwitterIdUserAction extends Action
 {
@@ -23,8 +23,8 @@ class UpdateTwitterIdUserAction extends Action
      */
     protected function action(): Response
     {
-        $userId = (int) $this->resolveArg('userId');
-        $twitterId = (string) $this->resolveBodyArg('twitter_id');
+        $userId = (int)$this->resolveArg('userId');
+        $twitterId = (string)$this->resolveBodyArg('twitter_id');
 
         $user = $this->updateTwitterIdUserService->run($userId, $twitterId);
 

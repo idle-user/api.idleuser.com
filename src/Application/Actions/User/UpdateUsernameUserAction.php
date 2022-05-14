@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
-use App\Domain\User\Service\UpdateUsernameUserService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\User\Service\UpdateUsernameUserService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class UpdateUsernameUserAction extends Action
 {
@@ -23,8 +23,8 @@ class UpdateUsernameUserAction extends Action
      */
     protected function action(): Response
     {
-        $userId = (int) $this->resolveArg('userId');
-        $username = (string) $this->resolveBodyArg('username');
+        $userId = (int)$this->resolveArg('userId');
+        $username = (string)$this->resolveBodyArg('username');
 
         $user = $this->updateUsernameUserService->run($userId, $username);
 

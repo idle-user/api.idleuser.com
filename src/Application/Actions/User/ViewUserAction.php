@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
-use App\Domain\User\Service\ViewUserService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\User\Service\ViewUserService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ViewUserAction extends Action
 {
@@ -23,7 +23,7 @@ class ViewUserAction extends Action
      */
     protected function action(): Response
     {
-        $userId = (int) $this->resolveArg('userId');
+        $userId = (int)$this->resolveArg('userId');
 
         $user = $this->viewUserService->run($userId);
 

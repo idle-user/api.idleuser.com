@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Matches\Service\ViewBetService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\Matches\Service\ViewBetService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ViewBetAction extends Action
 {
@@ -23,8 +23,8 @@ class ViewBetAction extends Action
      */
     protected function action(): Response
     {
-        $userId = (int) $this->resolveArg('userId');
-        $matchId = (int) $this->resolveArg('matchId');
+        $userId = (int)$this->resolveArg('userId');
+        $matchId = (int)$this->resolveArg('matchId');
 
         $bet = $this->viewBetService->run($userId, $matchId);
 

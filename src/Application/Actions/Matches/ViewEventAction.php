@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Matches\Service\ViewEventService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\Matches\Service\ViewEventService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ViewEventAction extends Action
 {
@@ -23,7 +23,7 @@ class ViewEventAction extends Action
      */
     protected function action(): Response
     {
-        $eventId = (int) $this->resolveArg('eventId');
+        $eventId = (int)$this->resolveArg('eventId');
 
         $event = $this->viewEventService->run($eventId);
 

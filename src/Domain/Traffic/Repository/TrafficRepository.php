@@ -28,7 +28,7 @@ class TrafficRepository
         return Traffic::withRow($row);
     }
 
-    public function addTraffic($domain, $requestText, $userAgent, $ipAddress, $userId, $note=null)
+    public function addTraffic($domain, $requestText, $userAgent, $ipAddress, $userId, $note = null)
     {
         $sql = 'CALL usp_traffic_ins(?, ?, ?, ?, ?, ?)';
         $stmt = $this->db->query($sql, [$domain, $requestText, $userAgent, $ipAddress, $userId, $note]);

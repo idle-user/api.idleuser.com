@@ -16,9 +16,10 @@ class TrafficMiddleware implements Middleware
     private $updateResponseTrafficService;
 
     public function __construct(
-        AddTrafficService $addTrafficService,
+        AddTrafficService            $addTrafficService,
         UpdateResponseTrafficService $updateResponseTrafficService
-    ) {
+    )
+    {
         $this->addTrafficService = $addTrafficService;
         $this->updateResponseTrafficService = $updateResponseTrafficService;
     }

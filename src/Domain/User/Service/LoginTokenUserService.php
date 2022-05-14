@@ -23,7 +23,7 @@ final class LoginTokenUserService extends UserService
     private function validate(array $data)
     {
         if (empty($data['login_token'])) {
-            throw new ValidationException('Login Token is required'. var_dump($data));
+            throw new ValidationException('Login Token is required' . var_dump($data));
         }
     }
 }

@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
-use App\Domain\User\Service\UpdateDiscordIdUserService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\User\Service\UpdateDiscordIdUserService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class UpdateDiscordIdUserAction extends Action
 {
@@ -23,8 +23,8 @@ class UpdateDiscordIdUserAction extends Action
      */
     protected function action(): Response
     {
-        $userId = (int) $this->resolveArg('userId');
-        $discordId = (string) $this->resolveBodyArg('discord_id');
+        $userId = (int)$this->resolveArg('userId');
+        $discordId = (string)$this->resolveBodyArg('discord_id');
 
         $user = $this->updateDiscordIdUserService->run($userId, $discordId);
 

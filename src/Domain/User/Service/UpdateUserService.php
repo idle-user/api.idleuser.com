@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Service;
 
-use App\Domain\User\Exception\UsernameAlreadyExistsException;
-use App\Domain\User\Exception\EmailAlreadyExistsException;
-use App\Domain\User\Exception\DiscordIdAlreadyExistsException;
 use App\Domain\User\Exception\ChatangoIdAlreadyExistsException;
+use App\Domain\User\Exception\DiscordIdAlreadyExistsException;
+use App\Domain\User\Exception\EmailAlreadyExistsException;
 use App\Domain\User\Exception\TwitterIdAlreadyExistsException;
+use App\Domain\User\Exception\UsernameAlreadyExistsException;
 use App\Domain\User\Exception\UserNotFoundException;
 use App\Exception\ValidationException;
 

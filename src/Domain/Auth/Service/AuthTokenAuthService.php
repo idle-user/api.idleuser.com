@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\Auth\Service;
 
 use App\Domain\Auth\Exception\AuthTokenNotFoundException;
-use App\Domain\Auth\Service\AuthService;
-use App\Exception\ValidationException;
 use App\Domain\User\Data\User;
+use App\Exception\ValidationException;
 
 final class AuthTokenAuthService extends AuthService
 {
@@ -17,7 +16,7 @@ final class AuthTokenAuthService extends AuthService
 
         try {
             $auth = $this->authRepository->findByUserId($user->getId());
-        } catch (AuthTokenNotFoundException $e){
+        } catch (AuthTokenNotFoundException $e) {
             $authToken = $this->authRepository->createAuthToken($user->getId(), $user->getAccessLevel());
             $auth = $this->authRepository->findByAuthToken($authToken);
         }

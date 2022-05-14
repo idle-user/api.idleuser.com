@@ -5,9 +5,8 @@ namespace App\Domain\Matches\Repository;
 
 use App\Domain\Database;
 use App\Domain\Matches\Data\Bet;
-use App\Domain\Matches\Exception\BetNotFoundException;
 use App\Domain\Matches\Exception\BetAlreadyExistsException;
-
+use App\Domain\Matches\Exception\BetNotFoundException;
 use PDOException;
 
 class BetRepository

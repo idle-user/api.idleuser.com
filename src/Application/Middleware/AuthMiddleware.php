@@ -55,7 +55,7 @@ class AuthMiddleware implements Middleware
 
         try {
             $auth = $this->validateAuthService->run();
-        } catch (AuthTokenNotFoundException | AuthTokenInvalidException | AuthTokenExpiredException | ValidationException $e) {
+        } catch (AuthTokenNotFoundException|AuthTokenInvalidException|AuthTokenExpiredException|ValidationException $e) {
             $authError = $e;
             $auth = Auth::create();
         }
@@ -70,12 +70,12 @@ class AuthMiddleware implements Middleware
             throw $authError;
         }
 
-        if(in_array($routeName, $userRouteArray)){
-            if(!$auth->isUser()) {
-                 throw new HttpForbiddenException($request);
+        if (in_array($routeName, $userRouteArray)) {
+            if (!$auth->isUser()) {
+                throw new HttpForbiddenException($request);
             }
 
-            $userId = (int) $route->getArgument('userId');
+            $userId = (int)$route->getArgument('userId');
 
             if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
                 throw new HttpForbiddenException($request);

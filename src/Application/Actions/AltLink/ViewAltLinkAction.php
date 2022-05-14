@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\AltLink;
 
-use App\Domain\AltLink\Service\ViewAltLinkService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\AltLink\Service\ViewAltLinkService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ViewAltLinkAction extends Action
 {
@@ -23,7 +23,7 @@ class ViewAltLinkAction extends Action
      */
     protected function action(): Response
     {
-        $alias = (string) $this->resolveArg('alias');
+        $alias = (string)$this->resolveArg('alias');
 
         $altLink = $this->viewAltLinkService->run($alias);
 

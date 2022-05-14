@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Chat;
 
-use App\Domain\Chat\Service\ViewCommandService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\Chat\Service\ViewCommandService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ViewCommandAction extends Action
 {
@@ -23,7 +23,7 @@ class ViewCommandAction extends Action
      */
     protected function action(): Response
     {
-        $commandName = (string) $this->resolveArg('command');
+        $commandName = (string)$this->resolveArg('command');
 
         $command = $this->viewCommandService->run($commandName);
 

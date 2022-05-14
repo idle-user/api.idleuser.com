@@ -5,8 +5,8 @@ namespace App\Application\Actions\Matches;
 
 use App\Application\Actions\Action;
 use App\Domain\Matches\Service\ListMatchContestantsService;
-use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ListMatchContestantsAction extends Action
 {
@@ -23,7 +23,7 @@ class ListMatchContestantsAction extends Action
      */
     protected function action(): Response
     {
-        $matchId = (int) $this->resolveArg('matchId');
+        $matchId = (int)$this->resolveArg('matchId');
 
         $matchContestantList = $this->listMatchContestantsService->run($matchId);
 

@@ -6,8 +6,8 @@ namespace App\Application\Actions\Auth;
 use App\Application\Actions\Action;
 use App\Domain\Auth\Service\UpdateAuthService;
 use App\Domain\User\Service\ViewUserService;
-use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class OverrideAuthAction extends Action
 {
@@ -15,10 +15,11 @@ class OverrideAuthAction extends Action
     protected $viewUserService;
 
     public function __construct(
-        LoggerInterface $logger,
+        LoggerInterface   $logger,
         UpdateAuthService $updateAuthService,
-        ViewUserService $viewUserService
-    ) {
+        ViewUserService   $viewUserService
+    )
+    {
         parent::__construct($logger);
         $this->updateAuthService = $updateAuthService;
         $this->viewUserService = $viewUserService;
@@ -31,7 +32,7 @@ class OverrideAuthAction extends Action
     {
         $this->logger->info('Override Auth attempt.');
 
-        $userId = (int) $this->resolveArg('userId');
+        $userId = (int)$this->resolveArg('userId');
 
         $user = $this->viewUserService->run($userId);
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace App\Domain\Matches\Service;
 
 use App\Domain\Matches\Data\MatchRating;
-use App\Domain\Matches\Exception\MatchRatingNotAvailableException;
-use App\Domain\Matches\Exception\InvalidMatchRatingException;
 use App\Domain\Matches\Exception\InvalidMatchException;
+use App\Domain\Matches\Exception\InvalidMatchRatingException;
+use App\Domain\Matches\Exception\MatchRatingNotAvailableException;
 use App\Domain\Matches\Repository\EventRepository;
 use App\Domain\Matches\Repository\MatchRatingRepository;
 use App\Domain\Matches\Repository\MatchRepository;
@@ -21,12 +21,13 @@ final class AddMatchRatingService
     protected $eventRepository;
 
     public function __construct(
-        LoggerInterface $logger,
+        LoggerInterface       $logger,
         MatchRatingRepository $matchRatingRepository,
-        MatchRepository $matchRepository,
-        SeasonRepository $seasonRepository,
-        EventRepository $eventRepository
-    ) {
+        MatchRepository       $matchRepository,
+        SeasonRepository      $seasonRepository,
+        EventRepository       $eventRepository
+    )
+    {
         $this->logger = $logger;
         $this->matchRatingRepository = $matchRatingRepository;
         $this->matchRepository = $matchRepository;

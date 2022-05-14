@@ -8,7 +8,6 @@ use App\Domain\User\Data\User;
 use App\Domain\User\Exception\UserLoginFailedException;
 use App\Domain\User\Exception\UsernameAlreadyExistsException;
 use App\Domain\User\Exception\UserNotFoundException;
-
 use PDOException;
 
 class UserRepository

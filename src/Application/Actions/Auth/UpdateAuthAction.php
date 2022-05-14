@@ -6,8 +6,8 @@ namespace App\Application\Actions\Auth;
 use App\Application\Actions\Action;
 use App\Domain\Auth\Service\UpdateAuthService;
 use App\Domain\User\Service\LoginUserService;
-use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class UpdateAuthAction extends Action
 {
@@ -15,10 +15,11 @@ class UpdateAuthAction extends Action
     protected $loginUserService;
 
     public function __construct(
-        LoggerInterface $logger,
+        LoggerInterface   $logger,
         UpdateAuthService $updateAuthService,
-        LoginUserService $loginUserService
-    ) {
+        LoginUserService  $loginUserService
+    )
+    {
         parent::__construct($logger);
         $this->updateAuthService = $updateAuthService;
         $this->loginUserService = $loginUserService;

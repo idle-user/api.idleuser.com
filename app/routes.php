@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-use App\Application\Actions\Auth;
-use App\Application\Actions\User;
-use App\Application\Actions\Matches;
-use App\Application\Actions\Chat;
 use App\Application\Actions\AltLink;
+use App\Application\Actions\Auth;
+use App\Application\Actions\Chat;
+use App\Application\Actions\Matches;
+use App\Application\Actions\User;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;

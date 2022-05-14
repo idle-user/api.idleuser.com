@@ -6,17 +6,17 @@ namespace App\Domain\Matches\Service;
 use App\Domain\Matches\Data\Bet;
 use App\Domain\Matches\Exception\BetsClosedException;
 use App\Domain\Matches\Exception\InsufficientPointsAvailableException;
+use App\Domain\Matches\Exception\InvalidBetAmountException;
+use App\Domain\Matches\Exception\InvalidMatchException;
 use App\Domain\Matches\Exception\MatchEventPassedException;
 use App\Domain\Matches\Exception\MatchSeasonInvalidException;
 use App\Domain\Matches\Repository\BetRepository;
-use Psr\Log\LoggerInterface;
-use App\Domain\Matches\Exception\InvalidBetAmountException;
-use App\Domain\Matches\Exception\InvalidMatchException;
 use App\Domain\Matches\Repository\ContestantRepository;
 use App\Domain\Matches\Repository\EventRepository;
 use App\Domain\Matches\Repository\MatchRepository;
 use App\Domain\Matches\Repository\SeasonRepository;
 use App\Domain\Matches\Repository\StatsRepository;
+use Psr\Log\LoggerInterface;
 
 final class AddBetService
 {
@@ -28,14 +28,15 @@ final class AddBetService
     protected $contestantRepository;
 
     public function __construct(
-        LoggerInterface $logger,
-        BetRepository $betRepository,
-        MatchRepository $matchRepository,
-        StatsRepository $statsRepository,
-        SeasonRepository $seasonRepository,
-        EventRepository $eventRepository,
+        LoggerInterface      $logger,
+        BetRepository        $betRepository,
+        MatchRepository      $matchRepository,
+        StatsRepository      $statsRepository,
+        SeasonRepository     $seasonRepository,
+        EventRepository      $eventRepository,
         ContestantRepository $contestantRepository
-    ) {
+    )
+    {
         $this->logger = $logger;
         $this->betRepository = $betRepository;
         $this->matchRepository = $matchRepository;

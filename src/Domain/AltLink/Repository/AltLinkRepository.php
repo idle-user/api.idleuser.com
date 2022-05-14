@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace App\Domain\AltLink\Repository;
 
-use App\Domain\Database;
 use App\Domain\AltLink\Data\AltLink;
 use App\Domain\AltLink\Exception\AltLinkAlreadyExistsException;
 use App\Domain\AltLink\Exception\AltLinkNotFoundException;
-
+use App\Domain\Database;
 use PDOException;
 
 class AltLinkRepository

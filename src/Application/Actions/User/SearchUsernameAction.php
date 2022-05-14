@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
-use App\Domain\User\Service\SearchUsernameUserService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\User\Service\SearchUsernameUserService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class SearchUsernameAction extends Action
 {
@@ -23,7 +23,7 @@ class SearchUsernameAction extends Action
      */
     protected function action(): Response
     {
-        $keyword = (string) $this->resolveArg('keyword');
+        $keyword = (string)$this->resolveArg('keyword');
 
         $userList = $this->searchUsernameUserService->run($keyword);
 

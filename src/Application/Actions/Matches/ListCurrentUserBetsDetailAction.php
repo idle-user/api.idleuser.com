@@ -3,19 +3,20 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Matches\Service\ListCurrentUserBetsDetailService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\Matches\Service\ListCurrentUserBetsDetailService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ListCurrentUserBetsDetailAction extends Action
 {
     private $listActiveUserBetsDetailService;
 
     public function __construct(
-        LoggerInterface $logger,
+        LoggerInterface                  $logger,
         ListCurrentUserBetsDetailService $listActiveUserBetsDetailService
-    ) {
+    )
+    {
         parent::__construct($logger);
         $this->listActiveUserBetsDetailService = $listActiveUserBetsDetailService;
     }
@@ -25,7 +26,7 @@ class ListCurrentUserBetsDetailAction extends Action
      */
     protected function action(): Response
     {
-        $userId = (int) $this->resolveArg('userId');
+        $userId = (int)$this->resolveArg('userId');
 
         $userBetNotCompleteDetailList = $this->listActiveUserBetsDetailService->run($userId);
 

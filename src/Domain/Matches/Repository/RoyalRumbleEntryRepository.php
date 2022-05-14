@@ -7,7 +7,6 @@ use App\Domain\Database;
 use App\Domain\Matches\Data\RoyalRumbleEntry;
 use App\Domain\Matches\Exception\RoyalRumbleEntryAlreadyExistsException;
 use App\Domain\Matches\Exception\RoyalRumbleEntryNotFoundException;
-
 use PDOException;
 
 class RoyalRumbleEntryRepository

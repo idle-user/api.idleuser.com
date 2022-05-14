@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
-use App\Domain\User\Service\ViewDiscordUserService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\User\Service\ViewDiscordUserService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ViewDiscordUserAction extends Action
 {
@@ -23,7 +23,7 @@ class ViewDiscordUserAction extends Action
      */
     protected function action(): Response
     {
-        $discordId = (string) $this->resolveArg('discordId');
+        $discordId = (string)$this->resolveArg('discordId');
 
         $user = $this->viewDiscordUserService->run($discordId);
 

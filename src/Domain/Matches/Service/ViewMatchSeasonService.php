@@ -13,10 +13,11 @@ final class ViewMatchSeasonService
     protected $seasonRepository;
 
     public function __construct(
-        LoggerInterface $logger,
-        MatchRepository $matchRepository,
+        LoggerInterface  $logger,
+        MatchRepository  $matchRepository,
         SeasonRepository $seasonRepository
-    ) {
+    )
+    {
         $this->logger = $logger;
         $this->matchRepository = $matchRepository;
         $this->seasonRepository = $seasonRepository;

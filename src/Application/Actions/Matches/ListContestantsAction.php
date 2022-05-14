@@ -5,8 +5,8 @@ namespace App\Application\Actions\Matches;
 
 use App\Application\Actions\Action;
 use App\Domain\Matches\Service\ListContestantsService;
-use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ListContestantsAction extends Action
 {

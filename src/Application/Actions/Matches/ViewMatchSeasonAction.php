@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Matches\Service\ViewMatchSeasonService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\Matches\Service\ViewMatchSeasonService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ViewMatchSeasonAction extends Action
 {
@@ -23,7 +23,7 @@ class ViewMatchSeasonAction extends Action
      */
     protected function action(): Response
     {
-        $matchId = (int) $this->resolveArg('matchId');
+        $matchId = (int)$this->resolveArg('matchId');
 
         $season = $this->viewMatchSeasonService->run($matchId);
 

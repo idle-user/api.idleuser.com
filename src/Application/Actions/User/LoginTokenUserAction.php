@@ -6,8 +6,8 @@ namespace App\Application\Actions\User;
 use App\Application\Actions\Action;
 use App\Domain\Auth\Service\AuthTokenAuthService;
 use App\Domain\User\Service\LoginTokenUserService;
-use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class LoginTokenUserAction extends Action
 {

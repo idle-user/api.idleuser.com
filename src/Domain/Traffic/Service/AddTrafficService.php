@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Traffic\Service;
 
-use App\Domain\Traffic\Service\TrafficService;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class AddTrafficService extends TrafficService
@@ -18,9 +17,9 @@ final class AddTrafficService extends TrafficService
 
         $userAgent = $request->getHeader('User-Agent')[0];
         # check cloudflare
-		if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])){
+        if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
             $ipAddress = $_SERVER['HTTP_CF_CONNECTING_IP'];
-		} else {
+        } else {
             $ipAddress = $request->getAttribute('ip_address');
         }
         $userId = $request->getAttribute('auth')->getUserId();
