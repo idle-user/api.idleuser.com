@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Application\Middleware;
 
-use App\Domain\DomainException\DomainException;
 use App\Domain\Traffic\Service\AddTrafficService;
 use App\Domain\Traffic\Service\UpdateTrafficService;
+use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
@@ -35,7 +35,7 @@ class TrafficMiddleware implements Middleware
         $exception = false;
         try {
             $response = $handler->handle($request);
-        } catch (DomainException $e) {
+        } catch (Exception $e) {
             $exception = $e;
         }
 
