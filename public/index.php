@@ -8,13 +8,13 @@ use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
 
+
 require __DIR__ . '/../vendor/autoload.php';
 
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();
 
-if (false) {
-    // Should be set to true in production
+if (getenv('APP_ENV') === 'production') {
     $containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
 }
 
@@ -42,11 +42,11 @@ $middleware($app);
 $routes = require __DIR__ . '/../app/routes.php';
 $routes($app);
 
-/** @var bool $displayErrorDetails */
-$displayErrorDetails = $container->get('settings')['displayErrorDetails'];
-
-/** @var str $timezone */
+// Based off settings
 date_default_timezone_set($container->get('settings')['timezone']);
+$displayErrorDetails = $container->get('settings')['displayErrorDetails'];
+$logErrors = $container->get('settings')['logErrors'];
+$logErrorDetails = $container->get('settings')['logErrorDetails'];
 
 // Create Request object from globals
 $serverRequestCreator = ServerRequestCreatorFactory::create();
@@ -60,11 +60,8 @@ $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
 $shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDetails);
 register_shutdown_function($shutdownHandler);
 
-// Add Routing Middleware
-$app->addRoutingMiddleware();
-
 // Add Error Middleware
-$errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, false, false);
+$errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, $logErrorDetails, $logErrorDetails);
 $errorMiddleware->setDefaultErrorHandler($errorHandler);
 
 // Run App & Emit Response

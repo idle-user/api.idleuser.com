@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Matches\Service\ListMatchBetsDetailService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\Matches\Service\ListMatchBetsDetailService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ListMatchBetsDetailAction extends Action
 {
@@ -23,7 +23,7 @@ class ListMatchBetsDetailAction extends Action
      */
     protected function action(): Response
     {
-        $matchId = (int) $this->resolveArg('matchId');
+        $matchId = (int)$this->resolveArg('matchId');
 
         $matchBetDetailList = $this->listMatchBetsDetailService->run($matchId);
 

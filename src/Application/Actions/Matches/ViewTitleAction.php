@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Matches\Service\ViewTitleService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\Matches\Service\ViewTitleService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ViewTitleAction extends Action
 {
@@ -23,7 +23,7 @@ class ViewTitleAction extends Action
      */
     protected function action(): Response
     {
-        $titleId = (int) $this->resolveArg('titleId');
+        $titleId = (int)$this->resolveArg('titleId');
 
         $title = $this->viewTitleService->run($titleId);
 

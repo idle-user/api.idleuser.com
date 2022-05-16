@@ -55,9 +55,7 @@ class HttpErrorHandler extends SlimErrorHandler
             } elseif ($exception instanceof HttpNotImplementedException) {
                 $error->setType(ActionError::NOT_IMPLEMENTED);
             }
-        }
-
-        // Domain exceptions
+        } // Domain exceptions
         elseif ($exception instanceof DomainException) {
             $statusCode = $exception->getCode();
             $error->setDescription($exception->getMessage());

@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Chat\Repository;
 
-use App\Domain\Database;
 use App\Domain\Chat\Data\Command;
 use App\Domain\Chat\Exception\CommandAlreadyExistsException;
 use App\Domain\Chat\Exception\CommandNotFoundException;
-
+use App\Domain\Database;
 use PDOException;
 
 class CommandRepository

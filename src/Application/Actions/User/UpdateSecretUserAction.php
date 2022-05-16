@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
-use App\Domain\User\Service\UpdateSecretUserService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\User\Service\UpdateSecretUserService;
 use Psr\Http\Message\ResponseInterface as Response;
-use Slim\Exception\HttpForbiddenException;
+use Psr\Log\LoggerInterface;
 
 class UpdateSecretUserAction extends Action
 {
@@ -24,7 +23,7 @@ class UpdateSecretUserAction extends Action
      */
     protected function action(): Response
     {
-        $userId = (int) $this->resolveArg('userId');
+        $userId = (int)$this->resolveArg('userId');
 
         $this->logger->info("User `${userId}` Update Secret attempt.");
 

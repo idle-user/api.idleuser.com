@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Matches\Service\ListBetsDetailService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\Matches\Service\ListBetsDetailService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ListBetsDetailAction extends Action
 {

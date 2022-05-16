@@ -13,8 +13,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
-use Slim\Exception\HttpForbiddenException;
-use Slim\Routing\RouteContext;
 
 class AuthMiddleware implements Middleware
 {
@@ -30,65 +28,16 @@ class AuthMiddleware implements Middleware
      */
     public function process(Request $request, RequestHandler $handler): Response
     {
-        $routeContext = RouteContext::fromRequest($request);
-        $route = $routeContext->getRoute();
-        $routeName = $route->getName();
-
-        $adminRouteArray = ['auth-override'];
-        $modRouteArray = ['chat-command-add', 'altlink-list'];
-        $userRouteArray = [
-            'match-rate-add',
-            'match-bet-add',
-            'royalrumble-entry-add',
-            'user-update',
-            'user-update-secret',
-            'user-update-username',
-            'user-update-email',
-            'user-update-discord',
-            'user-update-chatango',
-            'user-update-twitter',
-            'user-update-login-token',
-            'user-update-secret-token',
-        ];
-        $authRouteArray = ['auth-view', 'auth-update'];
-        $authRequiredRouteArray = array_merge($adminRouteArray, $modRouteArray, $userRouteArray, $authRouteArray);
 
         try {
             $auth = $this->validateAuthService->run();
-        } catch (AuthTokenNotFoundException | AuthTokenInvalidException | AuthTokenExpiredException | ValidationException $e) {
-            $authError = $e;
+            $request = $request->withAttribute('auth-error', false);
+        } catch (AuthTokenNotFoundException|AuthTokenInvalidException|AuthTokenExpiredException|ValidationException $e) {
             $auth = Auth::create();
+            $request = $request->withAttribute('auth-error', $e);
         }
 
         $request = $request->withAttribute('auth', $auth);
-
-        if (!in_array($routeName, $authRequiredRouteArray)) {
-            return $handler->handle($request);
-        }
-
-        if (isset($authError)) {
-            throw $authError;
-        }
-
-        if(in_array($routeName, $userRouteArray)){
-            if(!$auth->isUser()) {
-                 throw new HttpForbiddenException($request);
-            }
-
-            $userId = (int) $route->getArgument('userId');
-
-            if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
-                throw new HttpForbiddenException($request);
-            }
-        }
-
-        if (!$auth->isMod() && in_array($routeName, $modRouteArray)) {
-            throw new HttpForbiddenException($request);
-        }
-
-        if (!$auth->isAdmin() && in_array($routeName, $adminRouteArray)) {
-            throw new HttpForbiddenException($request);
-        }
 
         return $handler->handle($request);
     }

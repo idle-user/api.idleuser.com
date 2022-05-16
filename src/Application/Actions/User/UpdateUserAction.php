@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
-use App\Domain\User\Service\UpdateUserService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\User\Service\UpdateUserService;
 use Psr\Http\Message\ResponseInterface as Response;
-use Slim\Exception\HttpForbiddenException;
+use Psr\Log\LoggerInterface;
 
 class UpdateUserAction extends Action
 {
@@ -24,7 +23,7 @@ class UpdateUserAction extends Action
      */
     protected function action(): Response
     {
-        $userId = (int) $this->resolveArg('userId');
+        $userId = (int)$this->resolveArg('userId');
 
         $user = $this->updateUserService->run($userId, $this->request->getParsedBody());
 

@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Matches\Service\ViewMatchTypeService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\Matches\Service\ViewMatchTypeService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ViewMatchTypeAction extends Action
 {
@@ -23,7 +23,7 @@ class ViewMatchTypeAction extends Action
      */
     protected function action(): Response
     {
-        $matchTypeId = (int) $this->resolveArg('matchTypeId');
+        $matchTypeId = (int)$this->resolveArg('matchTypeId');
 
         $matchType = $this->viewMatchTypeService->run($matchTypeId);
 

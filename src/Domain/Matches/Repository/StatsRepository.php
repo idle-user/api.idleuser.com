@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Domain\Matches\Repository;
 
 use App\Domain\Database;
-use App\Domain\Matches\Data\Stats;
 use App\Domain\Matches\Data\Leaderboard;
+use App\Domain\Matches\Data\Stats;
 use App\Domain\Matches\Exception\StatsNotFoundException;
 
 class StatsRepository

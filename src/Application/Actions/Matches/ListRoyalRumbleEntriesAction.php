@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Matches\Service\ListRoyalRumbleEntriesService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\Matches\Service\ListRoyalRumbleEntriesService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ListRoyalRumbleEntriesAction extends Action
 {
@@ -23,7 +23,7 @@ class ListRoyalRumbleEntriesAction extends Action
      */
     protected function action(): Response
     {
-        $royalrumbleId = (int) $this->resolveArg('royalrumbleId');
+        $royalrumbleId = (int)$this->resolveArg('royalrumbleId');
 
         $royalrumbleEntryList = $this->listRoyalRumbleEntriesService->run($royalrumbleId);
 

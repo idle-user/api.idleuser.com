@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Matches\Service\UpdateBetService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\Matches\Service\UpdateBetService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class UpdateBetAction extends Action
 {
@@ -23,9 +23,9 @@ class UpdateBetAction extends Action
      */
     protected function action(): Response
     {
-        $userId = (int) $this->resolveBodyArg('user_id');
-        $matchId = (int) $this->resolveBodyArg('match_id');
-        $team = (int) $this->resolveBodyArg('team');
+        $userId = (int)$this->resolveBodyArg('user_id');
+        $matchId = (int)$this->resolveBodyArg('match_id');
+        $team = (int)$this->resolveBodyArg('team');
         $points = $this->resolveBodyArg('points');
 
         $bet = $this->updateBetService->run($userId, $matchId, $team, $points);

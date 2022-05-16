@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
-use App\Domain\User\Service\ViewChatangoUserService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\User\Service\ViewChatangoUserService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ViewChatangoUserAction extends Action
 {
@@ -23,7 +23,7 @@ class ViewChatangoUserAction extends Action
      */
     protected function action(): Response
     {
-        $chatangoId = (string) $this->resolveArg('chatangoId');
+        $chatangoId = (string)$this->resolveArg('chatangoId');
 
         $user = $this->viewChatangoUserService->run($chatangoId);
 

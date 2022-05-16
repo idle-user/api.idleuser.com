@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Matches\Service\SearchSuperstarService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\Matches\Service\SearchSuperstarService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class SearchSuperstarAction extends Action
 {
@@ -23,7 +23,7 @@ class SearchSuperstarAction extends Action
      */
     protected function action(): Response
     {
-        $keyword = (string) $this->resolveArg('keyword');
+        $keyword = (string)$this->resolveArg('keyword');
 
         $superstars = $this->searchSuperstarService->run($keyword);
 

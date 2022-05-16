@@ -28,7 +28,7 @@ class TrafficRepository
         return Traffic::withRow($row);
     }
 
-    public function addTraffic($domain, $requestText, $userAgent, $ipAddress, $userId, $note=null)
+    public function addTraffic($domain, $requestText, $userAgent, $ipAddress, $userId = null, $note = null)
     {
         $sql = 'CALL usp_traffic_ins(?, ?, ?, ?, ?, ?)';
         $stmt = $this->db->query($sql, [$domain, $requestText, $userAgent, $ipAddress, $userId, $note]);
@@ -39,9 +39,9 @@ class TrafficRepository
         return Traffic::withRow($row);
     }
 
-    public function updateResponseCode($trafficId, $responseCode)
+    public function update(Traffic $traffic)
     {
-        $sql = 'UPDATE traffic SET response_code=?, response_updated=NOW() WHERE id=UUID_TO_BIN(?)';
-        $this->db->query($sql, [$responseCode, $trafficId]);
+        $sql = 'UPDATE traffic SET user_id=?, note=?, response_code=?, response_updated=NOW() WHERE id=UUID_TO_BIN(?)';
+        $this->db->query($sql, [$traffic->getUserId(), $traffic->getNote(), $traffic->getResponseCode(), $traffic->getId()]);
     }
 }

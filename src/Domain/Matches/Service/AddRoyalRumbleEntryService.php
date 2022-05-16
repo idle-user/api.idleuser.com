@@ -5,7 +5,6 @@ namespace App\Domain\Matches\Service;
 
 use App\Domain\Matches\Data\RoyalRumbleEntry;
 use App\Domain\Matches\Exception\RoyalRumbleEntriesClosedException;
-use App\Domain\Matches\Exception\RoyalRumbleEntryAlreadyExistsException;
 use App\Domain\Matches\Exception\RoyalRumbleEntryNotFoundException;
 use App\Domain\Matches\Repository\RoyalRumbleEntryRepository;
 use App\Domain\Matches\Repository\RoyalRumbleRepository;
@@ -21,11 +20,12 @@ final class AddRoyalRumbleEntryService
     protected $userRepository;
 
     public function __construct(
-        LoggerInterface $logger,
-        RoyalRumbleRepository $royalRumbleRepository,
+        LoggerInterface            $logger,
+        RoyalRumbleRepository      $royalRumbleRepository,
         RoyalRumbleEntryRepository $royalRumbleEntryRepository,
-        UserRepository $userRepository
-    ) {
+        UserRepository             $userRepository
+    )
+    {
         $this->logger = $logger;
         $this->royalRumbleRepository = $royalRumbleRepository;
         $this->royalRumbleEntryRepository = $royalRumbleEntryRepository;

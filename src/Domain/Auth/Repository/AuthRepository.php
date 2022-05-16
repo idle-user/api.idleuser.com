@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Auth\Repository;
 
-use App\Domain\Database;
 use App\Domain\Auth\Data\Auth;
 use App\Domain\Auth\Exception\AuthTokenInvalidException;
 use App\Domain\Auth\Exception\AuthTokenNotFoundException;
+use App\Domain\Database;
 
 class AuthRepository
 {

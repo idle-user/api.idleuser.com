@@ -4,28 +4,32 @@ declare(strict_types=1);
 
 namespace App\Domain\Traffic\Service;
 
-use App\Domain\Traffic\Service\TrafficService;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class AddTrafficService extends TrafficService
 {
     public function run(Request $request)
     {
-        $domain = $_SERVER['HTTP_HOST'];
+        $domain = $request->getUri()->getHost();
         $requestMethod = $request->getMethod();
         $requestPath = $request->getUri()->getPath();
         $requestText = "${requestMethod} ${requestPath}";
 
-        $userAgent = $request->getHeader('User-Agent')[0];
-        # check cloudflare
-		if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])){
-            $ipAddress = $_SERVER['HTTP_CF_CONNECTING_IP'];
-		} else {
-            $ipAddress = $request->getAttribute('ip_address');
-        }
-        $userId = $request->getAttribute('auth')->getUserId();
+        $userAgent = $request->getHeaderLine('HTTP_USER_AGENT');
 
-        $traffic = $this->trafficRepository->addTraffic($domain, $requestText, $userAgent, $ipAddress, $userId);
+        if ($request->hasHeader('HTTP_CF_CONNECTING_IP')) {
+            $ipAddress = $request->getHeaderLine('HTTP_CF_CONNECTING_IP');
+        } elseif ($request->hasHeader('HTTP_CLIENT_IP')) {
+            $ipAddress = $request->getHeaderLine('HTTP_CLIENT_IP');
+        } elseif ($request->hasHeader('HTTP_X_REAL_IP')) {
+            $ipAddress = $request->getHeaderLine('HTTP_X_REAL_IP');
+        } elseif ($request->hasHeader('X_FORWARDED_FOR')) {
+            $ipAddress = $request->getHeaderLine('X_FORWARDED_FOR');
+        } else {
+            $ipAddress = $request->getHeaderLine('REMOTE_ADDR');
+        }
+        
+        $traffic = $this->trafficRepository->addTraffic($domain, $requestText, $userAgent, $ipAddress);
 
         return $traffic;
     }

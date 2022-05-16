@@ -63,17 +63,17 @@ class AltLink implements JsonSerializable
         return $this->user_id;
     }
 
-    public function getCreated(): String
+    public function getCreated(): string
     {
         return $this->created;
     }
 
-    public function getLastAccessed(): String
+    public function getLastAccessed(): string
     {
         return $this->last_accessed;
     }
 
-    public function setId(String $id)
+    public function setId(string $id)
     {
         $this->id = $id;
         return $this;

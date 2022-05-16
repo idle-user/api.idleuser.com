@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Chat;
 
-use App\Domain\Chat\Service\ListCommandsService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\Chat\Service\ListCommandsService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ListCommandsAction extends Action
 {

@@ -5,8 +5,8 @@ namespace App\Application\Actions\Auth;
 
 use App\Application\Actions\Action;
 use App\Domain\Auth\Service\ValidateAuthService;
-use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ViewAuthAction extends Action
 {

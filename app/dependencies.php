@@ -30,7 +30,6 @@ return function (ContainerBuilder $containerBuilder) {
             $dbSettings = $settings['db'];
             $driver = $dbSettings['driver'];
             $host = $dbSettings['host'];
-            $host = $dbSettings['host'];
             $dbname = $dbSettings['database'];
             $username = $dbSettings['username'];
             $password = $dbSettings['password'];
@@ -39,17 +38,6 @@ return function (ContainerBuilder $containerBuilder) {
             $dsn = "$driver:host=$host;dbname=$dbname;charset=$charset";
 
             return new PDO($dsn, $username, $password, $options);
-        },
-        IpAddressMiddleware::class => function ($c) {
-            $settings = $c->get('settings');
-
-            $ipSettings = $settings['ip'];
-            $checkProxyHeaders = $ipSettings['checkProxyHeaders'];
-            $trustedProxies = $ipSettings['trustedProxies'];
-            $attributeName = $ipSettings['attributeName'];
-            $headersToInspect = $ipSettings['headersToInspect'];
-
-            return new RKA\Middleware\IpAddress($checkProxyHeaders, $trustedProxies, $attributeName, $headersToInspect);
         },
     ]);
 };

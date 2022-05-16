@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Auth\Service;
 
-use App\Domain\Auth\Service\AuthService;
 use App\Domain\Auth\Exception\AuthTokenExpiredException;
 use App\Domain\Auth\Exception\AuthTokenInvalidException;
 use App\Exception\ValidationException;
@@ -31,7 +30,7 @@ final class ValidateAuthService extends AuthService
     private function validate($token)
     {
         if (!$token) {
-             throw new ValidationException('Authorization Token is required');
+            throw new ValidationException('Authorization Token is required');
         }
 
         if (!ctype_xdigit($token)) {

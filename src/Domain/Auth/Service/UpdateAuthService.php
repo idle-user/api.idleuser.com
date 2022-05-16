@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Auth\Service;
 
-use App\Domain\Auth\Service\AuthService;
-use App\Exception\ValidationException;
 use App\Domain\User\Data\User;
+use App\Exception\ValidationException;
 
 final class UpdateAuthService extends AuthService
 {

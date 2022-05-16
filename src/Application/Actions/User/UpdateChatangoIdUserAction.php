@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
-use App\Domain\User\Service\UpdateChatangoIdUserService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\User\Service\UpdateChatangoIdUserService;
 use Psr\Http\Message\ResponseInterface as Response;
-use Slim\Exception\HttpForbiddenException;
+use Psr\Log\LoggerInterface;
 
 class UpdateChatangoIdUserAction extends Action
 {
@@ -24,8 +23,8 @@ class UpdateChatangoIdUserAction extends Action
      */
     protected function action(): Response
     {
-        $userId = (int) $this->resolveArg('userId');
-        $chatangoId = (string) $this->resolveBodyArg('chatango_id');
+        $userId = (int)$this->resolveArg('userId');
+        $chatangoId = (string)$this->resolveBodyArg('chatango_id');
 
         $user = $this->updateChatangoIdUserService->run($userId, $chatangoId);
 

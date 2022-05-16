@@ -3,19 +3,20 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\Matches;
 
-use App\Domain\Matches\Service\ViewRoyalRumbleUserEntryService;
 use App\Application\Actions\Action;
-use Psr\Log\LoggerInterface;
+use App\Domain\Matches\Service\ViewRoyalRumbleUserEntryService;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ViewRoyalRumbleUserEntryAction extends Action
 {
     private $viewRoyalRumbleUserEntryService;
 
     public function __construct(
-        LoggerInterface $logger,
+        LoggerInterface                 $logger,
         ViewRoyalRumbleUserEntryService $viewRoyalRumbleUserEntryService
-    ) {
+    )
+    {
         parent::__construct($logger);
         $this->viewRoyalRumbleUserEntryService = $viewRoyalRumbleUserEntryService;
     }
@@ -25,8 +26,8 @@ class ViewRoyalRumbleUserEntryAction extends Action
      */
     protected function action(): Response
     {
-        $royalrumbleId = (int) $this->resolveArg('royalrumbleId');
-        $userId = (int) $this->resolveArg('userId');
+        $royalrumbleId = (int)$this->resolveArg('royalrumbleId');
+        $userId = (int)$this->resolveArg('userId');
 
         $royalrumbleEntry = $this->viewRoyalRumbleUserEntryService->run($royalrumbleId, $userId);
 
