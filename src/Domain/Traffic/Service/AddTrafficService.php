@@ -16,7 +16,7 @@ final class AddTrafficService extends TrafficService
         $requestText = "${requestMethod} ${requestPath}";
 
         $userAgent = $request->getHeaderLine('HTTP_USER_AGENT');
-        
+
         if ($request->hasHeader('HTTP_CF_CONNECTING_IP')) {
             $ipAddress = $request->getHeaderLine('HTTP_CF_CONNECTING_IP');
         } elseif ($request->hasHeader('HTTP_CLIENT_IP')) {
@@ -28,10 +28,8 @@ final class AddTrafficService extends TrafficService
         } else {
             $ipAddress = $request->getHeaderLine('REMOTE_ADDR');
         }
-
-        $userId = $request->getAttribute('auth')->getUserId();
-
-        $traffic = $this->trafficRepository->addTraffic($domain, $requestText, $userAgent, $ipAddress, $userId);
+        
+        $traffic = $this->trafficRepository->addTraffic($domain, $requestText, $userAgent, $ipAddress);
 
         return $traffic;
     }

@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Application\Middleware;
 
+use App\Domain\DomainException\DomainException;
 use App\Domain\Traffic\Service\AddTrafficService;
-use App\Domain\Traffic\Service\UpdateResponseTrafficService;
+use App\Domain\Traffic\Service\UpdateTrafficService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
@@ -13,15 +14,15 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 class TrafficMiddleware implements Middleware
 {
     private $addTrafficService;
-    private $updateResponseTrafficService;
+    private $updateTrafficService;
 
     public function __construct(
-        AddTrafficService            $addTrafficService,
-        UpdateResponseTrafficService $updateResponseTrafficService
+        AddTrafficService    $addTrafficService,
+        UpdateTrafficService $updateTrafficService
     )
     {
         $this->addTrafficService = $addTrafficService;
-        $this->updateResponseTrafficService = $updateResponseTrafficService;
+        $this->updateTrafficService = $updateTrafficService;
     }
 
     /**
@@ -31,12 +32,22 @@ class TrafficMiddleware implements Middleware
     {
         $traffic = $this->addTrafficService->run($request);
 
-        $response = $handler->handle($request);
+        $exception = false;
+        try {
+            $response = $handler->handle($request);
+        } catch (DomainException $e) {
+            $exception = $e;
+        }
 
-        // TODO: capture error response
+        $userId = $request->getAttribute('auth')->getUserId();
+        $responseCode = $exception ? $exception->getCode() : $response->getStatusCode();
 
-        $this->updateResponseTrafficService->run($traffic, $response);
+        $traffic->setResponseCode($responseCode);
+        $traffic->setUserId($userId);
 
+        $this->updateTrafficService->run($traffic);
+
+        if ($exception) throw $exception;
         return $response;
     }
 }
