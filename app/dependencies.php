@@ -30,7 +30,6 @@ return function (ContainerBuilder $containerBuilder) {
             $dbSettings = $settings['db'];
             $driver = $dbSettings['driver'];
             $host = $dbSettings['host'];
-            $host = $dbSettings['host'];
             $dbname = $dbSettings['database'];
             $username = $dbSettings['username'];
             $password = $dbSettings['password'];
