@@ -7,7 +7,6 @@ use App\Application\ResponseEmitter\ResponseEmitter;
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
-use Middlewares\TrailingSlash;
 
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -60,15 +59,6 @@ $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
 // Create Shutdown Handler
 $shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDetails);
 register_shutdown_function($shutdownHandler);
-
-// Parse json, form data, and xml
-$app->addBodyParsingMiddleware();
-
-// Add Routing Middleware
-$app->addRoutingMiddleware();
-
-// Remove trailing slashes
-$app->add(new TrailingSlash());
 
 // Add Error Middleware
 $errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, $logErrorDetails, $logErrorDetails);
