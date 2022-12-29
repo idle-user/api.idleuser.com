@@ -435,3 +435,13 @@ CREATE TABLE `web_contact` (
   `received_dt` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `email_ignore` (
+  `id` int(11) unsigned NOT NULL,
+  `contains` varchar(45) NOT NULL,
+  `hits` int(11) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `contains_UNIQUE` (`contains`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
