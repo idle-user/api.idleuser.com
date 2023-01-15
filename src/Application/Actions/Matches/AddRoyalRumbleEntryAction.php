@@ -33,7 +33,7 @@ class AddRoyalRumbleEntryAction extends Action
         try {
             $userId = (int)$this->resolveBodyArg('user_id');
             $auth = $this->validateAuthService->run();
-            if (($auth->isAdmin() || $auth->getUserId() == $userId)) {
+            if (!($auth->isAdmin() || $auth->getUserId() == $userId)) {
                 throw new AuthTokenInvalidException();
             }
         } catch (HttpBadRequestException $e) {
