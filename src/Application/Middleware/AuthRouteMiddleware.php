@@ -35,7 +35,6 @@ class AuthRouteMiddleware implements Middleware
         $userRouteArray = [
             'match-rate-add',
             'match-bet-add',
-            'royalrumble-entry-add',
             'user-update',
             'user-update-secret',
             'user-update-username',
