@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Service;
 
+use App\Domain\User\Exception\UserBannedException;
 use App\Exception\ValidationException;
 
 final class LoginTokenUserService extends UserService
@@ -12,6 +13,11 @@ final class LoginTokenUserService extends UserService
         $this->validate($data);
 
         $user = $this->userRepository->loginWithToken($data['login_token']);
+
+        if($user->getAccessLevel() < 1)
+        {
+            throw new UserBannedException();
+        }
 
         $user->setShowFullDetail(true);
 

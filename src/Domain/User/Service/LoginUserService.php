@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Service;
 
+use App\Domain\User\Exception\UserBannedException;
 use App\Exception\ValidationException;
 
 final class LoginUserService extends UserService
@@ -15,6 +16,11 @@ final class LoginUserService extends UserService
             $user = $this->userRepository->loginWithEmail($data['username'], $data['secret']);
         } else {
             $user = $this->userRepository->loginWithUsername($data['username'], $data['secret']);
+        }
+
+        if($user->getAccessLevel() < 1)
+        {
+            throw new UserBannedException();
         }
 
         $user->setShowFullDetail(true);
