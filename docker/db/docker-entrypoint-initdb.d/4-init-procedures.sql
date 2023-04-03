@@ -699,7 +699,7 @@ BEGIN
 	DECLARE t_contestants TEXT;
 	DECLARE t_contestants_won TEXT;
 	DECLARE t_contestants_lost TEXT;
-    DECLARE t_bet_multiplier INT;
+    DECLARE t_bet_multiplier DECIMAL(10,2);
 	DECLARE t_base_pot BIGINT;
 	DECLARE t_base_winner_pot BIGINT;
 	DECLARE t_base_loser_pot BIGINT;
