@@ -831,9 +831,11 @@ BEGIN
 		  SELECT 1;
 		WHEN in_season=5 THEN
 		  SELECT 1;
-		WHEN in_season=6 THEN
+        WHEN in_season=6 THEN
+            SELECT 1;
+		WHEN in_season=7 THEN
 			INSERT INTO `matches_stats` (user_id, season, wins, losses, ratings, rating_points, daily_points, bet_points, total_points, available_points, updated)
-				SELECT *, NOW() FROM `uv_matches_stats_calc_s6` vusc
+				SELECT *, NOW() FROM `uv_matches_stats_calc_s7` vusc
 			ON DUPLICATE KEY UPDATE
 				wins=vusc.wins,
 				losses=vusc.losses,

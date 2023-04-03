@@ -5,7 +5,7 @@ BEGIN
 	CALL `usp_matches_upd_bet_calculation`(NEW.match_id);
 	
     INSERT INTO `matches_stats` (user_id, season, wins, losses, ratings, rating_points, daily_points, bet_points, total_points, available_points, updated)
-		SELECT *, NOW() FROM `uv_matches_stats_calc_s6` vusc
+		SELECT *, NOW() FROM `uv_matches_stats_calc_s7` vusc
 	ON DUPLICATE KEY UPDATE
 		wins=vusc.wins,
 		losses=vusc.losses,
@@ -26,7 +26,7 @@ BEGIN
 	CALL `usp_matches_upd_bet_calculation`(NEW.match_id);
 
     INSERT INTO `matches_stats` (user_id, season, wins, losses, ratings, rating_points, daily_points, bet_points, total_points, available_points, updated)
-		SELECT *, NOW() FROM `uv_matches_stats_calc_s6` vusc
+		SELECT *, NOW() FROM `uv_matches_stats_calc_s7` vusc
 	ON DUPLICATE KEY UPDATE
 		wins=vusc.wins,
 		losses=vusc.losses,
@@ -75,7 +75,7 @@ BEGIN
     CALL `usp_matches_upd_bet_calculation`(NEW.id);
 
     INSERT INTO `matches_stats` (user_id, season, wins, losses, ratings, rating_points, daily_points, bet_points, total_points, available_points, updated)
-		SELECT *, NOW() FROM `uv_matches_stats_calc_s6` vusc
+		SELECT *, NOW() FROM `uv_matches_stats_calc_s7` vusc
 	ON DUPLICATE KEY UPDATE
 		wins=vusc.wins,
 		losses=vusc.losses,
