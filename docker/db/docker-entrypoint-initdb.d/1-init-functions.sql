@@ -19,7 +19,7 @@ BEGIN
     SET current_season = 0;
 	SELECT season INTO `current_season`
 		FROM `matches_season`
-		WHERE NOW() BETWEEN start_date AND end_date;
+		WHERE CURDATE() BETWEEN start_date AND end_date;
 RETURN current_season;
 END$$
 DELIMITER ;
