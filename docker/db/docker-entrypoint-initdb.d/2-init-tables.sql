@@ -125,7 +125,7 @@ CREATE TABLE `matches_contestant` (
   `match_id` int(10) unsigned NOT NULL DEFAULT 0,
   `superstar_id` int(10) unsigned NOT NULL DEFAULT 1,
   `team` int(10) unsigned NOT NULL DEFAULT 0,
-  `bet_multiplier` decimal(10,2) unsigned NOT NULL DEFAULT 1,
+  `bet_multiplier` decimal(10,2) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`match_id`,`superstar_id`,`team`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 

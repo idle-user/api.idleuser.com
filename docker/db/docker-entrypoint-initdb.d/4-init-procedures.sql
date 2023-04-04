@@ -241,7 +241,7 @@ BEGIN
 		`matches_match_calculation`.contestants_lost AS contestants_lost,
 		`matches_match_calculation`.bet_multiplier AS bet_multiplier,
 		`matches_match_calculation`.base_pot AS base_pot,
-		`matches_match_calculation`.base_pot*`matches_match_calculation`.bet_multiplier AS total_pot,
+        `matches_match_calculation`.base_pot+(`matches_match_calculation`.base_pot*`matches_match_calculation`.bet_multiplier) AS total_pot,
 		`matches_match_calculation`.base_winner_pot AS base_winner_pot,
 		`matches_match_calculation`.base_loser_pot AS base_loser_pot,
 		`matches_match_calculation`.user_bet_cnt AS user_bet_cnt,
@@ -327,7 +327,7 @@ BEGIN
 		`matches_match_calculation`.contestants_lost AS contestants_lost,
 		`matches_match_calculation`.bet_multiplier AS bet_multiplier,
 		`matches_match_calculation`.base_pot AS base_pot,
-        `matches_match_calculation`.base_pot*`matches_match_calculation`.bet_multiplier AS total_pot,
+        `matches_match_calculation`.base_pot+(`matches_match_calculation`.base_pot*`matches_match_calculation`.bet_multiplier) AS total_pot,
 		`matches_match_calculation`.base_winner_pot AS base_winner_pot,
 		`matches_match_calculation`.base_loser_pot AS base_loser_pot,
 		`matches_match_calculation`.user_bet_cnt AS user_bet_cnt,
@@ -373,7 +373,7 @@ BEGIN
 		`matches_match_calculation`.contestants_lost AS contestants_lost,
 		`matches_match_calculation`.bet_multiplier AS bet_multiplier,
 		`matches_match_calculation`.base_pot AS base_pot,
-		`matches_match_calculation`.base_pot*`matches_match_calculation`.bet_multiplier AS total_pot,
+        `matches_match_calculation`.base_pot+(`matches_match_calculation`.base_pot*`matches_match_calculation`.bet_multiplier) AS total_pot,
 		`matches_match_calculation`.base_winner_pot AS base_winner_pot,
 		`matches_match_calculation`.base_loser_pot AS base_loser_pot,
 		`matches_match_calculation`.user_bet_cnt AS user_bet_cnt,
@@ -418,7 +418,7 @@ BEGIN
 		`matches_match_calculation`.contestants_lost AS contestants_lost,
 		`matches_match_calculation`.bet_multiplier AS bet_multiplier,
 		`matches_match_calculation`.base_pot AS base_pot,
-		`matches_match_calculation`.base_pot*`matches_match_calculation`.bet_multiplier AS total_pot,
+        `matches_match_calculation`.base_pot+(`matches_match_calculation`.base_pot*`matches_match_calculation`.bet_multiplier) AS total_pot,
 		`matches_match_calculation`.base_winner_pot AS base_winner_pot,
 		`matches_match_calculation`.base_loser_pot AS base_loser_pot,
 		`matches_match_calculation`.user_bet_cnt AS user_bet_cnt,
@@ -659,9 +659,9 @@ BEGIN
 			,ub.user_id AS t_user_id
 			,ub.points AS t_points
 			,SUM(IF(tub.team=ub.team,tub.points,0)) AS t_team_base_pot
-			,SUM(tub.points)*bm.bet_multiplier AS t_potential_pot
-			,CAST(ub.points AS DECIMAL(40,20))/SUM(IF(tub.team=ub.team,tub.points,0)) AS t_potential_cut_pct
-			,(SUM(tub.points)*bm.bet_multiplier)*(CAST(ub.points AS DECIMAL(40,20))/SUM(IF(tub.team=ub.team,tub.points,0))) AS t_potential_cut_points
+			,SUM(tub.points)+(SUM(tub.points)*bm.bet_multiplier) AS t_potential_pot
+			,ub.points/SUM(IF(tub.team=ub.team,tub.points,0)) AS t_potential_cut_pct
+			,(SUM(tub.points)*bm.bet_multiplier)+(SUM(tub.points)*(ub.points/SUM(IF(tub.team=ub.team,tub.points,0)))) AS t_potential_cut_points
 			,IF(ub.team=m.team_won,1,0) AS t_bet_won
 			,NOW() AS t_last_updated
 		FROM 
@@ -699,7 +699,7 @@ BEGIN
 	DECLARE t_contestants TEXT;
 	DECLARE t_contestants_won TEXT;
 	DECLARE t_contestants_lost TEXT;
-    DECLARE t_bet_multiplier INT;
+    DECLARE t_bet_multiplier DECIMAL(10,2);
 	DECLARE t_base_pot BIGINT;
 	DECLARE t_base_winner_pot BIGINT;
 	DECLARE t_base_loser_pot BIGINT;
@@ -716,7 +716,7 @@ BEGIN
 		,IFNULL(GROUP_CONCAT(DISTINCT s.name SEPARATOR '; '),'') AS contestants
 		,IFNULL(GROUP_CONCAT(DISTINCT IF(m.team_won=mc.team,s.name,NULL) SEPARATOR '; '),'') AS contestants_won
 		,IFNULL(GROUP_CONCAT(DISTINCT IF(m.team_won=mc.team OR m.team_won=0 OR m.team_won=999, NULL, s.name) SEPARATOR '; '),'') AS contestants_lost
-		,IFNULL(wc.bet_multiplier, 1) AS `bet_multiplier`
+		,IFNULL(wc.bet_multiplier, 0) AS `bet_multiplier`
         ,ub.base_pot AS base_pot
 		,ub.base_winner_pot AS base_winner_pot
 		,ub.base_loser_pot AS base_loser_pot
@@ -832,7 +832,7 @@ BEGIN
 		WHEN in_season=5 THEN
 		  SELECT 1;
         WHEN in_season=6 THEN
-            SELECT 1;
+          SELECT 1;
 		WHEN in_season=7 THEN
 			INSERT INTO `matches_stats` (user_id, season, wins, losses, ratings, rating_points, daily_points, bet_points, total_points, available_points, updated)
 				SELECT *, NOW() FROM `uv_matches_stats_calc_s7` vusc
