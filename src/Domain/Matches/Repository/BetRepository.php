@@ -100,4 +100,10 @@ class BetRepository
             }
         }
     }
+
+    public function updateCalculations($matchId)
+    {
+        $sql = 'CALL usp_matches_upd_bet_calculation(?)';
+        $this->db->query($sql, [$matchId]);
+    }
 }

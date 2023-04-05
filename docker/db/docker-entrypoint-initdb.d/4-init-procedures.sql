@@ -659,12 +659,12 @@ BEGIN
 			,ub.user_id AS t_user_id
 			,ub.points AS t_points
 			,SUM(IF(tub.team=ub.team,tub.points,0)) AS t_team_base_pot
-			,SUM(tub.points)+(SUM(tub.points)*bm.bet_multiplier) AS t_potential_pot
+			,SUM(tub.points)+(SUM(IF(tub.team=ub.team,tub.points,0))*bm.bet_multiplier) AS t_potential_pot
 			,ub.points/SUM(IF(tub.team=ub.team,tub.points,0)) AS t_potential_cut_pct
-			,(SUM(tub.points)*bm.bet_multiplier)+(SUM(tub.points)*(ub.points/SUM(IF(tub.team=ub.team,tub.points,0)))) AS t_potential_cut_points
+			,(SUM(tub.points)+(SUM(IF(tub.team=ub.team,tub.points,0))*bm.bet_multiplier)) * (ub.points/SUM(IF(tub.team=ub.team,tub.points,0))) AS t_potential_cut_points
 			,IF(ub.team=m.team_won,1,0) AS t_bet_won
 			,NOW() AS t_last_updated
-		FROM 
+		FROM
 			`matches_bet` ub
 		JOIN `matches_match` m ON m.id=ub.match_id
 		JOIN (
@@ -678,7 +678,7 @@ BEGIN
 			WHERE t.match_id=in_match_id
 			GROUP BY t.match_id, t.team) tub ON tub.match_id=ub.match_id
 		WHERE ub.match_id=in_match_id
-		GROUP BY ub.user_id 
+		GROUP BY ub.user_id
 	ON DUPLICATE KEY UPDATE 
 		points=values(points)
 		,team_base_pot=values(team_base_pot)
@@ -820,19 +820,7 @@ DELIMITER $$
 CREATE PROCEDURE `usp_matches_upd_stats_all`(
 	IN in_season INT)
 BEGIN
-	CASE 
-		WHEN in_season=1 THEN
-		 SELECT 1;
-		WHEN in_season=2 THEN
-         SELECT 1;
-		WHEN in_season=3 THEN
-          SELECT 1;
-		WHEN in_season=4 THEN
-		  SELECT 1;
-		WHEN in_season=5 THEN
-		  SELECT 1;
-        WHEN in_season=6 THEN
-          SELECT 1;
+	CASE
 		WHEN in_season=7 THEN
 			INSERT INTO `matches_stats` (user_id, season, wins, losses, ratings, rating_points, daily_points, bet_points, total_points, available_points, updated)
 				SELECT *, NOW() FROM `uv_matches_stats_calc_s7` vusc
