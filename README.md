@@ -53,10 +53,11 @@ All end points below are available on https://api.idleuser.com/.
 # Matches (WatchWrestling) End Points
 
 | End Point                                                       | Auth Required | Description                                     |
-| --------------------------------------------------------------- | ------------- | ----------------------------------------------- |
-| `POST /watchwrestling/bet`                                      | Yes           | Bet on match                                    |
-| `PUT /watchwrestling/bet`                                       | Yes           | Update Bet on match                             |
-| `POST /watchwrestling/rate`                                     | Yes           | Rate match                                      |
+|-----------------------------------------------------------------| ------------- |-------------------------------------------------|
+| `POST /watchwrestling/bet`                                      | Yes           | Place a match bet                               |
+| `PUT /watchwrestling/bet`                                       | Yes           | Update a current match bet                      |
+| `POST /watchwrestling/rate`                                     | Yes           | Rate a match                                    |
+| `POST /watchwrestling/favorite`                                 | Yes           | Favorite a superstar                      |
 | `GET /watchwrestling/brands`                                    | No            | View all brands                                 |
 | `GET /watchwrestling/brands/{brandId}`                          | No            | View brand by ID                                |
 | `GET /watchwrestling/titles`                                    | No            | View all titles                                 |
