@@ -47,6 +47,7 @@ final class AddMatchRatingService
         $this->validate($rating);
 
         $this->matchRatingRepository->add($rating);
+        $this->matchRepository->updateCalculations($rating->getMatchId());
 
         $rating = $this->matchRatingRepository->findById($userId, $matchId);
 

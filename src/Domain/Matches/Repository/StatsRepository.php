@@ -83,4 +83,16 @@ class StatsRepository
         }
         return $ret;
     }
+
+    public function updateCalculationsBySeasonId($seasonId)
+    {
+        $sql = 'CALL usp_matches_upd_stats_all(?)';
+        $this->db->query($sql, [$seasonId]);
+    }
+
+    public function updateCalculationsByMatchId($matchId)
+    {
+        $sql = 'CALL usp_matches_upd_stats_all(func_matches_match_season(?))';
+        $this->db->query($sql, [$matchId]);
+    }
 }

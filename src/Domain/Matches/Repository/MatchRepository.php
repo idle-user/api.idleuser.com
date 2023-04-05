@@ -131,4 +131,10 @@ class MatchRepository
         }
         return $ret;
     }
+
+    public function updateCalculations($matchId)
+    {
+        $sql = 'CALL usp_matches_upd_match_calculation(?)';
+        $this->db->query($sql, [$matchId]);
+    }
 }

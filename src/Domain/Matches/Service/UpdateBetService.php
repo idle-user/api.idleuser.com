@@ -56,6 +56,9 @@ final class UpdateBetService
         $this->validate($bet);
 
         $this->betRepository->update($bet);
+        $this->matchRepository->updateCalculations($bet->getMatchId());
+        $this->betRepository->updateCalculations($bet->getMatchId());
+        $this->statsRepository->updateCalculationsByMatchId($bet->getMatchId());
 
         $bet = $this->betRepository->findById($userId, $matchId);
 
