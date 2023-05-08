@@ -64,9 +64,10 @@ class AuthRouteMiddleware implements Middleware
                 throw new HttpForbiddenException($request);
             }
 
-            $userId = (int)$route->getArgument('userId');
+            // grab User ID from route or from body if not available
+            $userId = (int)($route->getArgument('userId') ?? $request->getParsedBody()['user_id']);
 
-            if ($auth->getUserId() != $userId && !$auth->isAdmin()) {
+            if (($auth->getUserId() != $userId) && !$auth->isAdmin()) {
                 throw new HttpForbiddenException($request);
             }
         }
