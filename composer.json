@@ -22,7 +22,7 @@
         "middlewares/trailing-slash": "^2.0",
         "monolog/monolog": "^2.0",
         "php-di/php-di": "^6.1",
-        "slim/psr7": "^1.2",
+        "slim/psr7": "^1.5.1",
         "slim/slim": "^4.5"
     },
     "require-dev": {
