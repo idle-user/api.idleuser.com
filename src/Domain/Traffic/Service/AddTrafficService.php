@@ -19,17 +19,25 @@ final class AddTrafficService extends TrafficService
 
         if ($request->hasHeader('HTTP_CF_CONNECTING_IP')) {
             $ipAddress = $request->getHeaderLine('HTTP_CF_CONNECTING_IP');
+            $note = 'HTTP_CF_CONNECTING_IP';
         } elseif ($request->hasHeader('HTTP_CLIENT_IP')) {
             $ipAddress = $request->getHeaderLine('HTTP_CLIENT_IP');
+            $note = 'HTTP_CLIENT_IP';
         } elseif ($request->hasHeader('HTTP_X_REAL_IP')) {
             $ipAddress = $request->getHeaderLine('HTTP_X_REAL_IP');
+            $note = 'HTTP_X_REAL_IP';
         } elseif ($request->hasHeader('X_FORWARDED_FOR')) {
             $ipAddress = $request->getHeaderLine('X_FORWARDED_FOR');
-        } else {
+            $note = 'X_FORWARDED_FOR';
+        } elseif ($request->hasHeader('REMOTE_ADDR')) {
             $ipAddress = $request->getHeaderLine('REMOTE_ADDR');
+            $note = 'REMOTE_ADDR';
+        } else {
+            $ipAddress = $request->getHeaderLine('HOST');
+            $note = 'HOST';
         }
         
-        $traffic = $this->trafficRepository->addTraffic($domain, $requestText, $userAgent, $ipAddress);
+        $traffic = $this->trafficRepository->addTraffic($domain, $requestText, $userAgent, $ipAddress, null, $note);
 
         return $traffic;
     }
