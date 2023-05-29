@@ -17,35 +17,56 @@ final class AddTrafficService extends TrafficService
         $requestBody = $request->getParsedBody();
 
         $userAgent = $request->getHeaderLine('HTTP_USER_AGENT');
-
-        if ($request->hasHeader('HTTP_CF_CONNECTING_IP')) {
-            $ipAddress = $request->getHeaderLine('HTTP_CF_CONNECTING_IP');
-            $requestBody['ipType'] = 'HTTP_CF_CONNECTING_IP';
-        } elseif ($request->hasHeader('HTTP_CLIENT_IP')) {
-            $ipAddress = $request->getHeaderLine('HTTP_CLIENT_IP');
-            $requestBody['ipType'] = 'HTTP_CLIENT_IP';
-        } elseif ($request->hasHeader('HTTP_X_REAL_IP')) {
-            $ipAddress = $request->getHeaderLine('HTTP_X_REAL_IP');
-            $requestBody['ipType'] = 'HTTP_X_REAL_IP';
-        } elseif ($request->hasHeader('X_FORWARDED_FOR')) {
-            $ipAddress = $request->getHeaderLine('X_FORWARDED_FOR');
-            $requestBody['ipType'] = 'X_FORWARDED_FOR';
-        } elseif ($request->hasHeader('REMOTE_ADDR')) {
-            $ipAddress = $request->getHeaderLine('REMOTE_ADDR');
-            $requestBody['ipType'] = 'REMOTE_ADDR';
-        } else {
-            $ipAddress = $request->getHeaderLine('HOST');
-            $requestBody['ipType'] = 'HOST';
-        }
+        [$ipAddress, $requestBody['ipType']] = $this->getIpAddress($request);
 
         $cleanBodyKeys = ['secret' => '', 'password' => '',  'temp_secret' => '', 'auth_token' => '', 'login_token' => '', 'token' => '', 'auth' => ''];
 
         $requestBody = array_replace($requestBody, array_intersect_key($cleanBodyKeys, $requestBody));
         $requestBody = json_encode($requestBody);
-        
+
         $traffic = $this->trafficRepository->addTraffic($domain, $requestText, $userAgent, $ipAddress, null, $requestBody);
 
         return $traffic;
     }
+
+    private function getIpAddress($request)
+    {
+        $ipVars = [
+            'HTTP_CF_CONNECTING_IP',
+            'HTTP_CLIENT_IP',
+            'HTTP_X_FORWARDED_FOR',
+            'HTTP_X_FORWARDED',
+            'HTTP_X_CLUSTER_CLIENT_IP',
+            'HTTP_FORWARDED_FOR',
+            'HTTP_FORWARDED',
+            'REMOTE_ADDR'
+        ];
     
+        $privateIP = '';
+        $privateIPType = '';
+    
+        foreach ($ipVars as $ipVar) {
+            if (array_key_exists($ipVar, $_SERVER) === true) {
+                foreach (explode(',', $_SERVER[$ipVar]) as $ip) {
+                    $ip = trim($ip);
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6) !== false) {
+                        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
+                            return [$ip, $ipVar];
+                        } elseif ($privateIP === '') {
+                            $privateIP = $ip;
+                            $privateIPType = $ipVar;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($privateIP === '') {
+            $privateIP = '0.0.0.0';
+            $privateIPType = 'UNKNOWN';
+        }
+    
+        return [$privateIP, $privateIPType];
+    }
+
 }
