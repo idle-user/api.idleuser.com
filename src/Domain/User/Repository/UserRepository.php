@@ -257,6 +257,12 @@ class UserRepository
         return $result;
     }
 
+    public function updateAccessById($userId, $access)
+    {
+        $sql = 'UPDATE user SET access=? WHERE id=?';
+        $this->db->query($sql, [$access, $userId]);
+    }
+
     public function updateLoginTokenById($userId, $token)
     {
         $sql = 'UPDATE user SET login_token=?, login_token_exp=DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE id=?';
