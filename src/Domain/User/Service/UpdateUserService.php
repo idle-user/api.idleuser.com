@@ -9,13 +9,14 @@ use App\Domain\User\Exception\EmailAlreadyExistsException;
 use App\Domain\User\Exception\TwitterIdAlreadyExistsException;
 use App\Domain\User\Exception\UsernameAlreadyExistsException;
 use App\Domain\User\Exception\UserNotFoundException;
+use App\Domain\User\Exception\UserUpdateForbiddenException;
 use App\Exception\ValidationException;
 
 final class UpdateUserService extends UserService
 {
-    public function run($userId, array $data)
+    public function run($userId, array $data, $auth)
     {
-        $updateList = $this->validate($userId, $data);
+        $updateList = $this->validate($userId, $data, $auth);
 
         if (in_array('username', $updateList)) {
             $this->userRepository->updateUsernameById($userId, $data['username']);
@@ -23,6 +24,10 @@ final class UpdateUserService extends UserService
 
         if (in_array('email', $updateList)) {
             $this->userRepository->updateEmailById($userId, $data['email']);
+        }
+
+        if (in_array('access', $updateList)) {
+            $this->userRepository->updateAccessById($userId, $data['access']);
         }
 
         if (in_array('discord_id', $updateList)) {
@@ -44,7 +49,7 @@ final class UpdateUserService extends UserService
         return $user;
     }
 
-    private function validate($userId, array $data)
+    private function validate($userId, array $data, $auth)
     {
         if (empty($data['username'])) {
             throw new ValidationException('Username is required');
@@ -118,6 +123,13 @@ final class UpdateUserService extends UserService
             } catch (UserNotFoundException $e) {
             }
             $updateList[] = 'twitter_id';
+        }
+
+        if (isset($data['access']) && $currentUser->getAccessLevel() != $data['access']) {
+            if (!$auth->isAdmin()) {
+                throw new UserUpdateForbiddenException();
+            }
+            $updateList[] = 'access';
         }
 
         if (empty($updateList)) {

@@ -10,7 +10,7 @@ use Psr\Log\LoggerInterface;
 
 class UpdateUserAction extends Action
 {
-    private $updateUserService;
+    private UpdateUserService $updateUserService;
 
     public function __construct(LoggerInterface $logger, UpdateUserService $updateUserService)
     {
@@ -24,10 +24,10 @@ class UpdateUserAction extends Action
     protected function action(): Response
     {
         $userId = (int)$this->resolveArg('userId');
-
-        $user = $this->updateUserService->run($userId, $this->request->getParsedBody());
-
         $auth = $this->request->getAttribute('auth');
+
+        $user = $this->updateUserService->run($userId, $this->request->getParsedBody(), $auth);
+
         if ($auth->isAdmin() || $auth->getUserId() == $user->getId()) {
             $user->setShowFullDetail(true);
         }
