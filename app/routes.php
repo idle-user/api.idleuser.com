@@ -17,6 +17,19 @@ return function (App $app) {
         return $response;
     });
 
+    $app->get('/', function (Request $request, Response $response) {
+        $payload = [
+            'statusCode' => 200,
+            'data' => [
+                "title" => 'documentation',
+                'link' => 'https://github.com/idle-user/api.idleuser.com'
+            ],
+        ];
+        $json = json_encode($payload, JSON_PRETTY_PRINT);
+        $response->getBody()->write($json);
+        return $response;
+    });
+
     // Auth
     $app->group('/auth', function (Group $group) {
         $group->get('', Auth\ViewAuthAction::class)->setName('auth-view');
