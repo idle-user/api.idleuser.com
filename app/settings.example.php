@@ -20,9 +20,9 @@ return function (ContainerBuilder $containerBuilder) {
             'db' => [
                 'driver' => 'mysql',
                 'host' => 'db',
-                'database' => getenv('MYSQL_DATABASE'),
-                'username' => getenv('MYSQL_USER'),
-                'password' => getenv('MYSQL_PASSWORD'),
+                'database' => getenv('MARIADB_DATABASE'),
+                'username' => getenv('MARIADB_USER'),
+                'password' => getenv('MARIADB_PASSWORD'),
                 'charset' => 'utf8mb4',
                 'collation' => 'utf8_unicode_ci',
                 'prefix' => '',
