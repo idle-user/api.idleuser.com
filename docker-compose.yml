@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.8"
 services:
 
   web:
@@ -22,9 +22,9 @@ services:
       docker: 1
       TZ: ${TZ}'
       API_KEY: ${API_KEY}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
     volumes:
       - .:/var/www/api
 
@@ -37,10 +37,10 @@ services:
       TZ: America/Los_Angeles
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
       API_KEY: ${API_KEY}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
     volumes:
     - db:/var/lib/mysql
     - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
