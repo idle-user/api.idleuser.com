@@ -171,6 +171,10 @@ return function (App $app) {
             $group->get('/{command}', Chat\ViewCommandAction::class);
             $group->post('', Chat\AddCommandAction::class)->setName('chat-command-add');
         });
+        $group->group('/scheduler', function (Group $group) {
+            $group->get('', Chat\ListSchedulerAction::class);
+            $group->get('/{schedulerId:[0-9]+}', Chat\ViewSchedulerAction::class);
+        });
     });
 
     // AltLink
