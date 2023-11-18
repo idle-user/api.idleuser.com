@@ -717,12 +717,12 @@ BEGIN
 		,IFNULL(GROUP_CONCAT(DISTINCT IF(m.team_won=mc.team,s.name,NULL) SEPARATOR '; '),'') AS contestants_won
 		,IFNULL(GROUP_CONCAT(DISTINCT IF(m.team_won=mc.team OR m.team_won=0 OR m.team_won=999, NULL, s.name) SEPARATOR '; '),'') AS contestants_lost
 		,IFNULL(wc.bet_multiplier, 0) AS `bet_multiplier`
-        ,ub.base_pot AS base_pot
-		,ub.base_winner_pot AS base_winner_pot
-		,ub.base_loser_pot AS base_loser_pot
-		,ub.user_bet_cnt AS user_bet_cnt
-		,ub.user_bet_winner_cnt AS user_bet_winner_cnt
-		,ub.user_bet_loser_cnt AS user_bet_loser_cnt
+        ,IFNULL(ub.base_pot, 0) AS base_pot
+		,IFNULL(ub.base_winner_pot, 0) AS base_winner_pot
+		,IFNULL(ub.base_loser_pot, 0) AS base_loser_pot
+		,IFNULL(ub.user_bet_cnt, 0) AS user_bet_cnt
+		,IFNULL(ub.user_bet_winner_cnt, 0) AS user_bet_winner_cnt
+		,IFNULL(ub.user_bet_loser_cnt, 0) AS user_bet_loser_cnt
 		,COUNT(DISTINCT umr.user_id) AS user_rating_cnt
 		,IFNULL(AVG(umr.rating),0) AS user_rating_avg
 		,NOW() as last_updated
