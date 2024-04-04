@@ -45,6 +45,10 @@ class AuthRouteMiddleware implements Middleware
             'user-update-twitter',
             'user-update-login-token',
             'user-update-secret-token',
+            'pickem-prompt-add',
+            'pickem-prompt-update',
+            'pickem-pick-add',
+            'pickem-pick-update',
         ];
         $authRouteArray = ['auth-view', 'auth-update'];
         $authRequiredRouteArray = array_merge($adminRouteArray, $modRouteArray, $userRouteArray, $authRouteArray);

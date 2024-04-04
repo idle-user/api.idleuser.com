@@ -5,6 +5,7 @@ use App\Application\Actions\AltLink;
 use App\Application\Actions\Auth;
 use App\Application\Actions\Chat;
 use App\Application\Actions\Matches;
+use App\Application\Actions\Pickem;
 use App\Application\Actions\User;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -177,10 +178,21 @@ return function (App $app) {
         });
     });
 
-    // AltLink
+    // AltLink (WIP)
     $app->group('/altlink', function (Group $group) {
         $group->get('', AltLink\ListAltLinksAction::class)->setName('altlink-list');
         $group->get('/{alias}', AltLink\ViewAltLinkAction::class)->setName('altlink-view');
         $group->post('', AltLink\AddAltLinkAction::class)->setName('altlink-add');
+    });
+
+    // Pickem (WIP)
+    $app->group('/pickem', function (Group $group) {
+        $group->post('/prompt', Pickem\AddPromptAction::class)->setName('pickem-prompt-add');
+        $group->patch('/prompt', Pickem\UpdatePromptAction::class)->setName('pickem-prompt-update');
+        $group->post('/pick', Pickem\AddPickAction::class)->setName('pickem-pick-add');
+        $group->patch('/pick', Pickem\UpdatePickAction::class)->setName('pickem-pick-update');
+//        $group->get('/prompts', Pickem\ListPromptsAction::class);
+//        $group->get('/picks', Pickem\ListPicksAction::class);
+//        $group->get('/stats', Pickem\ListStatsAction::class);
     });
 };
