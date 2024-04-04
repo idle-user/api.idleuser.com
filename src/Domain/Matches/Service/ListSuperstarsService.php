@@ -9,7 +9,7 @@ final class ListSuperstarsService extends SuperstarService
     {
         $superstars = $this->superstarRepository->findAll();
 
-        $this->logger->info('Superstar list was viewed.');
+        $this->logger->debug('Superstar list was viewed.');
 
         return $superstars;
     }

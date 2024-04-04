@@ -25,7 +25,7 @@ class UpdateSecretUserAction extends Action
     {
         $userId = (int)$this->resolveArg('userId');
 
-        $this->logger->info("User `${userId}` Update Secret attempt.");
+        $this->logger->debug("User `${userId}` Update Secret attempt.");
 
         $user = $this->updateSecretUserService->run($userId, $this->request->getParsedBody());
 

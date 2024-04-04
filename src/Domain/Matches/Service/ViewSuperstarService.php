@@ -9,7 +9,7 @@ final class ViewSuperstarService extends SuperstarService
     {
         $superstar = $this->superstarRepository->findById($superstarId);
 
-        $this->logger->info("Superstar id `${superstarId}` was viewed.");
+        $this->logger->debug("Superstar id `${superstarId}` was viewed.");
 
         return $superstar;
     }

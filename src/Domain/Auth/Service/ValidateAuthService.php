@@ -22,7 +22,7 @@ final class ValidateAuthService extends AuthService
             throw new AuthTokenExpiredException();
         }
 
-        $this->logger->info(sprintf('Auth validation successful: %s', $auth->getUserId()));
+        $this->logger->debug(sprintf('Auth validation successful: %s', $auth->getUserId()));
 
         return $auth;
     }

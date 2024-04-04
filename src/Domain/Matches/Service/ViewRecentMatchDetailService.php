@@ -12,7 +12,7 @@ final class ViewRecentMatchDetailService extends MatchService
         $matchDetailTeamData = $this->matchRepository->findTeamInfoById($matchId);
         $matchDetail->setTeams($matchDetailTeamData);
 
-        $this->logger->info("Match Recent id `${matchId}` was viewed.");
+        $this->logger->debug("Match Recent id `${matchId}` was viewed.");
 
         return $matchDetail;
     }

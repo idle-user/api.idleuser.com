@@ -9,7 +9,7 @@ final class ListBetsService extends BetService
     {
         $betList = $this->betRepository->findAll();
 
-        $this->logger->info('Bet list was viewed.');
+        $this->logger->debug('Bet list was viewed.');
 
         return $betList;
     }

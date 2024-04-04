@@ -13,7 +13,7 @@ final class ViewChatangoUserService extends UserService
 
         $user = $this->userRepository->findByChatangoId($chatangoId);
 
-        $this->logger->info("User Chatango_id `${chatangoId}` was viewed.");
+        $this->logger->debug("User Chatango_id `${chatangoId}` was viewed.");
 
         return $user;
     }

@@ -9,7 +9,7 @@ final class ViewEventService extends EventService
     {
         $event = $this->eventRepository->findById($eventId);
 
-        $this->logger->info("Event id `${eventId}` was viewed.");
+        $this->logger->debug("Event id `${eventId}` was viewed.");
 
         return $event;
     }

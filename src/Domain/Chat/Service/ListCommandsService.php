@@ -9,7 +9,7 @@ final class ListCommandsService extends CommandService
     {
         $commandList = $this->commandRepository->findAll();
 
-        $this->logger->info('Chat command list was viewed.');
+        $this->logger->debug('Chat command list was viewed.');
 
         return $commandList;
     }

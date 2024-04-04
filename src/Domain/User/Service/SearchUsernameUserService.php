@@ -9,7 +9,7 @@ final class SearchUsernameUserService extends UserService
     {
         $users = $this->userRepository->searchByUsername("%${keyword}%");
 
-        $this->logger->info("Username search list `${keyword}` was viewed.");
+        $this->logger->debug("Username search list `${keyword}` was viewed.");
 
         return $users;
     }

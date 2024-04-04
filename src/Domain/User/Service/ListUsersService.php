@@ -9,7 +9,7 @@ final class ListUsersService extends UserService
     {
         $users = $this->userRepository->findAll();
 
-        $this->logger->info('User list was viewed.');
+        $this->logger->debug('User list was viewed.');
 
         return $users;
     }

@@ -42,7 +42,7 @@ final class AddMatchRatingService
             ->setMatchId($matchId)
             ->setRating($rating);
 
-        $this->logger->info('Match Rating attempt:', $rating->jsonSerialize());
+        $this->logger->debug('Match Rating attempt:', $rating->jsonSerialize());
 
         $this->validate($rating);
 

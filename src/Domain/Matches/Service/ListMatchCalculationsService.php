@@ -9,7 +9,7 @@ final class ListMatchCalculationsService extends MatchCalculationService
     {
         $matchCalculationList = $this->matchCalculationRepository->findAll();
 
-        $this->logger->info('Match Calculation list was viewed.');
+        $this->logger->debug('Match Calculation list was viewed.');
 
         return $matchCalculationList;
     }

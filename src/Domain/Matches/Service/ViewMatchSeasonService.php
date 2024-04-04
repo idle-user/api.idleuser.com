@@ -29,7 +29,7 @@ final class ViewMatchSeasonService
 
         $season = $this->seasonRepository->findByMatchId($matchId);
 
-        $this->logger->info("Season for Match `${matchId}` was viewed.");
+        $this->logger->debug("Season for Match `${matchId}` was viewed.");
 
         return $season;
     }

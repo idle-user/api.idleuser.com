@@ -13,7 +13,7 @@ final class ListMatchesDetailService extends MatchService
             $matchDetail->setTeams($matchDetailTeamData);
         }
 
-        $this->logger->info('Match Detail list was viewed.');
+        $this->logger->debug('Match Detail list was viewed.');
 
         return $matchDetailList;
     }

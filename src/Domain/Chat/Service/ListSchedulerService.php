@@ -9,7 +9,7 @@ final class ListSchedulerService extends SchedulerService
     {
         $schedulerList = $this->schedulerRepository->findAll();
 
-        $this->logger->info('Chat scheduler list was viewed.');
+        $this->logger->debug('Chat scheduler list was viewed.');
 
         return $schedulerList;
     }

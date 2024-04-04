@@ -28,7 +28,7 @@ class LoginUserAction extends Action
     {
         $username = $this->resolveBodyArg('username');
 
-        $this->logger->info("User `${username}` login attempt.");
+        $this->logger->debug("User `${username}` login attempt.");
 
         $user = $this->loginUserService->run($this->request->getParsedBody());
         $auth = $this->authTokenAuthService->run($user);

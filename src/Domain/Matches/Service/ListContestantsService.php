@@ -9,7 +9,7 @@ final class ListContestantsService extends ContestantService
     {
         $contestantList = $this->contestantRepository->findAll();
 
-        $this->logger->info('Contestant list was viewed.');
+        $this->logger->debug('Contestant list was viewed.');
 
         return $contestantList;
     }

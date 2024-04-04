@@ -9,7 +9,7 @@ final class ViewAltLinkService extends AltLinkService
     {
         $altLink = $this->altLinkRepository->findByAlias($alias);
 
-        $this->logger->info("AltLink Alias `${alias}` was viewed.");
+        $this->logger->debug("AltLink Alias `${alias}` was viewed.");
 
         return $altLink;
     }

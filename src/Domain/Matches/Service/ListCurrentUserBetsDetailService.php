@@ -9,7 +9,7 @@ final class ListCurrentUserBetsDetailService extends BetDetailService
     {
         $userBetDetailList = $this->betDetailRepository->findAllCurrentByUserId($userId);
 
-        $this->logger->info("User `${userId}` Current Bet detail list was viewed.");
+        $this->logger->debug("User `${userId}` Current Bet detail list was viewed.");
 
         return $userBetDetailList;
     }

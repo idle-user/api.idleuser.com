@@ -9,7 +9,7 @@ final class SearchSuperstarService extends SuperstarService
     {
         $superstar = $this->superstarRepository->searchByName("%${keyword}%");
 
-        $this->logger->info("Superstar search list `${keyword}` was viewed.");
+        $this->logger->debug("Superstar search list `${keyword}` was viewed.");
 
         return $superstar;
     }

@@ -9,7 +9,7 @@ final class ListFutureEventsService extends EventService
     {
         $futureEventList = $this->eventRepository->findFuture();
 
-        $this->logger->info('Future Event list was viewed.');
+        $this->logger->debug('Future Event list was viewed.');
 
         return $futureEventList;
     }

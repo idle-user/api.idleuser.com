@@ -9,7 +9,7 @@ final class ViewMatchService extends MatchService
     {
         $match = $this->matchRepository->findById($matchId);
 
-        $this->logger->info("Match id `${matchId}` was viewed.");
+        $this->logger->debug("Match id `${matchId}` was viewed.");
 
         return $match;
     }
