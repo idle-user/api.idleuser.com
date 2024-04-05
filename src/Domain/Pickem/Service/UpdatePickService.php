@@ -7,30 +7,9 @@ use App\Domain\Pickem\Exception\InvalidPromptChoiceException;
 use App\Domain\Pickem\Exception\PickAlreadyExistsException;
 use App\Domain\Pickem\Exception\PromptExpiredException;
 use App\Domain\Pickem\Exception\PromptPicksClosedException;
-use App\Domain\Pickem\Repository\ChoiceRepository;
-use App\Domain\Pickem\Repository\PickRepository;
-use App\Domain\Pickem\Repository\PromptRepository;
-use Psr\Log\LoggerInterface;
 
-final class UpdatePickService
+final class UpdatePickService extends PickemService
 {
-    protected $promptRepository;
-    protected $choiceRepository;
-    protected $pickRepository;
-
-    public function __construct(
-        LoggerInterface  $logger,
-        PromptRepository $promptRepository,
-        ChoiceRepository $choiceRepository,
-        PickRepository   $pickRepository
-    )
-    {
-        $this->logger = $logger;
-        $this->promptRepository = $promptRepository;
-        $this->choiceRepository = $choiceRepository;
-        $this->pickRepository = $pickRepository;
-    }
-
     public function run(int $userId, int $promptId, int $choiceId)
     {
         $this->validate($userId, $promptId, $choiceId);
@@ -55,7 +34,7 @@ final class UpdatePickService
         $this->logger->debug('Increment Choice Picks attempt:', $newChoice->jsonSerialize());
         $newChoice = $newChoice->incrementPicks();
         $this->choiceRepository->update($newChoice);
-        $newChoice = $this->choiceRepository->findById($newChoice);
+        $newChoice = $this->choiceRepository->findById($choiceId);
         $this->logger->info('Prompt Choice Picks incremented:', $newChoice->jsonSerialize());
 
         return $pick;

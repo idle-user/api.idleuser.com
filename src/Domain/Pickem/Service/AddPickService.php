@@ -11,34 +11,9 @@ use App\Domain\Pickem\Exception\PickNotFoundException;
 use App\Domain\Pickem\Exception\PromptExpiredException;
 use App\Domain\Pickem\Exception\PromptPicksClosedException;
 use App\Domain\Pickem\Exception\StatsNotFoundException;
-use App\Domain\Pickem\Repository\ChoiceRepository;
-use App\Domain\Pickem\Repository\PickRepository;
-use App\Domain\Pickem\Repository\PromptRepository;
-use App\Domain\Pickem\Repository\StatsRepository;
-use Psr\Log\LoggerInterface;
 
-final class AddPickService
+final class AddPickService extends PickemService
 {
-    protected $promptRepository;
-    protected $choiceRepository;
-    protected $pickRepository;
-    protected $statsRepository;
-
-    public function __construct(
-        LoggerInterface  $logger,
-        PromptRepository $promptRepository,
-        ChoiceRepository $choiceRepository,
-        PickRepository   $pickRepository,
-        StatsRepository  $statsRepository
-    )
-    {
-        $this->logger = $logger;
-        $this->promptRepository = $promptRepository;
-        $this->choiceRepository = $choiceRepository;
-        $this->pickRepository = $pickRepository;
-        $this->statsRepository = $statsRepository;
-    }
-
     public function run(int $userId, int $promptId, int $choiceId)
     {
         $this->validate($userId, $promptId, $choiceId);

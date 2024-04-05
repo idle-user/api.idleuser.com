@@ -13,30 +13,9 @@ use App\Domain\Pickem\Exception\PromptChoicesEmptyException;
 use App\Domain\Pickem\Exception\PromptDailyLimitReachedException;
 use App\Domain\Pickem\Exception\PromptSubjectEmptyException;
 use App\Domain\Pickem\Exception\StatsNotFoundException;
-use App\Domain\Pickem\Repository\ChoiceRepository;
-use App\Domain\Pickem\Repository\PromptRepository;
-use App\Domain\Pickem\Repository\StatsRepository;
-use Psr\Log\LoggerInterface;
 
-final class AddPromptService
+final class AddPromptService extends PickemService
 {
-    protected $promptRepository;
-    protected $choiceRepository;
-    protected $statsRepository;
-
-    public function __construct(
-        LoggerInterface  $logger,
-        PromptRepository $promptRepository,
-        ChoiceRepository $choiceRepository,
-        StatsRepository  $statsRepository
-    )
-    {
-        $this->logger = $logger;
-        $this->promptRepository = $promptRepository;
-        $this->choiceRepository = $choiceRepository;
-        $this->statsRepository = $statsRepository;
-    }
-
     public function run(int $userId, string $promptSubject, $choiceSubjects): array
     {
         $promptSubject = trim($promptSubject);
