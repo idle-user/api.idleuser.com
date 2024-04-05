@@ -23,7 +23,7 @@ class ListPromptsAction extends Action
      */
     protected function action(): Response
     {
-        $open = (bool)$this->resolveQueryParam('open');
+        $open = (bool)$this->resolveQueryParam('open', false);
 
         $promptList = $this->listPromptsService->run($open);
 

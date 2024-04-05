@@ -3,27 +3,13 @@ declare(strict_types=1);
 
 namespace App\Domain\Pickem\Service;
 
-use App\Domain\Pickem\Repository\PromptRepository;
-use Psr\Log\LoggerInterface;
-
-final class ListPromptsService
+final class ListPromptsService extends PickemService
 {
-    protected $promptRepository;
-
-    public function __construct(LoggerInterface $logger, PromptRepository $promptRepository)
-    {
-        $this->logger = $logger;
-        $this->promptRepository = $promptRepository;
-    }
-
     public function run(bool $open)
     {
-        if($open)
-        {
+        if ($open) {
             $promptList = $this->promptRepository->findAllOpen();
-        }
-        else
-        {
+        } else {
             $promptList = $this->promptRepository->findAll();
         }
 

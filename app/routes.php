@@ -195,10 +195,7 @@ return function (App $app) {
             $group->get('', Pickem\ListPromptsAction::class);
             $group->get('/{promptId:[0-9]+}', Pickem\ViewPromptAction::class);
         });
-//        $group->group('/picks', function (Group $group) {
-//            $group->get('', Pickem\ListPicksAction::class);
-//            $group->get('/{promptsId:[0-9]+}', Pickem\ViewPrompAction::class);
-//        });
+        $group->get('/picks', Pickem\ListPicksAction::class);
 //        $group->group('/stats', function (Group $group) {
 //            $group->get('', Pickem\ListStatsAction::class);
 //            $group->get('/{userId:[0-9]+}', Pickem\ViewStatsAction::class);
