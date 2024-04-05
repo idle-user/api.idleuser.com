@@ -5,7 +5,7 @@ namespace App\Domain\Pickem\Exception;
 
 use App\Domain\DomainException\DomainInvalidArgumentException;
 
-class PromptChoicesCountException extends DomainInvalidArgumentException
+class ChoicesNotUniqueException extends DomainInvalidArgumentException
 {
-    protected $message = 'Prompt must have 2-5 Choices.';
+    protected $message = 'Prompt choices are not unique.';
 }

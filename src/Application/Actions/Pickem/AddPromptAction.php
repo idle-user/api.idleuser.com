@@ -24,7 +24,7 @@ class AddPromptAction extends Action
     protected function action(): Response
     {
         $userId = (int)$this->resolveBodyArg('user_id');
-        $subject = $this->resolveBodyArg('subject');
+        $subject = (string)$this->resolveBodyArg('subject');
         $choices = $this->resolveBodyArg('choices');
 
         $prompt = $this->addPromptService->run($userId, $subject, $choices);

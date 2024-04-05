@@ -6,6 +6,7 @@ namespace App\Domain\Pickem\Service;
 use App\Domain\Pickem\Data\Choice;
 use App\Domain\Pickem\Data\Prompt;
 use App\Domain\Pickem\Data\Stats;
+use App\Domain\Pickem\Exception\ChoicesNotUniqueException;
 use App\Domain\Pickem\Exception\ChoiceSubjectEmptyException;
 use App\Domain\Pickem\Exception\PromptChoicesCountException;
 use App\Domain\Pickem\Exception\PromptChoicesEmptyException;
@@ -36,8 +37,9 @@ final class AddPromptService
         $this->statsRepository = $statsRepository;
     }
 
-    public function run(int $userId, string $promptSubject, array $choiceSubjects)
+    public function run(int $userId, string $promptSubject, $choiceSubjects): array
     {
+        $promptSubject = trim($promptSubject);
         $this->validate($userId, $promptSubject, $choiceSubjects);
 
         $prompt = Prompt::create()
@@ -47,7 +49,6 @@ final class AddPromptService
         $this->logger->debug('Add Prompt attempt:', $prompt->jsonSerialize());
         $prompt = $this->promptRepository->add($prompt);
         $this->logger->info('Prompt added:', $prompt->jsonSerialize());
-
 
         $choices = [];
         foreach ($choiceSubjects as $choiceSubject) {
@@ -74,7 +75,7 @@ final class AddPromptService
         ];
     }
 
-    private function validate(int $userId, string $promptSubject, array $choiceSubjects): void
+    private function validate(int $userId, string $promptSubject, &$choiceSubjects): void
     {
         try {
             $userStats = $this->statsRepository->find($userId);
@@ -88,25 +89,37 @@ final class AddPromptService
             throw new PromptDailyLimitReachedException();
         }
 
-        if ($promptSubject === '') {
+        if (trim($promptSubject) === '') {
             throw new PromptSubjectEmptyException();
+        }
+
+        if (!is_array($choiceSubjects)) {
+            throw new PromptChoicesCountException();
         }
 
         $choiceCnt = count($choiceSubjects);
 
-        if ($choiceCnt === 0) {
+        if ($choiceCnt < 2 || $choiceCnt > 5) {
             throw new PromptChoicesEmptyException();
         }
 
-        if ($choiceCnt === 1) {
-            throw new PromptChoicesCountException();
-        }
+        $uniqueChoiceSubjects = [];
+        foreach ($choiceSubjects as &$subject) {
+            if (!is_string($subject)) {
+                $subject = (string)$subject;
+            }
 
-        foreach ($choiceSubjects as $subject) {
+            $subject = trim($subject);
+
             if ($subject === '') {
                 throw new ChoiceSubjectEmptyException();
             }
-        }
 
+            if (in_array($subject, $uniqueChoiceSubjects)) {
+                throw new ChoicesNotUniqueException();
+            }
+
+            $uniqueChoiceSubjects[] = $subject;
+        }
     }
 }
