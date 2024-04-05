@@ -196,9 +196,9 @@ return function (App $app) {
             $group->get('/{promptId:[0-9]+}', Pickem\ViewPromptAction::class);
         });
         $group->get('/picks', Pickem\ListPicksAction::class);
-//        $group->group('/stats', function (Group $group) {
-//            $group->get('', Pickem\ListStatsAction::class);
-//            $group->get('/{userId:[0-9]+}', Pickem\ViewStatsAction::class);
-//        });
+        $group->group('/stats', function (Group $group) {
+            $group->get('', Pickem\ListStatsAction::class);
+            $group->get('/{userId:[0-9]+}', Pickem\ViewStatsAction::class);
+        });
     });
 };
