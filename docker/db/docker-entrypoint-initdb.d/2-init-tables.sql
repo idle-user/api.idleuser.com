@@ -27,7 +27,7 @@ CREATE TABLE `chatroom` (
   `message` varchar(255) NOT NULL,
   `time` datetime NOT NULL,
   PRIMARY KEY (`message_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=256 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE `chatroom_command` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -37,7 +37,7 @@ CREATE TABLE `chatroom_command` (
   `last_updated` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `prefix_UNIQUE` (`command`)
-) ENGINE=InnoDB AUTO_INCREMENT=625 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE `chatroom_scheduler` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -56,7 +56,7 @@ CREATE TABLE `chatroom_scheduler` (
   `active` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `command_image` (
   `command` varchar(45) NOT NULL,
@@ -119,7 +119,7 @@ CREATE TABLE `matches_brand` (
   `last_updated` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE `matches_contestant` (
   `match_id` int(10) unsigned NOT NULL DEFAULT 0,
@@ -135,7 +135,7 @@ CREATE TABLE `matches_event` (
   `date_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ppv` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=435 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE `matches_favorite_superstar` (
   `user_id` int(11) NOT NULL,
@@ -156,7 +156,7 @@ CREATE TABLE `matches_match` (
   `last_updated_by` int(10) NOT NULL DEFAULT 0,
   `last_updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1276 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE `matches_match_calculation` (
   `match_id` int(11) NOT NULL,
@@ -192,7 +192,7 @@ CREATE TABLE `matches_match_type` (
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE `matches_royalrumble` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -201,7 +201,7 @@ CREATE TABLE `matches_royalrumble` (
   `entry_max` tinyint(2) NOT NULL DEFAULT 30,
   `entry_won` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE `matches_royalrumble_entry` (
   `royalrumble_id` int(11) NOT NULL,
@@ -233,7 +233,7 @@ CREATE TABLE `matches_stable` (
   `last_updated` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE `matches_stable_member` (
   `stable_id` int(11) NOT NULL,
@@ -273,14 +273,14 @@ CREATE TABLE `matches_superstar` (
   `last_updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=506 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE `matches_title` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `last_updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE `poll_item` (
   `id` binary(16) NOT NULL,
@@ -317,7 +317,7 @@ CREATE TABLE `quote` (
   `quote` varchar(200) DEFAULT NULL,
   `author` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE `social_type` (
   `id` binary(16) NOT NULL,
@@ -404,7 +404,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `login_token_UNIQUE` (`login_token`),
   UNIQUE KEY `temp_secret_UNIQUE` (`temp_secret`)
-) ENGINE=InnoDB AUTO_INCREMENT=411 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE `user_social` (
   `user_id` int(11) NOT NULL,
@@ -445,3 +445,49 @@ CREATE TABLE `email_ignore` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `contains_UNIQUE` (`contains`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `pickem_prompt` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `subject` varchar(255) NOT NULL,
+  `open` int(11) NOT NULL DEFAULT 1,
+  `choice_result` int(10) unsigned DEFAULT NULL,
+  `picks` int(10) unsigned NOT NULL DEFAULT 0,
+  `user_id` int(10) unsigned NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `pickem_choice` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `prompt_id` int(10) unsigned NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `picks` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `prompt_id` (`prompt_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `pickem_pick` (
+  `prompt_id` int(10) unsigned NOT NULL,
+  `choice_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`prompt_id`,`user_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `pickem_stats` (
+  `user_id` int(10) unsigned NOT NULL,
+  `prompts_created` int(10) unsigned NOT NULL DEFAULT 0,
+  `picks_made` int(10) unsigned NOT NULL DEFAULT 0,
+  `picks_correct` int(10) unsigned NOT NULL DEFAULT 0,
+  `picks_correct_others` int(10) unsigned NOT NULL DEFAULT 0,
+  `last_prompt_date` date DEFAULT NULL,
+  `prompts_created_today` int(11) NOT NULL DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
