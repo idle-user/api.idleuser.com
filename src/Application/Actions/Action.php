@@ -118,10 +118,17 @@ abstract class Action
      * @return mixed
      * @throws HttpBadRequestException
      */
-    protected function resolveQueryParam(string $name)
+    protected function resolveQueryParam(string $name, bool $required = true)
     {
         if (!isset($this->queryParams[$name])) {
-            throw new HttpBadRequestException($this->request, "Could not resolve argument `{$name}`.");
+            if($required)
+            {
+                throw new HttpBadRequestException($this->request, "Could not resolve argument `{$name}`.");
+            }
+            else
+            {
+                return null;
+            }
         }
 
         return $this->queryParams[$name];
