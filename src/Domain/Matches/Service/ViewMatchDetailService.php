@@ -11,7 +11,7 @@ final class ViewMatchDetailService extends MatchService
         $matchDetailTeamData = $this->matchRepository->findTeamInfoById($matchId);
         $matchDetail->setTeams($matchDetailTeamData);
 
-        $this->logger->info("Match Detail id `${matchId}` was viewed.");
+        $this->logger->debug("Match Detail id `${matchId}` was viewed.");
 
         return $matchDetail;
     }

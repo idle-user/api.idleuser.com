@@ -30,15 +30,15 @@ final class AddFavoriteSuperstarService
             ->setUserId($userId)
             ->setSuperstarId($superstarId);
 
-        $this->logger->info('Favorite Superstar attempt:', $favoriteSuperstar->jsonSerialize());
+        $this->logger->debug('Favorite Superstar attempt:', $favoriteSuperstar->jsonSerialize());
 
         $this->validate($favoriteSuperstar);
 
         $this->favoriteSuperstarRepository->add($favoriteSuperstar);
 
-        $favoriteSuperstar = $this->matchRatingRepository->findById($favoriteSuperstar->getUserId(), $favoriteSuperstar->getSuperstarId());
+        $favoriteSuperstar = $this->favoriteSuperstarRepository->findById($favoriteSuperstar->getUserId(), $favoriteSuperstar->getSuperstarId());
 
-        $this->logger->info('Match Rating added:', $favoriteSuperstar->jsonSerialize());
+        $this->logger->info('Favorite Superstar added:', $favoriteSuperstar->jsonSerialize());
 
         return $favoriteSuperstar;
     }

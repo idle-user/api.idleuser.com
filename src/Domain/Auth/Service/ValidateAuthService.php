@@ -22,7 +22,7 @@ final class ValidateAuthService extends AuthService
             throw new AuthTokenExpiredException();
         }
 
-        $this->logger->info(sprintf('Auth validation successful: %s', $auth->getUserId()));
+        $this->logger->debug(sprintf('Auth validation successful: %s', $auth->getUserId()));
 
         return $auth;
     }
@@ -38,32 +38,43 @@ final class ValidateAuthService extends AuthService
         }
     }
 
-    function getBearerToken()
+    public function getBearerToken(): ?string
     {
-        $headers = $this->getAuthorizationHeader();
+        $headers = $this->getAuthorizationHeaders();
+
         if (!empty($headers)) {
-            if (preg_match('/Bearer\s(\S+)/', $headers, $matches)) {
-                return $matches[1];
+            foreach ($headers as $authHeader) {
+                if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+                    return $matches[1];
+                }
             }
         }
         return null;
     }
 
-    function getAuthorizationHeader()
+    private function getAuthorizationHeaders(): array
     {
-        $headers = null;
+        $headers = [];
         if (isset($_SERVER['Authorization'])) {
-            $headers = trim($_SERVER['Authorization']);
-        } elseif (isset($_SERVER['HTTP_AUTHORIZATION'])) {
-            $headers = trim($_SERVER['HTTP_AUTHORIZATION']);
-        } elseif (function_exists('apache_request_headers')) {
+            $headers[] = trim($_SERVER['Authorization']);
+        }
+        if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+            $headers[] = trim($_SERVER['HTTP_AUTHORIZATION']);
+        }
+        if (isset($_SERVER['HTTP_X_AUTH_TOKEN'])) {
+            $headers[] = trim($_SERVER['HTTP_X_AUTH_TOKEN']);
+        }
+        if (function_exists('apache_request_headers')) {
             $requestHeaders = apache_request_headers();
             $requestHeaders = array_combine(
                 array_map('ucwords', array_keys($requestHeaders)),
                 array_values($requestHeaders),
             );
             if (isset($requestHeaders['Authorization'])) {
-                $headers = trim($requestHeaders['Authorization']);
+                $headers[] = trim($requestHeaders['Authorization']);
+            }
+            if (isset($requestHeaders['X-Auth-Token'])) {
+                $headers[] = trim($requestHeaders['X-Auth-Token']);
             }
         }
         return $headers;

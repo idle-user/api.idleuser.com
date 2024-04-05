@@ -9,7 +9,7 @@ final class ViewSchedulerService extends SchedulerService
     {
         $scheduler = $this->schedulerRepository->findById($schedulerId);
 
-        $this->logger->info("Chat scheduler `${schedulerId}` was viewed.");
+        $this->logger->debug("Chat scheduler `${schedulerId}` was viewed.");
 
         return $scheduler;
     }

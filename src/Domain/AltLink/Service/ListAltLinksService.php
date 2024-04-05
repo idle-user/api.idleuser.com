@@ -9,7 +9,7 @@ final class ListAltLinksService extends AltLinkService
     {
         $altLinkList = $this->altLinkRepository->findAll();
 
-        $this->logger->info('AltLink list was viewed.');
+        $this->logger->debug('AltLink list was viewed.');
 
         return $altLinkList;
     }

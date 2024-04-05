@@ -9,7 +9,7 @@ final class ViewStatsService extends StatsService
     {
         $stats = $this->statsRepository->findById($userId, $seasonId);
 
-        $this->logger->info("Stats user id `${userId}` season id `${seasonId}` was viewed.");
+        $this->logger->debug("Stats user id `${userId}` season id `${seasonId}` was viewed.");
 
         return $stats;
     }

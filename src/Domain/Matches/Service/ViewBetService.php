@@ -9,7 +9,7 @@ final class ViewBetService extends BetService
     {
         $bet = $this->betRepository->findById($userId, $matchId);
 
-        $this->logger->info("Bet user id `${userId}` match id `${matchId}` was viewed.");
+        $this->logger->debug("Bet user id `${userId}` match id `${matchId}` was viewed.");
 
         return $bet;
     }

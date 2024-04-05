@@ -13,7 +13,7 @@ final class ListBetOpenMatchesDetailService extends MatchService
             $matchDetail->setTeams($matchDetailTeamData);
         }
 
-        $this->logger->info('Open Bet Match Detail list was viewed.');
+        $this->logger->debug('Open Bet Match Detail list was viewed.');
 
         return $matchDetailList;
     }

@@ -40,7 +40,7 @@ final class AddRoyalRumbleEntryService
             ->setDisplayName($displayName)
             ->setComment($comment);
 
-        $this->logger->info('Royal Rumble entry attempt:', $royalRumbleEntry->jsonSerialize());
+        $this->logger->debug('Royal Rumble entry attempt:', $royalRumbleEntry->jsonSerialize());
 
         $this->validate($royalRumbleEntry);
         $this->assignRandomEntryNumber($royalRumbleEntry);

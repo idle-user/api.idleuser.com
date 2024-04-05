@@ -9,7 +9,7 @@ final class ViewLeaderboardService extends StatsService
     {
         $leaderboard = $this->statsRepository->findLeaderboardBySeasonId($seasonId);
 
-        $this->logger->info("Leaderboard season id `${seasonId}` was viewed.");
+        $this->logger->debug("Leaderboard season id `${seasonId}` was viewed.");
 
         return $leaderboard;
     }

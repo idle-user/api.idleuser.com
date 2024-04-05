@@ -9,7 +9,7 @@ final class ListMatchContestantsService extends ContestantService
     {
         $matchContestantList = $this->contestantRepository->findByMatchId($matchId);
 
-        $this->logger->info("Match `${matchId}` contestant list was viewed.");
+        $this->logger->debug("Match `${matchId}` contestant list was viewed.");
 
         return $matchContestantList;
     }

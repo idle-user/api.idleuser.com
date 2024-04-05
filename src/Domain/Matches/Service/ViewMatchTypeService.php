@@ -9,7 +9,7 @@ final class ViewMatchTypeService extends MatchTypeService
     {
         $matchType = $this->matchTypeRepository->findById($matchTypeId);
 
-        $this->logger->info("Match Type id `${matchTypeId}` was viewed.");
+        $this->logger->debug("Match Type id `${matchTypeId}` was viewed.");
 
         return $matchType;
     }

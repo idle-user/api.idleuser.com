@@ -9,7 +9,7 @@ final class ViewRoyalRumbleUserEntryService extends RoyalRumbleEntryService
     {
         $royalRumbleEntry = $this->royalRumbleEntryRepository->findByRoyalRumbleIdUserId($royalrumbleId, $userId);
 
-        $this->logger->info("Royal Rumble `${royalrumbleId}` entry user_id `${userId}` was viewed.");
+        $this->logger->debug("Royal Rumble `${royalrumbleId}` entry user_id `${userId}` was viewed.");
 
         return $royalRumbleEntry;
     }

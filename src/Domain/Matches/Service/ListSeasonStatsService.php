@@ -9,7 +9,7 @@ final class ListSeasonStatsService extends StatsService
     {
         $seasonStatsList = $this->statsRepository->findBySeasonId($seasonId);
 
-        $this->logger->info("Season `${seasonId}` Stats list was viewed.");
+        $this->logger->debug("Season `${seasonId}` Stats list was viewed.");
 
         return $seasonStatsList;
     }

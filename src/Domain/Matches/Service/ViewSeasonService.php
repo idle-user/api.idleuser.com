@@ -9,7 +9,7 @@ final class ViewSeasonService extends SeasonService
     {
         $season = $this->seasonRepository->findById($seasonId);
 
-        $this->logger->info("Season id `${seasonId}` was viewed.");
+        $this->logger->debug("Season id `${seasonId}` was viewed.");
 
         return $season;
     }

@@ -9,7 +9,7 @@ final class ViewMatchCalculationService extends MatchCalculationService
     {
         $matchCalculationList = $this->matchCalculationRepository->findById($matchId);
 
-        $this->logger->info("Match Calculation `${matchId}` was viewed.");
+        $this->logger->debug("Match Calculation `${matchId}` was viewed.");
 
         return $matchCalculationList;
     }

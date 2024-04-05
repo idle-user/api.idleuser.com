@@ -23,7 +23,7 @@ class ResetSecretUserAction extends Action
      */
     protected function action(): Response
     {
-        $this->logger->info("User Reset Secret attempt.");
+        $this->logger->debug("User Reset Secret attempt.");
 
         $user = $this->resetSecretUserAction->run($this->request->getParsedBody());
 

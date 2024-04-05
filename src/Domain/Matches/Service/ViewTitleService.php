@@ -9,7 +9,7 @@ final class ViewTitleService extends TitleService
     {
         $title = $this->titleRepository->findById($titleId);
 
-        $this->logger->info("Title id `${titleId}` was viewed.");
+        $this->logger->debug("Title id `${titleId}` was viewed.");
 
         return $title;
     }

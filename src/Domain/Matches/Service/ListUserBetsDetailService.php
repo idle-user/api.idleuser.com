@@ -9,7 +9,7 @@ final class ListUserBetsDetailService extends BetDetailService
     {
         $userBetDetailList = $this->betDetailRepository->findByUserId($userId);
 
-        $this->logger->info("User `${userId}` Bet detail list was viewed.");
+        $this->logger->debug("User `${userId}` Bet detail list was viewed.");
 
         return $userBetDetailList;
     }

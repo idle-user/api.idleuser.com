@@ -54,7 +54,7 @@ final class AddBetService
             ->setTeam($team)
             ->setPoints($points);
 
-        $this->logger->info('Add Bet attempt:', $bet->jsonSerialize());
+        $this->logger->debug('Add Bet attempt:', $bet->jsonSerialize());
 
         $this->validate($bet);
 

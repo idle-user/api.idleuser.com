@@ -9,7 +9,7 @@ final class ListUserMatchRatingsService extends MatchRatingService
     {
         $userMatchRatingList = $this->matchRatingRepository->findByUserId($userId);
 
-        $this->logger->info("User `${userId}` Match Rating list was viewed.");
+        $this->logger->debug("User `${userId}` Match Rating list was viewed.");
 
         return $userMatchRatingList;
     }

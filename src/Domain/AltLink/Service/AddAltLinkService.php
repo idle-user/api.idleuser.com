@@ -58,7 +58,6 @@ final class AddAltLinkService extends AltLinkService
         }
 
         if ($errors) {
-            $this->logger->info('Invalid input', $errors);
             throw new ValidationException('Please check your input', $errors);
         }
     }

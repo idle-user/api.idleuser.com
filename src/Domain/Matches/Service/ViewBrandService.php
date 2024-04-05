@@ -9,7 +9,7 @@ final class ViewBrandService extends BrandService
     {
         $brand = $this->brandRepository->findById($brandId);
 
-        $this->logger->info("Brand id `${brandId}` was viewed.");
+        $this->logger->debug("Brand id `${brandId}` was viewed.");
 
         return $brand;
     }

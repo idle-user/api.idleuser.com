@@ -25,7 +25,7 @@ class AddCommandAction extends Action
     {
         $commandName = $this->resolveBodyArg('command');
 
-        $this->logger->info("Add chat command `${commandName}` attempt.");
+        $this->logger->debug("Add chat command `${commandName}` attempt.");
 
         $command = $this->addCommandService->run($this->request->getParsedBody());
 

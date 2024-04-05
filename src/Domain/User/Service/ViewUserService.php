@@ -13,7 +13,7 @@ final class ViewUserService extends UserService
 
         $user = $this->userRepository->findById($userId);
 
-        $this->logger->info("User id `${userId}` was viewed.");
+        $this->logger->debug("User id `${userId}` was viewed.");
 
         return $user;
     }
