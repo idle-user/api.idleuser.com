@@ -10,6 +10,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface as Middleware;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Psr\Log\LoggerInterface;
 
 class TrafficMiddleware implements Middleware
 {
@@ -17,10 +18,12 @@ class TrafficMiddleware implements Middleware
     private $updateTrafficService;
 
     public function __construct(
+        LoggerInterface      $logger,
         AddTrafficService    $addTrafficService,
         UpdateTrafficService $updateTrafficService
     )
     {
+        $this->logger = $logger;
         $this->addTrafficService = $addTrafficService;
         $this->updateTrafficService = $updateTrafficService;
     }
@@ -35,19 +38,29 @@ class TrafficMiddleware implements Middleware
         $exception = false;
         try {
             $response = $handler->handle($request);
+            $responseCode = $response->getStatusCode();
         } catch (Exception $e) {
             $exception = $e;
+            $responseCode = 500;
         }
 
         $userId = $request->getAttribute('auth')->getUserId();
-        $responseCode = $exception ? $exception->getCode() : $response->getStatusCode();
+        $responseCode = $exception ? $exception->getCode() : $responseCode;
+
+        if (!(int)$responseCode) {
+            $traffic->setNote('[responseCode: . ' . $responseCode . ' .] ' . $traffic->getNote());
+            $responseCode = 500;
+        }
 
         $traffic->setResponseCode($responseCode);
         $traffic->setUserId($userId);
 
         $this->updateTrafficService->run($traffic);
 
-        if ($exception) throw $exception;
+        if ($exception) {
+            $this->logger->critical($exception);
+            throw $exception;
+        }
         return $response;
     }
 }
