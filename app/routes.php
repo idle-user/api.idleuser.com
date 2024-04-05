@@ -191,8 +191,17 @@ return function (App $app) {
         $group->patch('/prompt', Pickem\UpdatePromptAction::class)->setName('pickem-prompt-update');
         $group->post('/pick', Pickem\AddPickAction::class)->setName('pickem-pick-add');
         $group->patch('/pick', Pickem\UpdatePickAction::class)->setName('pickem-pick-update');
-//        $group->get('/prompts', Pickem\ListPromptsAction::class);
-//        $group->get('/picks', Pickem\ListPicksAction::class);
-//        $group->get('/stats', Pickem\ListStatsAction::class);
+        $group->group('/prompts', function (Group $group) {
+            $group->get('', Pickem\ListPromptsAction::class);
+            $group->get('/{promptId:[0-9]+}', Pickem\ViewPromptAction::class);
+        });
+//        $group->group('/picks', function (Group $group) {
+//            $group->get('', Pickem\ListPicksAction::class);
+//            $group->get('/{promptsId:[0-9]+}', Pickem\ViewPrompAction::class);
+//        });
+//        $group->group('/stats', function (Group $group) {
+//            $group->get('', Pickem\ListStatsAction::class);
+//            $group->get('/{userId:[0-9]+}', Pickem\ViewStatsAction::class);
+//        });
     });
 };

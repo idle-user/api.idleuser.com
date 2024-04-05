@@ -16,9 +16,16 @@ final class ListPromptsService
         $this->promptRepository = $promptRepository;
     }
 
-    public function run()
+    public function run(bool $open)
     {
-        $promptList = $this->promptRepository->findAll();
+        if($open)
+        {
+            $promptList = $this->promptRepository->findAllOpen();
+        }
+        else
+        {
+            $promptList = $this->promptRepository->findAll();
+        }
 
         $this->logger->debug('Prompt list was viewed.');
 
