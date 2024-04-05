@@ -41,11 +41,10 @@ class TrafficMiddleware implements Middleware
             $responseCode = $response->getStatusCode();
         } catch (Exception $e) {
             $exception = $e;
-            $responseCode = 500;
+            $responseCode = $exception->getCode();
         }
 
         $userId = $request->getAttribute('auth')->getUserId();
-        $responseCode = $exception ? $exception->getCode() : $responseCode;
 
         if (!(int)$responseCode) {
             $traffic->setNote('[responseCode: . ' . $responseCode . ' .] ' . $traffic->getNote());
@@ -58,7 +57,8 @@ class TrafficMiddleware implements Middleware
         $this->updateTrafficService->run($traffic);
 
         if ($exception) {
-            $this->logger->critical($exception);
+            $this->logger->info('[' . $responseCode . '] ' . $exception->getMessage());
+            $this->logger->debug($exception);
             throw $exception;
         }
         return $response;
