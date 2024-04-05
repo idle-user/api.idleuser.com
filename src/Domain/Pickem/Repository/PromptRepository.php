@@ -44,7 +44,7 @@ class PromptRepository
 
     public function findAllOpen(): array
     {
-        $sql = 'SELECT * FROM pickem_prompt WHERE open=1';
+        $sql = 'SELECT * FROM pickem_prompt WHERE open=1 AND expires_at>NOW()';
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
@@ -58,7 +58,7 @@ class PromptRepository
 
     public function add(Prompt $prompt): Prompt
     {
-        $sql = 'INSERT INTO pickem_prompt (subject, user_id, expires_at) VALUES (?, ?, NOW())';
+        $sql = 'INSERT INTO pickem_prompt (subject, user_id, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 1 DAY))';
         $args = [$prompt->getSubject(), $prompt->getUserId()];
         try {
             $this->db->query($sql, $args);

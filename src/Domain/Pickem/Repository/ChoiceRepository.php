@@ -45,7 +45,7 @@ class ChoiceRepository
     public function findByPromptId($prompt_id): array
     {
         $sql = 'SELECT * FROM pickem_choice WHERE prompt_id=?';
-        $stmt = $this->db->query($sql);
+        $stmt = $this->db->query($sql, [$prompt_id]);
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = Choice::withRow($row);
