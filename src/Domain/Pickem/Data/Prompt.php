@@ -123,9 +123,9 @@ class Prompt implements JsonSerializable
 
     public function isExpired(): bool
     {
-        $datetimeDB = new DateTime($this->expires_at);
+        $expiresAtDatetime = new DateTime($this->expires_at);
         $currentDatetime = new DateTime();
-        return $currentDatetime <= $datetimeDB;
+        return $currentDatetime >= $expiresAtDatetime;
     }
 
     public function incrementPicks(): Prompt
