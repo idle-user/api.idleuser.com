@@ -31,6 +31,20 @@ class PromptRepository
         return $ret;
     }
 
+    public function findAllByGroup($group_id): array
+    {
+        $sql = 'SELECT * FROM pickem_prompt WHERE group_id=?';
+        $stmt = $this->db->query($sql, [$group_id]);
+        $ret = [];
+        while ($row = $stmt->fetch()) {
+            $ret[] = Prompt::withRow($row);
+        }
+        if (empty($ret)) {
+            throw new PromptNotFoundException();
+        }
+        return $ret;
+    }
+
     public function findById($id): Prompt
     {
         $sql = 'SELECT * FROM pickem_prompt WHERE id=?';
@@ -46,6 +60,20 @@ class PromptRepository
     {
         $sql = 'SELECT * FROM pickem_prompt WHERE open=1 AND expires_at>NOW()';
         $stmt = $this->db->query($sql);
+        $ret = [];
+        while ($row = $stmt->fetch()) {
+            $ret[] = Prompt::withRow($row);
+        }
+        if (empty($ret)) {
+            throw new PromptNotFoundException();
+        }
+        return $ret;
+    }
+
+    public function findAllOpenByGroup($group_id): array
+    {
+        $sql = 'SELECT * FROM pickem_prompt WHERE open=1 AND expires_at>NOW() AND group_id=?';
+        $stmt = $this->db->query($sql, [$group_id]);
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = Prompt::withRow($row);

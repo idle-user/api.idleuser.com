@@ -453,6 +453,7 @@ CREATE TABLE `pickem_prompt` (
   `choice_result` int(10) unsigned DEFAULT NULL,
   `picks` int(10) unsigned NOT NULL DEFAULT 0,
   `user_id` int(10) unsigned NOT NULL,
+  `group_id` varchar(50) DEFAULT NULL,
   `expires_at` datetime NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),

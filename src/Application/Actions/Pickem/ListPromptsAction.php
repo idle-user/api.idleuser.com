@@ -24,8 +24,9 @@ class ListPromptsAction extends Action
     protected function action(): Response
     {
         $open = (bool)$this->resolveQueryParam('open', false);
+        $group_id = $this->resolveQueryParam('group_id', false);
 
-        $promptList = $this->listPromptsService->run($open);
+        $promptList = $this->listPromptsService->run($open, $group_id);
 
         return $this->respondWithData($promptList);
     }
