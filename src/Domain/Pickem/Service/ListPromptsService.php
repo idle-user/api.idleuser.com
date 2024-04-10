@@ -5,7 +5,7 @@ namespace App\Domain\Pickem\Service;
 
 final class ListPromptsService extends PickemService
 {
-    public function run(bool $open, string $group_id = null)
+    public function run(bool $open, ?string $group_id = null)
     {
         $this->logger->debug("View Prompt list attempt. open:${open} group_id:${group_id}");
 

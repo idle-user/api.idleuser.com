@@ -86,8 +86,8 @@ class PromptRepository
 
     public function add(Prompt $prompt): Prompt
     {
-        $sql = 'INSERT INTO pickem_prompt (subject, user_id, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 1 DAY))';
-        $args = [$prompt->getSubject(), $prompt->getUserId()];
+        $sql = 'INSERT INTO pickem_prompt (subject, user_id, group_id, expires_at) VALUES (?, ?, ?, DATE_ADD(NOW(), INTERVAL 1 DAY))';
+        $args = [$prompt->getSubject(), $prompt->getUserId(), $prompt->getGroupId()];
         try {
             $this->db->query($sql, $args);
             $lastInsertId = $this->db->lastInsertId();

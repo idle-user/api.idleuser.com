@@ -14,6 +14,7 @@ class Prompt implements JsonSerializable
     private $choice_result;
     private $picks;
     private $user_id;
+    private $group_id;
     private $expires_at;
     private $created_at;
     private $updated_at;
@@ -45,11 +46,6 @@ class Prompt implements JsonSerializable
         return $this->subject;
     }
 
-    public function getUserId(): int
-    {
-        return $this->user_id;
-    }
-
     public function getOpen(): int
     {
         return $this->open;
@@ -63,6 +59,16 @@ class Prompt implements JsonSerializable
     public function getPicks(): int
     {
         return $this->picks;
+    }
+
+    public function getUserId(): int
+    {
+        return $this->user_id;
+    }
+
+    public function getGroupId(): ?string
+    {
+        return $this->group_id;
     }
 
     public function getExpiresAt(): string
@@ -110,6 +116,12 @@ class Prompt implements JsonSerializable
         return $this;
     }
 
+    public function setGroupId(?string $groupId): Prompt
+    {
+        $this->group_id = $groupId;
+        return $this;
+    }
+
     public function setUpdatedAt(string $updatedAt): Prompt
     {
         $this->updated_at = $updatedAt;
@@ -138,11 +150,12 @@ class Prompt implements JsonSerializable
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
             'subject' => $this->subject,
             'open' => $this->open,
             'choice_result' => $this->choice_result,
             'picks' => $this->picks,
+            'user_id' => $this->user_id,
+            'group_id' => $this->group_id,
             'expires_at' => $this->expires_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
@@ -157,6 +170,7 @@ class Prompt implements JsonSerializable
         $this->choice_result = $row['choice_result'];
         $this->picks = $row['picks'];
         $this->user_id = $row['user_id'];
+        $this->group_id = $row['group_id'];
         $this->expires_at = $row['expires_at'];
         $this->created_at = $row['created_at'];
         $this->updated_at = $row['updated_at'];
