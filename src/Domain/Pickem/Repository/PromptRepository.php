@@ -17,24 +17,28 @@ class PromptRepository
         $this->db = $db;
     }
 
-    public function findAll(): array
+    public function findAll($open = null, $user_id = null, $group_id = null): array
     {
-        $sql = 'SELECT * FROM pickem_prompt';
-        $stmt = $this->db->query($sql);
-        $ret = [];
-        while ($row = $stmt->fetch()) {
-            $ret[] = Prompt::withRow($row);
+        $whereConditions = [];
+        $args = [];
+        if ($open) {
+            $whereConditions[] = 'open=? AND expires_at>NOW()';
+            $args[] = $open;
         }
-        if (empty($ret)) {
-            throw new PromptNotFoundException();
+        if ($user_id) {
+            $whereConditions[] = 'user_id=?';
+            $args[] = $user_id;
         }
-        return $ret;
-    }
+        if ($group_id) {
+            $whereConditions[] = 'group_id=?';
+            $args[] = $group_id;
+        }
 
-    public function findAllByGroup($group_id): array
-    {
-        $sql = 'SELECT * FROM pickem_prompt WHERE group_id=?';
-        $stmt = $this->db->query($sql, [$group_id]);
+        $sql = 'SELECT * FROM pickem_prompt';
+        if (!empty($whereConditions)) {
+            $sql .= " WHERE " . implode(" AND ", $whereConditions);
+        }
+        $stmt = $this->db->query($sql, $args);
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = Prompt::withRow($row);
@@ -54,34 +58,6 @@ class PromptRepository
             throw new PromptNotFoundException();
         }
         return Prompt::withRow($row);
-    }
-
-    public function findAllOpen(): array
-    {
-        $sql = 'SELECT * FROM pickem_prompt WHERE open=1 AND expires_at>NOW()';
-        $stmt = $this->db->query($sql);
-        $ret = [];
-        while ($row = $stmt->fetch()) {
-            $ret[] = Prompt::withRow($row);
-        }
-        if (empty($ret)) {
-            throw new PromptNotFoundException();
-        }
-        return $ret;
-    }
-
-    public function findAllOpenByGroup($group_id): array
-    {
-        $sql = 'SELECT * FROM pickem_prompt WHERE open=1 AND expires_at>NOW() AND group_id=?';
-        $stmt = $this->db->query($sql, [$group_id]);
-        $ret = [];
-        while ($row = $stmt->fetch()) {
-            $ret[] = Prompt::withRow($row);
-        }
-        if (empty($ret)) {
-            throw new PromptNotFoundException();
-        }
-        return $ret;
     }
 
     public function add(Prompt $prompt): Prompt
