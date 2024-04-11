@@ -17,10 +17,28 @@ class PromptRepository
         $this->db = $db;
     }
 
-    public function findAll(): array
+    public function findAll($open = null, $user_id = null, $group_id = null): array
     {
+        $whereConditions = [];
+        $args = [];
+        if ($open) {
+            $whereConditions[] = 'open=? AND expires_at>NOW()';
+            $args[] = $open;
+        }
+        if ($user_id) {
+            $whereConditions[] = 'user_id=?';
+            $args[] = $user_id;
+        }
+        if ($group_id) {
+            $whereConditions[] = 'group_id=?';
+            $args[] = $group_id;
+        }
+
         $sql = 'SELECT * FROM pickem_prompt';
-        $stmt = $this->db->query($sql);
+        if (!empty($whereConditions)) {
+            $sql .= " WHERE " . implode(" AND ", $whereConditions);
+        }
+        $stmt = $this->db->query($sql, $args);
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = Prompt::withRow($row);
@@ -42,24 +60,10 @@ class PromptRepository
         return Prompt::withRow($row);
     }
 
-    public function findAllOpen(): array
-    {
-        $sql = 'SELECT * FROM pickem_prompt WHERE open=1 AND expires_at>NOW()';
-        $stmt = $this->db->query($sql);
-        $ret = [];
-        while ($row = $stmt->fetch()) {
-            $ret[] = Prompt::withRow($row);
-        }
-        if (empty($ret)) {
-            throw new PromptNotFoundException();
-        }
-        return $ret;
-    }
-
     public function add(Prompt $prompt): Prompt
     {
-        $sql = 'INSERT INTO pickem_prompt (subject, user_id, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 1 DAY))';
-        $args = [$prompt->getSubject(), $prompt->getUserId()];
+        $sql = 'INSERT INTO pickem_prompt (subject, user_id, group_id, expires_at) VALUES (?, ?, ?, DATE_ADD(NOW(), INTERVAL 1 DAY))';
+        $args = [$prompt->getSubject(), $prompt->getUserId(), $prompt->getGroupId()];
         try {
             $this->db->query($sql, $args);
             $lastInsertId = $this->db->lastInsertId();
