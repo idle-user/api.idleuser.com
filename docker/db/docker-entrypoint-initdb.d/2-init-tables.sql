@@ -486,6 +486,7 @@ CREATE TABLE `pickem_stats` (
   `picks_made` int(10) unsigned NOT NULL DEFAULT 0,
   `picks_correct` int(10) unsigned NOT NULL DEFAULT 0,
   `picks_correct_others` int(10) unsigned NOT NULL DEFAULT 0,
+  `picks_wrong` int(10) unsigned NOT NULL DEFAULT 0,
   `last_prompt_date` date DEFAULT NULL,
   `prompts_created_today` int(11) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),

@@ -70,6 +70,7 @@ class StatsRepository
                 picks_made=?, 
                 picks_correct=?, 
                 picks_correct_others=?, 
+                picks_wrong=?,
                 last_prompt_date=?, 
                 prompts_created_today=?, 
                 updated_at=NOW()
@@ -80,6 +81,7 @@ class StatsRepository
             $stats->getPicksMade(),
             $stats->getPicksCorrect(),
             $stats->getPicksCorrectOthers(),
+            $stats->getPicksWrong(),
             $stats->getLastPromptDate(),
             $stats->getPromptsCreatedToday(),
             $stats->getUserId()
