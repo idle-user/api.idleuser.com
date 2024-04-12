@@ -133,7 +133,7 @@ class Stats implements JsonSerializable
             'picks_made' => $this->picks_made,
             'picks_correct' => $this->picks_correct,
             'picks_correct_others' => $this->picks_correct_others,
-            'pick_wrong' => $this->picks_wrong,
+            'picks_wrong' => $this->picks_wrong,
             'last_prompt_date' => $this->last_prompt_date,
             'prompts_created_today' => $this->prompts_created_today,
             'created_at' => $this->created_at,
