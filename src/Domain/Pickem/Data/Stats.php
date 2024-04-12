@@ -12,6 +12,7 @@ class Stats implements JsonSerializable
     private $picks_made;
     private $picks_correct;
     private $picks_correct_others;
+    private $picks_wrong;
     private $last_prompt_date;
     private $prompts_created_today;
     private $created_at;
@@ -56,6 +57,11 @@ class Stats implements JsonSerializable
     public function getPicksCorrectOthers(): int
     {
         return $this->picks_correct_others;
+    }
+
+    public function getPicksWrong(): int
+    {
+        return $this->picks_wrong;
     }
 
     public function getLastPromptDate(): ?string
@@ -113,6 +119,12 @@ class Stats implements JsonSerializable
         return $this;
     }
 
+    public function incrementPicksWrong(): Stats
+    {
+        $this->picks_wrong++;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         return [
@@ -121,6 +133,7 @@ class Stats implements JsonSerializable
             'picks_made' => $this->picks_made,
             'picks_correct' => $this->picks_correct,
             'picks_correct_others' => $this->picks_correct_others,
+            'pick_wrong' => $this->picks_wrong,
             'last_prompt_date' => $this->last_prompt_date,
             'prompts_created_today' => $this->prompts_created_today,
             'created_at' => $this->created_at,
@@ -135,6 +148,7 @@ class Stats implements JsonSerializable
         $this->picks_made = $row['picks_made'];
         $this->picks_correct = $row['picks_correct'];
         $this->picks_correct_others = $row['picks_correct_others'];
+        $this->picks_wrong = $row['picks_wrong'];
         $this->last_prompt_date = $row['last_prompt_date'];
         $this->prompts_created_today = $row['prompts_created_today'];
         $this->created_at = $row['created_at'];

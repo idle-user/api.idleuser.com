@@ -34,15 +34,19 @@ final class UpdatePromptService extends PickemService
             foreach ($promptUserPicks as $pick) {
                 $userPickCorrect = $prompt->getChoiceResult() === $pick->getChoiceId();
 
+                $userStats = $this->statsRepository->find($pick->getUserId());
+                $this->logger->debug('Increment Stats attempt:', $userStats->jsonSerialize());
+
                 if ($userPickCorrect) {
                     $userCreatedPrompt = $prompt->getUserId() === $pick->getUserId();
-                    $userStats = $this->statsRepository->find($pick->getUserId());
-                    $this->logger->debug('Increment Stats attempt:', $userStats->jsonSerialize());
                     $userStats = $userStats->incrementPicksCorrect($userCreatedPrompt);
-                    $this->statsRepository->update($userStats);
-                    $userStats = $this->statsRepository->find($pick->getUserId());
-                    $this->logger->info('Stats incremented:', $userStats->jsonSerialize());
+                } else {
+                    $userStats = $userStats->incrementPicksWrong();
                 }
+
+                $this->statsRepository->update($userStats);
+                $userStats = $this->statsRepository->find($pick->getUserId());
+                $this->logger->info('Stats incremented:', $userStats->jsonSerialize());
             }
         }
 
