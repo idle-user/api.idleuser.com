@@ -82,8 +82,8 @@ class PickRepository
 
     public function update(Pick $pick): void
     {
-        $sql = 'UPDATE pickem_pick SET choice_id=?, updated_at=NOW() WHERE user_id=?';
-        $args = [$pick->getChoiceId(), $pick->getUserId()];
+        $sql = 'UPDATE pickem_pick SET choice_id=?, updated_at=NOW() WHERE user_id=? AND prompt_id=?';
+        $args = [$pick->getChoiceId(), $pick->getUserId(), $pick->getPromptId()];
 
         $this->db->query($sql, $args);
     }

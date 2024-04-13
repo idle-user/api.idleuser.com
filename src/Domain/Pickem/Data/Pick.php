@@ -49,9 +49,9 @@ class Pick implements JsonSerializable
         return $this->user_id;
     }
 
-    public function setPromptId(int $matchId): Pick
+    public function setPromptId(int $promptId): Pick
     {
-        $this->prompt_id = $matchId;
+        $this->prompt_id = $promptId;
         return $this;
     }
 
