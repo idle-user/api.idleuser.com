@@ -24,7 +24,7 @@ class ListPicksAction extends Action
     protected function action(): Response
     {
         $promptId = $this->resolveQueryParam('prompt_id', false);
-        $choiceId = $this->resolveQueryParam('choiceId', false);
+        $choiceId = $this->resolveQueryParam('choice_id', false);
         $userId = $this->resolveQueryParam('user_id', false);
 
         if (!is_null($promptId)) {
