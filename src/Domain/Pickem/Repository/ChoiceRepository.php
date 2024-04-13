@@ -42,10 +42,10 @@ class ChoiceRepository
         return Choice::withRow($row);
     }
 
-    public function findByPromptId($prompt_id): array
+    public function findByPromptId($promptId): array
     {
         $sql = 'SELECT * FROM pickem_choice WHERE prompt_id=?';
-        $stmt = $this->db->query($sql, [$prompt_id]);
+        $stmt = $this->db->query($sql, [$promptId]);
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = Choice::withRow($row);

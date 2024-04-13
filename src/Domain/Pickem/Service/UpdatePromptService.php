@@ -26,7 +26,7 @@ final class UpdatePromptService extends PickemService
 
         if ($choiceResult) {
             try {
-                $promptUserPicks = $this->pickRepository->findAllByPromptId($promptId);
+                $promptUserPicks = $this->pickRepository->findAll($promptId, null, null);
             } catch (PickNotFoundException $e) {
                 $promptUserPicks = [];
             }

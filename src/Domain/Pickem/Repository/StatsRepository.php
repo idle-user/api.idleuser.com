@@ -36,10 +36,10 @@ class StatsRepository
         return $ret;
     }
 
-    public function find($user_id): Stats
+    public function find($userId): Stats
     {
         $sql = 'SELECT * FROM pickem_stats WHERE user_id=?';
-        $stmt = $this->db->query($sql, [$user_id]);
+        $stmt = $this->db->query($sql, [$userId]);
         $row = $stmt->fetch();
         if (!$row) {
             throw new StatsNotFoundException();

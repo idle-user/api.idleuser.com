@@ -18,39 +18,32 @@ class PickRepository
         $this->db = $db;
     }
 
-    public function findAll(): array
-    {
-        $sql = 'SELECT * FROM pickem_pick';
-        $stmt = $this->db->query($sql);
-        $ret = [];
-        while ($row = $stmt->fetch()) {
-            $ret[] = Pick::withRow($row);
-        }
-        if (empty($ret)) {
-            throw new PickNotFoundException();
-        }
-        return $ret;
-    }
-
-    public function find($prompt_id, $user_id): Pick
-    {
-        $sql = 'SELECT * FROM pickem_pick WHERE prompt_id=? AND user_id=?';
-        $stmt = $this->db->query($sql, [$prompt_id, $user_id]);
-        $row = $stmt->fetch();
-        if (!$row) {
-            throw new PickNotFoundException();
-        }
-        return Pick::withRow($row);
-    }
-
     /**
      * @return Pick[]
      * @throws PickNotFoundException
      */
-    public function findAllByPromptId($prompt_id): array
+    public function findAll($promptId = null, $choiceId = null, $userId = null): array
     {
-        $sql = 'SELECT * FROM pickem_pick WHERE prompt_id=?';
-        $stmt = $this->db->query($sql, [$prompt_id]);
+        $whereConditions = [];
+        $args = [];
+        if ($promptId) {
+            $whereConditions[] = 'prompt_id=?';
+            $args[] = $promptId;
+        }
+        if ($choiceId) {
+            $whereConditions[] = 'choice_id=?';
+            $args[] = $choiceId;
+        }
+        if ($userId) {
+            $whereConditions[] = 'user_id=?';
+            $args[] = $userId;
+        }
+
+        $sql = 'SELECT * FROM pickem_pick';
+        if (!empty($whereConditions)) {
+            $sql .= " WHERE " . implode(" AND ", $whereConditions);
+        }
+        $stmt = $this->db->query($sql, $args);
         $ret = [];
         while ($row = $stmt->fetch()) {
             $ret[] = Pick::withRow($row);
@@ -61,29 +54,15 @@ class PickRepository
         return $ret;
     }
 
-    public function findAllByChoiceId($choice_id): Pick
+    public function find($promptId, $userId): Pick
     {
-        $sql = 'SELECT * FROM pickem_pick WHERE choice_id=?';
-        $stmt = $this->db->query($sql, [$choice_id]);
+        $sql = 'SELECT * FROM pickem_pick WHERE prompt_id=? AND user_id=?';
+        $stmt = $this->db->query($sql, [$promptId, $userId]);
         $row = $stmt->fetch();
         if (!$row) {
             throw new PickNotFoundException();
         }
         return Pick::withRow($row);
-    }
-
-    public function findAllByUserId($user_id): array
-    {
-        $sql = 'SELECT * FROM pickem_pick WHERE user_id=?';
-        $stmt = $this->db->query($sql, [$user_id]);
-        $ret = [];
-        while ($row = $stmt->fetch()) {
-            $ret[] = Pick::withRow($row);
-        }
-        if (empty($ret)) {
-            throw new PickNotFoundException();
-        }
-        return $ret;
     }
 
     public function add(Pick $pick): void

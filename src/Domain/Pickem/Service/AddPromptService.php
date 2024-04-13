@@ -16,14 +16,14 @@ use App\Domain\Pickem\Exception\StatsNotFoundException;
 
 final class AddPromptService extends PickemService
 {
-    public function run(int $userId, string $promptSubject, $choiceSubjects, ?string $group_id = null): array
+    public function run(int $userId, string $promptSubject, $choiceSubjects, ?string $groupId = null): array
     {
         $promptSubject = trim($promptSubject);
         $this->validate($userId, $promptSubject, $choiceSubjects);
 
         $prompt = Prompt::create()
             ->setUserId($userId)
-            ->setGroupId($group_id)
+            ->setGroupId($groupId)
             ->setSubject($promptSubject);
 
         $this->logger->debug('Add Prompt attempt:', $prompt->jsonSerialize());
