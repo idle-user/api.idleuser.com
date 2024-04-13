@@ -24,14 +24,18 @@ class ListPromptsAction extends Action
     protected function action(): Response
     {
         $open = (bool)$this->resolveQueryParam('open', false);
-        $user_id = $this->resolveQueryParam('user_id', false);
-        $group_id = $this->resolveQueryParam('group_id', false);
+        $userId = $this->resolveQueryParam('user_id', false);
+        $groupId = $this->resolveQueryParam('group_id', false);
 
-        if (!is_null($user_id)) {
-            $user_id = (int)$user_id;
+        if (!is_null($userId)) {
+            $userId = (int)$userId;
         }
 
-        $promptList = $this->listPromptsService->run($open, $user_id, $group_id);
+        if (!is_null($groupId)) {
+            $groupId = (string)$groupId;
+        }
+
+        $promptList = $this->listPromptsService->run($open, $userId, $groupId);
 
         return $this->respondWithData($promptList);
     }

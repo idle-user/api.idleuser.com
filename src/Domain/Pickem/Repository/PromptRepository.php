@@ -17,7 +17,7 @@ class PromptRepository
         $this->db = $db;
     }
 
-    public function findAll($open = null, $user_id = null, $group_id = null): array
+    public function findAll($open = null, $userId = null, $groupId = null): array
     {
         $whereConditions = [];
         $args = [];
@@ -25,13 +25,13 @@ class PromptRepository
             $whereConditions[] = 'open=? AND expires_at>NOW()';
             $args[] = $open;
         }
-        if ($user_id) {
+        if ($userId) {
             $whereConditions[] = 'user_id=?';
-            $args[] = $user_id;
+            $args[] = $userId;
         }
-        if ($group_id) {
+        if ($groupId) {
             $whereConditions[] = 'group_id=?';
-            $args[] = $group_id;
+            $args[] = $groupId;
         }
 
         $sql = 'SELECT * FROM pickem_prompt';

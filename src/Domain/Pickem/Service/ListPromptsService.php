@@ -5,13 +5,13 @@ namespace App\Domain\Pickem\Service;
 
 final class ListPromptsService extends PickemService
 {
-    public function run(bool $open, ?int $user_id = null, ?string $group_id = null)
+    public function run(bool $open, ?int $userId = null, ?string $groupId = null)
     {
-        $this->logger->debug("View Prompt list attempt. open:${open} user_id:${user_id} group_id:${group_id}");
+        $this->logger->debug("View Prompt list attempt. open:${open} userId:${userId} groupId:${groupId}");
 
-        $promptList = $this->promptRepository->findAll($open, $user_id, $group_id);
+        $promptList = $this->promptRepository->findAll($open, $userId, $groupId);
 
-        $this->logger->debug("Prompt list was viewed. open:${open} user_id:${user_id} group_id:${group_id}");
+        $this->logger->debug("Prompt list was viewed. open:${open} userId:${userId} groupId:${groupId}");
 
         return $promptList;
     }

@@ -24,9 +24,10 @@ class AddPromptAction extends Action
     protected function action(): Response
     {
         $userId = (int)$this->resolveBodyArg('user_id');
-        $groupId = $this->resolveBodyArg('group_id');
         $subject = (string)$this->resolveBodyArg('subject');
         $choices = $this->resolveBodyArg('choices');
+        $groupId = $this->resolveBodyArg('group_id', false);
+
 
         if (!is_null($groupId)) {
             $groupId = (string)$groupId;
