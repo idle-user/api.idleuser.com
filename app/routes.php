@@ -65,9 +65,6 @@ return function (App $app) {
         $group
             ->patch('/{userId:[0-9]+}/chatango', User\UpdateChatangoIdUserAction::class)
             ->setName('user-update-chatango');
-        $group
-            ->patch('/{userId:[0-9]+}/twitter', User\UpdateTwitterIdUserAction::class)
-            ->setName('user-update-twitter');
     });
 
     // Matches (WatchWrestling)
