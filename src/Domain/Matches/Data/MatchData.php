@@ -5,7 +5,7 @@ namespace App\Domain\Matches\Data;
 
 use JsonSerializable;
 
-class Match implements JsonSerializable
+class MatchData implements JsonSerializable
 {
     private $id;
     private $event_id;

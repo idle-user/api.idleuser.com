@@ -25,7 +25,7 @@ class AddAltLinkAction extends Action
     {
         $alias = $this->resolveBodyArg('alias');
 
-        $this->logger->debug("Add AltLink `${alias}` attempt.");
+        $this->logger->debug("Add AltLink `{$alias}` attempt.");
 
         $altLink = $this->addAltLinkService->run($this->request->getParsedBody());
 

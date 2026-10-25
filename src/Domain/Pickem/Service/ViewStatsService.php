@@ -9,7 +9,7 @@ final class ViewStatsService extends PickemService
     {
         $stats = $this->statsRepository->find($userId);
 
-        $this->logger->debug("Stats user id `${userId}` was viewed.");
+        $this->logger->debug("Stats user id `{$userId}` was viewed.");
 
         return $stats;
     }
