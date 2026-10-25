@@ -13,7 +13,7 @@ final class ViewDiscordUserService extends UserService
 
         $user = $this->userRepository->findByDiscordId($discordId);
 
-        $this->logger->debug("User discord_id `${discordId}` was viewed.");
+        $this->logger->debug("User discord_id `{$discordId}` was viewed.");
 
         return $user;
     }

@@ -9,7 +9,7 @@ final class ViewCommandService extends CommandService
     {
         $command = $this->commandRepository->findByCommand($keyword);
 
-        $this->logger->debug("Chat command `${keyword}` was viewed.");
+        $this->logger->debug("Chat command `{$keyword}` was viewed.");
 
         return $command;
     }

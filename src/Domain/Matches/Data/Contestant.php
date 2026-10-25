@@ -43,7 +43,7 @@ class Contestant implements JsonSerializable
         return $this->bet_multiplier;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'match_id' => $this->match_id,

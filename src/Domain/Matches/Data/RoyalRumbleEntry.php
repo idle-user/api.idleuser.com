@@ -86,7 +86,7 @@ class RoyalRumbleEntry implements JsonSerializable
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'royalrumble_id' => $this->royalrumble_id,

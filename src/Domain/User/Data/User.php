@@ -105,7 +105,7 @@ class User implements JsonSerializable
         return strtotime('+14 day', $usernameLastUpdated) < strtotime('now');
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $publicDetail = [
             'id' => $this->id,

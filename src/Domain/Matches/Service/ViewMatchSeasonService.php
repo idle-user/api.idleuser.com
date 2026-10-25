@@ -9,8 +9,9 @@ use Psr\Log\LoggerInterface;
 
 final class ViewMatchSeasonService
 {
-    protected $matchRepository;
-    protected $seasonRepository;
+    protected MatchRepository $matchRepository;
+    protected SeasonRepository $seasonRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(
         LoggerInterface  $logger,
@@ -29,7 +30,7 @@ final class ViewMatchSeasonService
 
         $season = $this->seasonRepository->findByMatchId($matchId);
 
-        $this->logger->debug("Season for Match `${matchId}` was viewed.");
+        $this->logger->debug("Season for Match `{$matchId}` was viewed.");
 
         return $season;
     }

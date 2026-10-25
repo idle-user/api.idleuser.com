@@ -8,7 +8,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class AuthService
 {
-    protected $authRepository;
+    protected AuthRepository $authRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, AuthRepository $authRepository)
     {

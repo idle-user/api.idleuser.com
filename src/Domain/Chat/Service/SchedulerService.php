@@ -8,7 +8,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class SchedulerService
 {
-    protected $schedulerRepository;
+    protected SchedulerRepository $schedulerRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, SchedulerRepository $schedulerRepository)
     {

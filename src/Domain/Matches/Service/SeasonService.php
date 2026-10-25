@@ -8,7 +8,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class SeasonService
 {
-    protected $seasonRepository;
+    protected SeasonRepository $seasonRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, SeasonRepository $seasonRepository)
     {

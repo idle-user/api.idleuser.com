@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Domain\Matches\Repository;
 
 use App\Domain\Database;
-use App\Domain\Matches\Data\Match;
+use App\Domain\Matches\Data\MatchData;
 use App\Domain\Matches\Data\MatchDetail;
 use App\Domain\Matches\Exception\MatchNotFoundException;
 
@@ -23,7 +23,7 @@ class MatchRepository
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
-            $ret[] = Match::withRow($row);
+            $ret[] = MatchData::withRow($row);
         }
         if (empty($ret)) {
             throw new MatchNotFoundException();
@@ -39,7 +39,7 @@ class MatchRepository
         if (!$row) {
             throw new MatchNotFoundException();
         }
-        return Match::withRow($row);
+        return MatchData::withRow($row);
     }
 
     public function findAllBetOpen()
@@ -48,7 +48,7 @@ class MatchRepository
         $stmt = $this->db->query($sql);
         $ret = [];
         while ($row = $stmt->fetch()) {
-            $ret[] = Match::withRow($row);
+            $ret[] = MatchData::withRow($row);
         }
         if (empty($ret)) {
             throw new MatchNotFoundException();

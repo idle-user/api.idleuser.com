@@ -18,13 +18,13 @@ class Auth implements JsonSerializable
     {
     }
 
-    public static function create()
+    public static function create(): Auth
     {
         $instance = new self();
         return $instance;
     }
 
-    public static function withRow(array $row)
+    public static function withRow(array $row): Auth
     {
         $instance = new self();
         $instance->fill($row);
@@ -72,7 +72,7 @@ class Auth implements JsonSerializable
         return $this->access_level == 3;
     }
 
-    public function jsonSerializeToken()
+    public function jsonSerializeToken(): array
     {
         return [
             'auth_token' => $this->auth_token,
@@ -80,7 +80,7 @@ class Auth implements JsonSerializable
         ];
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'auth_token' => $this->auth_token,
@@ -92,7 +92,7 @@ class Auth implements JsonSerializable
         ];
     }
 
-    protected function fill(array $row)
+    protected function fill(array $row): void
     {
         $this->auth_token = bin2hex($row['auth_token']);
         $this->auth_token_exp = $row['auth_token_exp'];

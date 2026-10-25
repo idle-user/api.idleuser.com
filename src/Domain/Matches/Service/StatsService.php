@@ -8,7 +8,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class StatsService
 {
-    protected $statsRepository;
+    protected StatsRepository $statsRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, StatsRepository $statsRepository)
     {

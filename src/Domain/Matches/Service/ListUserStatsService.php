@@ -9,7 +9,7 @@ final class ListUserStatsService extends StatsService
     {
         $userStatsList = $this->statsRepository->findByUserId($userId);
 
-        $this->logger->info("User `${userId}` Stats list was viewed.");
+        $this->logger->info("User `{$userId}` Stats list was viewed.");
 
         return $userStatsList;
     }

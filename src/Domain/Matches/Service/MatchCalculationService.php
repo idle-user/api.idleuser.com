@@ -8,7 +8,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class MatchCalculationService
 {
-    protected $matchCalculationRepository;
+    protected MatchCalculationRepository $matchCalculationRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, MatchCalculationRepository $matchCalculationRepository)
     {

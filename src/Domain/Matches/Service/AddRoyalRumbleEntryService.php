@@ -15,9 +15,10 @@ use Psr\Log\LoggerInterface;
 
 final class AddRoyalRumbleEntryService
 {
-    protected $royalRumbleRepository;
-    protected $royalRumbleEntryRepository;
-    protected $userRepository;
+    protected RoyalRumbleRepository $royalRumbleRepository;
+    protected RoyalRumbleEntryRepository $royalRumbleEntryRepository;
+    protected UserRepository $userRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(
         LoggerInterface            $logger,

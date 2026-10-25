@@ -8,7 +8,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class CommandService
 {
-    protected $commandRepository;
+    protected CommandRepository $commandRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, CommandRepository $commandRepository)
     {

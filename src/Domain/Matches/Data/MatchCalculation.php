@@ -46,7 +46,7 @@ class MatchCalculation implements JsonSerializable
         return $this->match_id;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'match_id' => $this->match_id,

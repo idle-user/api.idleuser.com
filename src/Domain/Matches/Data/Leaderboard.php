@@ -14,7 +14,7 @@ class Leaderboard extends Stats
         return $instance;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $info = parent::jsonSerialize();
         $info["username"] = $this->username;

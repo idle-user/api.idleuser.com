@@ -8,7 +8,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class TitleService
 {
-    protected $titleRepository;
+    protected TitleRepository $titleRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, TitleRepository $titleRepository)
     {

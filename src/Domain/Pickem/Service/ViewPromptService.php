@@ -10,7 +10,7 @@ final class ViewPromptService extends PickemService
         $prompt = $this->promptRepository->findById($promptId);
         $choices = $this->choiceRepository->findByPromptId($promptId);
 
-        $this->logger->debug("Prompt `${promptId}` was viewed.");
+        $this->logger->debug("Prompt `{$promptId}` was viewed.");
 
         return [
             'prompt' => $prompt,

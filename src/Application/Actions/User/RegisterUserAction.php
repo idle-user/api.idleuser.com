@@ -28,7 +28,7 @@ class RegisterUserAction extends Action
     {
         $username = $this->resolveBodyArg('username');
 
-        $this->logger->debug("User `${username}` register attempt.");
+        $this->logger->debug("User `{$username}` register attempt.");
 
         $user = $this->registerUserService->run($this->request->getParsedBody());
         $auth = $this->authTokenAuthService->run($user);

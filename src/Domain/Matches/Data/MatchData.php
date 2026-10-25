@@ -5,7 +5,7 @@ namespace App\Domain\Matches\Data;
 
 use JsonSerializable;
 
-class Match implements JsonSerializable
+class MatchData implements JsonSerializable
 {
     private $id;
     private $event_id;
@@ -59,7 +59,7 @@ class Match implements JsonSerializable
         return $this->bet_open;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,

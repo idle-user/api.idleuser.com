@@ -8,7 +8,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class ContestantService
 {
-    protected $contestantRepository;
+    protected ContestantRepository $contestantRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, ContestantRepository $contestantRepository)
     {

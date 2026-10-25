@@ -42,29 +42,29 @@ class Traffic implements JsonSerializable
         return $this->response_code;
     }
 
-    public function setUserId($userId)
+    public function setUserId($userId): void
     {
         $this->user_id = $userId;
     }
 
-    public function setNote($note)
+    public function setNote($note): void
     {
         $this->note = $note;
     }
 
-    public function setResponseCode($responseCode)
+    public function setResponseCode($responseCode): void
     {
         $this->response_code = $responseCode;
     }
 
-    public static function withRow(array $row)
+    public static function withRow(array $row): Traffic
     {
         $instance = new self();
         $instance->fill($row);
         return $instance;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,
@@ -80,7 +80,7 @@ class Traffic implements JsonSerializable
         ];
     }
 
-    protected function fill(array $row)
+    protected function fill(array $row): void
     {
         $this->id = $row['uuid'];
         $this->domain_id = $row['domain_id'];

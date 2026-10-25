@@ -20,12 +20,13 @@ use Psr\Log\LoggerInterface;
 
 final class AddBetService
 {
-    protected $betRepository;
-    protected $matchRepository;
-    protected $statsRepository;
-    protected $seasonRepository;
-    protected $eventRepository;
-    protected $contestantRepository;
+    protected BetRepository $betRepository;
+    protected MatchRepository $matchRepository;
+    protected StatsRepository $statsRepository;
+    protected SeasonRepository $seasonRepository;
+    protected EventRepository $eventRepository;
+    protected ContestantRepository $contestantRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(
         LoggerInterface      $logger,
