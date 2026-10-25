@@ -15,10 +15,11 @@ use Psr\Log\LoggerInterface;
 
 final class AddMatchRatingService
 {
-    protected $matchRatingRepository;
-    protected $matchRepository;
-    protected $seasonRepository;
-    protected $eventRepository;
+    protected MatchRatingRepository $matchRatingRepository;
+    protected MatchRepository $matchRepository;
+    protected SeasonRepository $seasonRepository;
+    protected EventRepository $eventRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(
         LoggerInterface       $logger,

@@ -61,7 +61,7 @@ class MatchDetail implements JsonSerializable
         $this->team_list = $row;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,

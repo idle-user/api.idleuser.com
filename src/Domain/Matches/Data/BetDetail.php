@@ -49,7 +49,7 @@ class BetDetail implements JsonSerializable
         return $this->match_id;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'user_id' => $this->user_id,

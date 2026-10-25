@@ -10,8 +10,9 @@ use Psr\Log\LoggerInterface;
 
 final class AddFavoriteSuperstarService
 {
-    protected $favoriteSuperstarRepository;
-    protected $superstarRepository;
+    protected FavoriteSuperstarRepository $favoriteSuperstarRepository;
+    protected SuperstarRepository $superstarRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(
         LoggerInterface             $logger,

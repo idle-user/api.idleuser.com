@@ -14,8 +14,9 @@ use Psr\Log\LoggerInterface;
 
 class TrafficMiddleware implements Middleware
 {
-    private $addTrafficService;
-    private $updateTrafficService;
+    private AddTrafficService $addTrafficService;
+    private UpdateTrafficService $updateTrafficService;
+    protected LoggerInterface $logger;
 
     public function __construct(
         LoggerInterface      $logger,

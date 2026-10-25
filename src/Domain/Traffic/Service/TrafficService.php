@@ -8,7 +8,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class TrafficService
 {
-    protected $trafficRepository;
+    protected TrafficRepository $trafficRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, TrafficRepository $trafficRepository)
     {

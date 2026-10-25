@@ -29,7 +29,7 @@ class Season implements JsonSerializable
         return $this->season;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'season' => $this->season,

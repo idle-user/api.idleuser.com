@@ -7,14 +7,14 @@ use JsonSerializable;
 
 class MatchType implements JsonSerializable
 {
-    private $id;
-    private $name;
+    private ?int $id;
+    private string $name;
 
     public function __construct()
     {
     }
 
-    public static function withRow(array $row)
+    public static function withRow(array $row): MatchType
     {
         $instance = new self();
         $instance->fill($row);
@@ -26,7 +26,7 @@ class MatchType implements JsonSerializable
         return $this->id;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,
@@ -34,7 +34,7 @@ class MatchType implements JsonSerializable
         ];
     }
 
-    protected function fill(array $row)
+    protected function fill(array $row): void
     {
         $this->id = $row['id'];
         $this->name = $row['name'];

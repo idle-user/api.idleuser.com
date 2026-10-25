@@ -8,7 +8,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class AltLinkService
 {
-    protected $altLinkRepository;
+    protected AltLinkRepository $altLinkRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, AltLinkRepository $altLinkRepository)
     {

@@ -8,7 +8,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class RoyalRumbleEntryService
 {
-    protected $royalRumbleEntryRepository;
+    protected RoyalRumbleEntryRepository $royalRumbleEntryRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, RoyalRumbleEntryRepository $royalRumbleEntryRepository)
     {

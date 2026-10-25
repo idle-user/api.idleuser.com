@@ -8,7 +8,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class EventService
 {
-    protected $eventRepository;
+    protected EventRepository $eventRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, EventRepository $eventRepository)
     {

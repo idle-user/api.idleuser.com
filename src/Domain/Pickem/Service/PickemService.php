@@ -15,6 +15,7 @@ abstract class PickemService
     protected ChoiceRepository $choiceRepository;
     protected PickRepository $pickRepository;
     protected StatsRepository $statsRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(
         LoggerInterface  $logger,

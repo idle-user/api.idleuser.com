@@ -13,7 +13,7 @@ abstract class Action
     /**
      * @var LoggerInterface
      */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     /**
      * @var Request

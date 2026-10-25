@@ -59,7 +59,7 @@ class Match implements JsonSerializable
         return $this->bet_open;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->id,

@@ -9,8 +9,9 @@ use Psr\Log\LoggerInterface;
 
 final class ViewMatchSeasonService
 {
-    protected $matchRepository;
-    protected $seasonRepository;
+    protected MatchRepository $matchRepository;
+    protected SeasonRepository $seasonRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(
         LoggerInterface  $logger,

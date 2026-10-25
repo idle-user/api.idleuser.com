@@ -8,7 +8,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class BrandService
 {
-    protected $brandRepository;
+    protected BrandRepository $brandRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, BrandRepository $brandRepository)
     {

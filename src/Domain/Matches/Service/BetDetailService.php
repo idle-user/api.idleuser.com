@@ -8,7 +8,8 @@ use Psr\Log\LoggerInterface;
 
 abstract class BetDetailService
 {
-    protected $betDetailRepository;
+    protected BetDetailRepository $betDetailRepository;
+    protected LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger, BetDetailRepository $betDetailRepository)
     {
